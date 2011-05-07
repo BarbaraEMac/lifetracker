@@ -13,18 +13,20 @@ from model import User, Query, DataPoint
 class HomeHandler(webapp.RequestHandler):
   def get(self):
     google_user = users.get_current_user()
-    if not google_user:
+    if google_user == None:
       self.redirect(users.create_login_url(self.request.uri))
+    else:
+      if User.get_by_google_user(google_user) == None:
+        db_user = User(google_user = google_user, 
+          first_name='', 
+          last_name='', 
+          email=google_user.email()
+        )
 
-    db_user = User(google_user = google_user, 
-      first_name='', 
-      last_name='', 
-      email=google_user.email()
-    )
+        db_user.put()
 
-    db_user.put()
-
-    self.response.out.write("Lifetracker. It's gonna be a thing.")
+      logout_url = users.create_logout_url(self.request.uri)
+      self.response.out.write("Lifetracker. It's gonna be a thing. " + "<a href='" + logout_url + "'>Logout</a>")
 
 appRoute = webapp.WSGIApplication( [
   ('/', HomeHandler),
