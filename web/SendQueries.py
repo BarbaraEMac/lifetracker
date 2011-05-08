@@ -12,7 +12,7 @@ def SendByEmail(query):
   user = query.user
   subject = query.name
   to = user.email
-  sender = 'Lifetracker <gareth.macleod@gmail.com>'
+  sender = 'Lifetracker <data@lifetrckr.appspotmail.com>'
   # construct the message
   body = query.text
 

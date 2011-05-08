@@ -12,6 +12,7 @@ from ui.manage_queries import ManageQueriesHandler
 from ui.manage_data import ManageDataHandler
 
 from model import User, Query, DataPoint
+from incoming_mail import EmailResponseHandler
 
 class HomeHandler(webapp.RequestHandler):
   def get(self):
@@ -41,6 +42,7 @@ appRoute = webapp.WSGIApplication( [
   ('/data/points', GetDataPointsHandler),
   ('/queries', ManageQueriesHandler),
   ('/data', ManageDataHandler),
+  EmailResponseHandler.mapping(),
 ], debug=True)
 
 def main():

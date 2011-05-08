@@ -21,5 +21,12 @@ handlers:
 - url: .*
   script: home.py
 
+- url: /_ah/mail/.+
+  script: incoming_mail.py
+  login: admin
+
 builtins:
 - remote_api: on
+
+inbound_services:
+- mail

@@ -38,6 +38,10 @@ class Query(db.Model):
   @staticmethod
   def get_by_user(user):
     return Query.all().filter('user =', user).fetch(1000)
+ 
+  @staticmethod 
+  def get_by_user_and_name(user, name):
+    return Query.all().filter('user =', user).filter('name =', name).get()
 
   def isStale(self):
     if datetime.now() > self.lastSentAt + timedelta(minutes=self.frequency):
