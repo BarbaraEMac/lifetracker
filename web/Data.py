@@ -26,6 +26,31 @@ class NewQueryHandler(webapp.RequestHandler):
 
     query.put()
 
+class EditQueryHandler(webapp.RequestHandler):
+  def post(self):
+    query_id = self.request.get('query_id')
+    name = self.request.get('name', None)
+    frequency = self.request.get('frequency', None)
+    text = self.request.get('text', None)
+    #user_email = self.request.get('user_email', None) #hmm
+    #format = self.request.get('format', None) #hmm
+
+    query = db.get(query_id)
+    if not query:
+      self.response.out.write('failure!')
+      return
+
+    if name:
+      query.name = name
+    if frequency:
+      query.frequency = int(frequency)
+    if text:
+      query.text = text
+
+    query.put()
+    
+    self.response.out.write("success")
+
 # called to add a datapoint to a user's dataset
 # To hit this, send a post to "{base-url}/response" with
 # data question_id, user_id, data, and a timestamp
@@ -67,6 +92,9 @@ class GetQueriesHandler(webapp.RequestHandler):
 
     self.response.out.write(json.dumps(query_ids))
 
+# TODO: more filters for the datapoints.
+#   get only for some query
+#   get only for some time-range
 class GetDataPointsHandler(webapp.RequestHandler):
   def get(self):
     user_email = self.request.get('user_email')

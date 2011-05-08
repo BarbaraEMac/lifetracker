@@ -5,8 +5,10 @@ from google.appengine.api import users
 from SendQueries import SendQueriesHandler
 from Data import NewDataPointHandler
 from Data import NewQueryHandler
+from Data import EditQueryHandler
 from Data import GetQueriesHandler
 from Data import GetDataPointsHandler
+from ui.manage_queries import ManageQueriesHandler
 
 from model import User, Query, DataPoint
 
@@ -33,8 +35,10 @@ appRoute = webapp.WSGIApplication( [
   ('/sendQueries', SendQueriesHandler),
   ('/data/newPoint', NewDataPointHandler),
   ('/data/newQuery', NewQueryHandler),
+  ('/data/editQuery', EditQueryHandler),
   ('/data/queries', GetQueriesHandler),
   ('/data/points', GetDataPointsHandler),
+  ('/manageQueries', ManageQueriesHandler),
 ], debug=True)
 
 def main():

@@ -25,9 +25,13 @@ class Query(db.Model):
   frequency = db.IntegerProperty(required=True)
   # the last time we sent this query
   lastSentAt = db.DateTimeProperty(required=True, auto_now_add=True)
-  name = db.StringProperty
+  name = db.StringProperty(required=True)
   text = db.StringProperty(required=True)
  
+  @staticmethod
+  def get_by_id(id):
+    return db.get(id)
+
   @staticmethod
   def get_by_user(user):
     return Query.all().filter('user =', user).fetch(1000)

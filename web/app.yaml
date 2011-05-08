@@ -13,10 +13,10 @@ handlers:
   static_dir: images
 
 - url: /css
-  static_dir: css
+  static_dir: ui/css
 
 - url: /js
-  static_dir: js
+  static_dir: ui/js
 
 - url: .*
   script: home.py
