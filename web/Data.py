@@ -57,7 +57,7 @@ class EditQueryHandler(webapp.RequestHandler):
 class NewDataPointHandler(webapp.RequestHandler):
   def post(self):
     query_id = self.request.get('query_id')
-    user_email = self.request.get('user')
+    #user_email = self.request.get('user')
     data = self.request.get('data')
     time = self.request.get('time') #self.request.get('time', '')
 
@@ -65,7 +65,7 @@ class NewDataPointHandler(webapp.RequestHandler):
     # get the user from the DB
     # add a Response object to the DB
     
-    user = User.get_by_email(user_email)
+    #user = User.get_by_email(user_email)
     query = db.get(query_id) #hmmm
 
     dataPoint = DataPoint(

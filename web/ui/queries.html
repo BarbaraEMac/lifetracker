@@ -1,0 +1,53 @@
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="css/reset.css"/>
+  <link rel="stylesheet" type="text/css" href="css/queries.css"/>
+  
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="text/javascript"></script>
+  <script src="js/queries.js"></script>
+</head>
+<body>
+
+<div id="lt-base">
+  <div id="header">
+    <h1>Manage Queries</h2>
+    <a href="data">Manage Data</a>  
+    <a href="%(logout_url)s"/>Logout</a>
+  </div>
+
+  <div id="query-list">
+    <h2>All Queries</h2>
+    <table id="query-list-table">
+      <thead>
+        <td>Name</td>
+        <td>Text</td>
+        <td>Frequency</td>
+        <td>Format</td>
+        <td>Last Sent At</td>
+        <td>Edit</td>
+      </thead>
+      <!-- append query entries here -->
+      %(queries)s
+    </table>
+  </div>
+
+  <div id="new-query">
+    <h2>New Query</h2>
+    <!-- TODO ajax this instead -->
+    <form id="new-query-form" action="data/newQuery" method="post">
+      <p>What is the question (e.g. What is your mood?):
+         <input id="querytext-input" type="text" name="text"/>
+      </p>
+      <p>Frequency: <input id="frequency-input" type="text" name="frequency"/></p>
+      <p>Name: <input id="name-input" type="text" name="name"/></p>
+      <p>Format (one of "text", "integer", "time"): 
+        <input type="text" name="format"/>
+      </p>
+      <input type="hidden" name="user_email" value="%(user_email)s"/>
+      <input type="submit"/>
+    </form>
+  </div>
+</div>
+
+</body>
+</html>

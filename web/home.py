@@ -9,6 +9,7 @@ from Data import EditQueryHandler
 from Data import GetQueriesHandler
 from Data import GetDataPointsHandler
 from ui.manage_queries import ManageQueriesHandler
+from ui.manage_data import ManageDataHandler
 
 from model import User, Query, DataPoint
 
@@ -38,7 +39,8 @@ appRoute = webapp.WSGIApplication( [
   ('/data/editQuery', EditQueryHandler),
   ('/data/queries', GetQueriesHandler),
   ('/data/points', GetDataPointsHandler),
-  ('/manageQueries', ManageQueriesHandler),
+  ('/queries', ManageQueriesHandler),
+  ('/data', ManageDataHandler),
 ], debug=True)
 
 def main():

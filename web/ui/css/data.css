@@ -1,0 +1,57 @@
+
+#lt-base {
+  width: 941px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#header {
+  margin-top: 20px;
+  margin-bottom: 50px;
+}
+
+h1 {
+  font-size: 30pt; 
+}
+
+h2 {
+  font-size: larger;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+div.lt-query {
+  margin-bottom: 40px;
+}
+
+.lt-data-table {
+  margin-left: 20px;
+  border-collapse: collapse;
+}
+
+.lt-data-table td {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid black;
+}
+
+.date-cell {
+  min-width: 200px;
+}
+
+.response-cell {
+  min-width: 50px;
+}
+
+.new-entry {
+  margin-top:10px;
+  margin-left: 30px;
+}
+
+.input-row {
+  display: none;
+}
+
+.new-entry-submit-button {
+  display: none;
+}
