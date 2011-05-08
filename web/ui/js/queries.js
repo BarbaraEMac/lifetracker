@@ -33,7 +33,7 @@ $(document).ready(function() {
 
     // do some ajax shit in here.
     $.ajax({
-      url: 'http://localhost:8080/data/editQuery',
+      url: 'data/editQuery',
       type: 'POST',
       data: new_query_data,
       success: function() {

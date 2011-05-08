@@ -28,7 +28,7 @@ $(document).ready(function() {
         
     // do some ajax
     $.ajax({
-      url: 'http://localhost:8080/data/newPoint',
+      url: 'data/newPoint',
       type: 'POST',
       data: dp,
       success: function() {
