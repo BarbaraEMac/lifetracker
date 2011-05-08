@@ -2,7 +2,7 @@ from google.appengine.ext import db
 from google.appengine.ext import webapp
 
 from datetime import datetime
-import json
+from django.utils import simplejson as json
 
 from model import User, Query, DataPoint
 

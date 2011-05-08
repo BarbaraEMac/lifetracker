@@ -1,6 +1,9 @@
 from google.appengine.ext import db
 from google.appengine.api import users
 
+from datetime import datetime
+from datetime import timedelta
+
 class User(db.Model):
   google_user = db.UserProperty()
   first_name = db.StringProperty()
@@ -35,6 +38,12 @@ class Query(db.Model):
   @staticmethod
   def get_by_user(user):
     return Query.all().filter('user =', user).fetch(1000)
+
+  def isStale(self):
+    if datetime.now() > self.lastSentAt + timedelta(minutes=self.frequency):
+      return True
+    return False
+    
 
 class DataPoint(db.Model):
   text = db.StringProperty(required=True)
