@@ -1,0 +1,31 @@
+
+#lt-base {
+  width: 941px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#header {
+  margin-top: 20px;
+  margin-bottom: 50px;
+}
+
+h1 {
+  font-size: 30pt; 
+}
+
+h2 {
+  font-size: larger;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+#import-textarea {
+  display: block;
+}
+
+p {
+  margin-left: 5px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}

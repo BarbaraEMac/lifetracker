@@ -110,3 +110,44 @@ class GetDataPointsHandler(webapp.RequestHandler):
 
     self.response.out.write(json.dumps(datapoints))
 
+class ImportCSVHandler(webapp.RequestHandler):
+  def post(self):
+    user_email = self.request.get('user_email')
+    query_id = self.request.get('query_id')
+    csv_data = self.request.get('csv_data')
+
+    user = User.get_by_email(user_email)
+    query = Query.get_by_id(query_id)
+
+    for duple in self.ParseCSVData(csv_data):
+      timestamp = duple[0]
+      text = duple[1]
+
+      # for testing
+      self.response.out.write("<p>%s: %s\n</p>" % (timestamp, text))
+
+      dp = DataPoint(
+        timestamp = duple[0],
+        query = query,
+        text = duple[1])
+    
+      dp.put()
+
+    self.redirect('/data')
+
+  def ParseCSVData(self, csv_data):
+    # split into lines
+    # for each line
+    #   split into timestamp and datapoint
+    # add to a list and return
+    duples = []
+
+    lines = csv_data.split('\n')
+    for line in lines:
+      splitline = line.split(',')
+      duple = (datetime.fromtimestamp(int(splitline[0])), splitline[1])
+      duples.append(duple)
+
+    return duples
+
+    self.response.out.write('success!')

@@ -8,11 +8,13 @@ from Data import NewQueryHandler
 from Data import EditQueryHandler
 from Data import GetQueriesHandler
 from Data import GetDataPointsHandler
+from Data import ImportCSVHandler
 from ui.manage_queries import ManageQueriesHandler
 from ui.manage_data import ManageDataHandler
 
 from model import User, Query, DataPoint
 from incoming_mail import EmailResponseHandler
+from ui.import_data import ImportDataHandler
 
 class HomeHandler(webapp.RequestHandler):
   def get(self):
@@ -40,8 +42,10 @@ appRoute = webapp.WSGIApplication( [
   ('/data/editQuery', EditQueryHandler),
   ('/data/queries', GetQueriesHandler),
   ('/data/points', GetDataPointsHandler),
+  ('/data/import', ImportCSVHandler),
   ('/queries', ManageQueriesHandler),
   ('/data', ManageDataHandler),
+  ('/import', ImportDataHandler),
   EmailResponseHandler.mapping(),
 ], debug=True)
 
