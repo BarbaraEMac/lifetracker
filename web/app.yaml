@@ -10,7 +10,7 @@ handlers:
   upload: images/favicon.ico
 
 - url: /images
-  static_dir: images
+  static_dir: ui/images
 
 - url: /css
   static_dir: ui/css

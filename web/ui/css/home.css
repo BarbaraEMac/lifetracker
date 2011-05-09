@@ -1,0 +1,39 @@
+
+#lt-base {
+  width: 941px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#header {
+  margin-top: 20px;
+  margin-bottom: 50px;
+}
+
+h1 {
+  font-size: 30pt; 
+}
+
+h2 {
+  font-size: larger;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+#lt-splash {
+  margin-top: 325px;
+}
+
+#lt-tingler {
+  font-size: 20pt;
+}
+
+#lt-sig {
+  margin-left: 700px;
+}
+
+img#lt-badge {
+  width: 100px;
+  height: 100px;
+  margin-right: 5px;
+}
