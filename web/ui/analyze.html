@@ -1,0 +1,28 @@
+
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="css/reset.css"/>
+  <link rel="stylesheet" type="text/css" href="css/analytics.css"/>
+  
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="text/javascript"></script>
+  <script src="js/data.js"></script>
+</head>
+<body>
+
+<div id="lt-base">
+  <div id="header">
+    <h1>Analytics</h2>
+    <a href="data">Manage Data</a>  
+    <a href="queries">Manage Queries</a>  
+    <a href="%(logout_url)s"/>Logout</a>
+  </div>
+
+  <div id='lt-analysis'>
+    <h2>Analytics for metric '%(query_name)s'</h2>
+    <table>
+      %(analytics_rows)s
+    </table>
+  </div>
+</div>
+
+</body>

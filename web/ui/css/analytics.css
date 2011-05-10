@@ -1,0 +1,34 @@
+
+
+#lt-base {
+  width: 941px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#header {
+  margin-top: 20px;
+  margin-bottom: 50px;
+}
+
+h1 {
+  font-size: 30pt; 
+}
+
+h2 {
+  font-size: larger;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+table {
+  margin-left: 20px;
+  border-collapse: collapse;
+}
+
+table td {
+  min-width: 200px;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid black;
+}

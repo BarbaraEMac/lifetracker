@@ -55,7 +55,7 @@ class ManageDataHandler(webapp.RequestHandler):
           <td class='text-cell'><input type='text' value='value'/></td>
         </tr>
       </table>
-      <p class='new-entry'><a class='new-entry-button' id='new-entry-button-%(query_id)s' href="#">New entry</a> <a class='new-entry-submit-button' id='new-entry-submit-button-%(query_id)s' href='#'>Submit</a> <a class='import-data-button' href='import?query_id=%(query_id)s'>Import Data</a></p>
+      <p class='new-entry'><a class='new-entry-button' id='new-entry-button-%(query_id)s' href="#">New entry</a> <a class='new-entry-submit-button' id='new-entry-submit-button-%(query_id)s' href='#'>Submit</a> <a class='import-data-button' href='import?query_id=%(query_id)s'>Import Data</a> <a href='analyze?query_id=%(query_id)s'>Analyze</a></p>
     </div>"""
 
     rows =  ''

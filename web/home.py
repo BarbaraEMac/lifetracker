@@ -11,6 +11,7 @@ from Data import GetDataPointsHandler
 from Data import ImportCSVHandler
 from ui.manage_queries import ManageQueriesHandler
 from ui.manage_data import ManageDataHandler
+from ui.analyze import AnalyzeDataHandler
 
 from model import User, Query, DataPoint
 from incoming_mail import EmailResponseHandler
@@ -38,6 +39,7 @@ appRoute = webapp.WSGIApplication( [
   ('/queries', ManageQueriesHandler),
   ('/data', ManageDataHandler),
   ('/import', ImportDataHandler),
+  ('/analyze', AnalyzeDataHandler),
   EmailResponseHandler.mapping(),
 ], debug=True)
 
