@@ -1,4 +1,5 @@
 import logging, math
+from datetime import datetime, timedelta
 
 from model import User, Query, DataPoint
 
@@ -13,11 +14,108 @@ weekdays = {
 }
 
 def AnalyzeQueryData(query):
-  #logging.info('Query_id: ' + query_id + "\n")
   if query.format == 'integer':
     return AnalyzeIntegerQueryData(query)
+  elif query.format =='time':
+    return AnalyzeTimeQueryData(query)
+  elif query.format == 'text':
+    return AnalyzeTextQueryData(query)
   else:
     return [{'name': '', 'value': ''}]
+
+def AnalyzeTimeQueryData(query):
+  return [
+    {'name': 'Average Time', 'value': AverageTime(query)},
+    {'name': 'Peaks on Day', 'value': HighestDayAverageTime(query)},
+    {'name': 'Lowest on Day', 'value': LowestDayAverageTime(query)},
+    {'name': 'Average Time on Monday', 'value': AverageTimeOnDay(query,0)},
+    {'name': 'Average Time on Tuesday', 'value': AverageTimeOnDay(query,1)},
+    {'name': 'Average Time on Wednesday', 'value': AverageTimeOnDay(query,2)},
+    {'name': 'Average Time on Thursday', 'value': AverageTimeOnDay(query,3)},
+    {'name': 'Average Time on Friday', 'value': AverageTimeOnDay(query,4)},
+    {'name': 'Average Time on Saturday', 'value': AverageTimeOnDay(query,5)},
+    {'name': 'Average Time on Sunday', 'value': AverageTimeOnDay(query,6)},
+    ]
+
+def StringToTimeDelta(string):
+  # assume every dp is x:y
+  hours = int(string[ : string.find(':') ])
+  minutes = int(string[string.find(':') + 1 : ])
+
+  if hours == '':
+    hours = 0
+  if minutes == '':
+    minutes = 0
+
+  # here we're assuming if a time is before 6, it is pm. 
+  # this is a shaky assumption and should be revisited soon.
+  if hours < 6:
+    hours +=12
+
+  return timedelta(hours=int(hours), minutes=int(minutes))
+
+def timedelta_total_seconds(td):
+  return td.seconds + td.days*86400
+
+def AverageTime(query):
+  # interpret each datapoint as a timedelta
+  # then average them
+
+  datapoints = DataPoint.get_by_query(query)
+
+  totSeconds = 0
+  for dp in datapoints:
+    totSeconds += timedelta_total_seconds(StringToTimeDelta(dp.text))
+
+  avgSeconds = totSeconds / len(datapoints)
+
+  return timedelta(seconds=avgSeconds)
+
+def HighestDayAverageTime(query):
+  highestDay = 0
+  highestDayAvg = timedelta(seconds=0 )
+
+  for day in range(0,7):
+    if AverageTimeOnDay(query,day) > highestDayAvg:
+      highestDay = day
+      highestDayAvg = AverageTimeOnDay(query,day)
+    
+  return weekdays[highestDay]
+
+def LowestDayAverageTime(query):
+  lowestDay = 0
+  lowestDayAvg = AverageTimeOnDay(query,0)
+
+  for day in range(1,7):
+    if AverageTimeOnDay(query,day) < lowestDayAvg:
+      lowestDay = day
+      lowestDayAvg = AverageTimeOnDay(query,day)
+    
+  return weekdays[lowestDay]
+  
+def AverageTimeOnDay(query,day):
+  datapoints = DataPoint.get_by_query(query)
+
+  totSeconds = 0
+  days = 0
+  for dp in datapoints:
+    if dp.timestamp.weekday() == day:
+      totSeconds += timedelta_total_seconds(StringToTimeDelta(dp.text))
+      days += 1
+
+  avgSeconds = totSeconds / days
+
+  return timedelta(seconds=avgSeconds)
+
+
+def AnalyzeTextQueryData(query):
+  return [{'name': 'AverageTime'}]
+
+def MostCommonWord(query):
+  # map reduce this shit
+  return ''
+
+
 
 def AnalyzeIntegerQueryData(query):
   return [
@@ -33,9 +131,6 @@ def AnalyzeIntegerQueryData(query):
           {'name': 'Saturday Average', 'value': str(DayAvg(query, 5))},
           {'name': 'Sunday Average', 'value': str(DayAvg(query, 6))},
         ]
-
-def AnalyzeTextQueryData(query):
-  return [{}]
 
 def MostCommonWord(query):
   # map reduce this shit
