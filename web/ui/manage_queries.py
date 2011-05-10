@@ -35,18 +35,18 @@ class ManageQueriesHandler(webapp.RequestHandler):
 
   def QueryToTableRow(self, query):
     row = "<tr id='%(query_id)s'>\
-      <td><p id='name-%(query_id)s'>%(name)s</p>\
+      <td class='name-cell'><p id='name-%(query_id)s'>%(name)s</p>\
       <input id='edit-name-%(query_id)s' value='%(name)s' class='query-edit-field'/>\
       </td>\
-      <td><p id='text-%(query_id)s'>%(text)s</p>\
+      <td class='text-cell'><p id='text-%(query_id)s'>%(text)s</p>\
       <input id='edit-text-%(query_id)s' class='query-edit-field' value='%(text)s'/>\
       </td>\
-      <td><p id='frequency-%(query_id)s'>%(frequency)s</p>\
+      <td class='frequency-cell'><p id='frequency-%(query_id)s'>%(frequency)s</p>\
       <input id='edit-frequency-%(query_id)s' class='query-edit-field' value='%(frequency)s'/>\
       </td>\
-      <td>%(format)s</td>\
-      <td>%(lastsentat)s</td>\
-      <td>\
+      <td class='format-cell'>%(format)s</td>\
+      <td class='timestamp-cell'>%(lastsentat)s</td>\
+      <td class='action-cell'>\
       <a class='query-edit-button' id='edit-%(query_id)s' href='#'>Edit</a>\
       <a class='query-edit-submit-button' id='submit-%(query_id)s' href='#'>Submit</a>\
       </td>\

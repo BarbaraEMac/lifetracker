@@ -49,3 +49,41 @@ table#query-list-table {
   text-align: center;
 }
 
+tr#query-input-row {
+  display: none;
+}
+
+#query-input-row input {
+  width: 90%
+}
+
+#new-query-create {
+  font-size: larger;
+  margin-top: 10px;
+  margin-left: 30px;
+}
+
+td.name-cell {
+  min-width: 119px;
+}
+
+td.text-cell {
+  width: 242px;
+}
+
+td.frequency-cell {
+  width: 93px;
+}
+
+td.format-cell {
+  width: 65px;
+}
+
+td.timestamp-cell {
+  width: 248px;
+}
+
+td.action-cell {
+  width: 41px;
+}
+

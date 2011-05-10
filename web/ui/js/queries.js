@@ -1,7 +1,40 @@
 $(document).ready(function() {
+  $('#new-query-create-button').click(function() {
+    $('tr#query-input-row').css('display', 'table-row');
+    $('#new-query-create-button').css('display', 'none');
+  });
+
+  $('#new-query-submit').click(function() {
+    // get the data
+
+    new_name = $('#new-query-name-input').val();
+    new_text = $('#new-query-text-input').val();
+    new_frequency = $('#new-query-frequency-input').val();
+    new_format = $('#new-query-format-input').val();
+    user_email = $('#user_email').val();
+
+    data = {
+      'name': new_name,
+      'text': new_text,
+      'frequency': new_frequency,
+      'format': new_format,
+      'user_email': user_email,
+    };
+
+    // do a post and reload the page on success
+    $.ajax({
+      type: 'post',
+      url: 'data/newQuery',
+      data: data, 
+      success: function() {
+          window.location.reload() 
+        },
+    });
+  });
+
   $('.query-edit-button').click(function() {
     query_id = $(this).attr('id').substring(5);
-    submit_id = '#submit-' + query_id;
+   submit_id = '#submit-' + query_id;
     edit_id = '#edit-' + query_id;
     tr_id = '#' + query_id;
 

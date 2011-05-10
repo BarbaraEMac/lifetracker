@@ -20,33 +20,24 @@
     <h2>All Queries</h2>
     <table id="query-list-table">
       <thead>
-        <td>Name</td>
-        <td>Text</td>
-        <td>Frequency</td>
-        <td>Format</td>
-        <td>Last Sent At</td>
-        <td>Edit</td>
+        <td class='name-cell'>Name</td>
+        <td class='text-cell'>Text</td>
+        <td class='frequency-cell'>Frequency</td>
+        <td class='format-cell'>Format</td>
+        <td class='timestamp-cell'>Last Sent At</td>
+        <td class='action-cell'>Edit</td>
       </thead>
       <!-- append query entries here -->
       %(queries)s
+      <tr id='query-input-row'>
+        <td class='name-cell'><input id='new-query-name-input' type='text' value='name'/></td>
+        <td class='text-cell'><input id='new-query-text-input' type='text' value='text'</td>
+        <td class='frequency-cell'><input id='new-query-frequency-input' type='text' value='frequency'/></td>
+        <td class='format-cell'><input id='new-query-format-input' type='text' value='format'/></td>
+        <td class='timestamp-cell'><input id='user_email' type='hidden' value='%(user_email)s'/></td>
+        <td class='action-cell'><a id='new-query-submit' href='#'>Create</a></td>
     </table>
-  </div>
-
-  <div id="new-query">
-    <h2>New Query</h2>
-    <!-- TODO ajax this instead -->
-    <form id="new-query-form" action="data/newQuery" method="post">
-      <p>What is the question (e.g. What is your mood?):
-         <input id="querytext-input" type="text" name="text"/>
-      </p>
-      <p>Frequency: <input id="frequency-input" type="text" name="frequency"/></p>
-      <p>Name: <input id="name-input" type="text" name="name"/></p>
-      <p>Format (one of "text", "integer", "time"): 
-        <input type="text" name="format"/>
-      </p>
-      <input type="hidden" name="user_email" value="%(user_email)s"/>
-      <input type="submit"/>
-    </form>
+    <p id='new-query-create'><a id='new-query-create-button' href='#'>New Query</a></p>
   </div>
 </div>
 
