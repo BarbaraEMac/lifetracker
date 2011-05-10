@@ -49,6 +49,8 @@ class ManageQueriesHandler(webapp.RequestHandler):
       <td class='action-cell'>\
       <a class='query-edit-button' id='edit-%(query_id)s' href='#'>Edit</a>\
       <a class='query-edit-submit-button' id='submit-%(query_id)s' href='#'>Submit</a>\
+      <a class='query-delete-button' id='delete-%(query_id)s' href='#'>Delete</a>\
+      <a class='query-delete-confirm-button' id='confirm-delete-%(query_id)s' href='#'>Really?</a>\
       </td>\
       </tr>"
     queryData = {'query_id': query.key(), 'name': query.name, 'text': query.text, 'format': query.format, 'frequency': query.frequency, 'lastsentat': query.lastSentAt}

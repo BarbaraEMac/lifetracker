@@ -87,3 +87,6 @@ td.action-cell {
   width: 41px;
 }
 
+.query-delete-confirm-button {
+  display: none;
+}

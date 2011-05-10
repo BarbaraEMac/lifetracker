@@ -51,6 +51,24 @@ class EditQueryHandler(webapp.RequestHandler):
     
     self.response.out.write("success")
 
+class DeleteQueryHandler(webapp.RequestHandler):
+  def post(self):
+    query_id = self.request.get('query_id')
+
+    query = db.get(query_id)
+    if not query:
+      self.response.out.write('failure!')
+      return
+   
+    # delete all the datapoints associated with the query as well.
+    datapoints = DataPoint.get_by_query(query)
+
+    for dp in datapoints:
+      dp.delete()
+
+    # finally, delete the query 
+    query.delete()
+  
 # called to add a datapoint to a user's dataset
 # To hit this, send a post to "{base-url}/response" with
 # data question_id, user_id, data, and a timestamp

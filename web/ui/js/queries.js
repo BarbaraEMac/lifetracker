@@ -1,4 +1,34 @@
 $(document).ready(function() {
+  $('.query-delete-confirm-button').click(function() {
+    query_id = $(this).attr('id').substring(15);
+   
+    data = {
+      'query_id': query_id,
+    };
+
+    //alert(query_id);
+    // do a post and on success reload the page
+    $.ajax({
+      url: 'data/deleteQuery',
+      type: 'post',
+      data: data,
+      failure: function() {
+        alert('failure!');
+      },
+      success: function() {
+        window.location.reload();
+      },
+    }); 
+  });
+
+  $('.query-delete-button').click(function() {
+    query_id = $(this).attr('id').substring(7);
+    confirm_button_id = '#confirm-delete-' + query_id;
+ 
+    $(this).css('display', 'none');
+    $(confirm_button_id).css('display', 'inline');
+  });
+
   $('#new-query-create-button').click(function() {
     $('tr#query-input-row').css('display', 'table-row');
     $('#new-query-create-button').css('display', 'none');

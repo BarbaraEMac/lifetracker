@@ -6,6 +6,7 @@ from SendQueries import SendQueriesHandler
 from Data import NewDataPointHandler
 from Data import NewQueryHandler
 from Data import EditQueryHandler
+from Data import DeleteQueryHandler
 from Data import GetQueriesHandler
 from Data import GetDataPointsHandler
 from Data import ImportCSVHandler
@@ -33,6 +34,7 @@ appRoute = webapp.WSGIApplication( [
   ('/data/newPoint', NewDataPointHandler),
   ('/data/newQuery', NewQueryHandler),
   ('/data/editQuery', EditQueryHandler),
+  ('/data/deleteQuery', DeleteQueryHandler),
   ('/data/queries', GetQueriesHandler),
   ('/data/points', GetDataPointsHandler),
   ('/data/import', ImportCSVHandler),
