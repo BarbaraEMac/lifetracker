@@ -25,6 +25,35 @@ def AnalyzeQueryData(query):
   else:
     return [{'name': '', 'value': ''}]
 
+def AnalyzeTextQueryData(query):
+  return [{'name': 'Common words', 'value': CommonWords(query)}]
+
+# we can probably map reduce this shit
+def CommonWords(query):
+  datapoints = DataPoint.get_by_query(query)
+
+  word_counter = {}
+
+  # foreach datapoint
+    # tokenize the text
+    # add each word into word_counter
+  for dp in datapoints:
+    words = dp.text.split()
+    for word in words:
+      logging.info('Word: ' + word)
+      if word in word_counter:
+        word_counter[word] = word_counter[word] + 1
+      else:
+        word_counter[word] = 1
+  
+  # find the three highest word counts in word_counter
+  popular = sorted(word_counter, key = word_counter.get, reverse = True)
+
+  # return the top three
+  return popular[0] + ', ' + popular[1] + ', ' + popular[2]
+
+
+
 def AnalyzeTimeQueryData(query):
   return [
     {'name': 'Average Time', 'value': AverageTime(query)},
@@ -110,13 +139,6 @@ def AverageTimeOnDay(query,day):
   return timedelta(seconds=avgSeconds)
 
 
-def AnalyzeTextQueryData(query):
-  return [{'name': 'AverageTime'}]
-
-def MostCommonWord(query):
-  # map reduce this shit
-  return ''
-
 
 
 def AnalyzeIntegerQueryData(query):
@@ -141,10 +163,6 @@ def AnalyzeIntegerQueryData(query):
                             'value': str(Covariance(query,q))})
 
   return analytic_list
-
-def MostCommonWord(query):
-  # map reduce this shit
-  return ''
 
 def MapDataAverage(mapData):
   sum = 0
