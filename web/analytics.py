@@ -3,6 +3,8 @@ from datetime import datetime, timedelta
 
 from model import User, Query, DataPoint
 
+from multi_analytics import Covariance
+
 weekdays = {
   0: 'Monday',
   1: 'Tuesday',
@@ -118,7 +120,7 @@ def MostCommonWord(query):
 
 
 def AnalyzeIntegerQueryData(query):
-  return [
+  analytic_list = [
           {'name': 'Average', 'value': str(Average(query))},
           {'name': 'Variance', 'value': str(Variance(query))},
           {'name': 'Standard Deviation', 'value': str(StandardDeviation(query))},
@@ -132,10 +134,36 @@ def AnalyzeIntegerQueryData(query):
           {'name': 'Sunday Average', 'value': str(DayAvg(query, 6))},
         ]
 
+  user = query.user 
+  for q in Query.get_by_user(user):
+    if q.format == 'integer' and q != query:
+      analytic_list.append({'name': 'Covariance with ' + q.name,
+                            'value': str(Covariance(query,q))})
+
+  return analytic_list
+
 def MostCommonWord(query):
   # map reduce this shit
   return ''
 
+def MapDataAverage(mapData):
+  sum = 0
+  for key in mapData.keys():
+    sum += mapData[key]
+
+  average = sum/len(mapData)
+
+  return average
+
+def DataAverage(datapoints):
+  sum = 0
+  
+  for dp in datapoints:
+    sum += int(dp.text)
+
+  average = sum/len(datapoints)
+
+  return average
 
 def Average(int_query):
   datapoints = DataPoint.get_by_query(int_query)
@@ -158,7 +186,10 @@ def Variance(int_query):
   for dp in datapoints:
     squaresum += (int(dp.text)-mu)*(int(dp.text)-mu)
 
-  sigma = squaresum/len(datapoints)
+  # logging.info('Variance len(datapoints): ' + str(len(datapoints)))
+  # logging.info('Variance average: ' + str(mu))
+
+  sigma = float(squaresum)/len(datapoints)
 
   return sigma
 
