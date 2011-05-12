@@ -8,7 +8,10 @@ class User(db.Model):
   google_user = db.UserProperty()
   first_name = db.StringProperty()
   email = db.StringProperty()
-  
+  phone = db.StringProperty()
+  query_medium = db.StringProperty(
+    choices = ('sms', 'email'), default='email')
+
   @staticmethod
   def get_by_google_user(google_user):
     return User.all().filter('google_user =', google_user).get()
@@ -17,8 +20,9 @@ class User(db.Model):
   def get_by_email(email):
     return User.all().filter('email =', email).get()
 
-  def get_by_first_name(name):
-    return User.all().filter('first_name =', first_name).get()
+  @staticmethod
+  def get_by_phone(phone):
+    return User.all().filter('phone =', phone).get()
 
 class Query(db.Model):
   format = db.StringProperty(required=True, 

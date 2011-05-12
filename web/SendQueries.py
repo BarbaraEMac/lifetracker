@@ -1,9 +1,11 @@
 from google.appengine.ext import db
 from google.appengine.ext import webapp
-
 from google.appengine.api import mail
 
+from datetime import datetime
+
 from model import User, Query, DataPoint
+from sms import SendSMS
 
 from datetime import datetime
 
@@ -25,15 +27,19 @@ def SendByEmail(query):
 
   message.send()
 
-def SendByAndroidPush(query):
-  return ''
+def SendQueryBySMS(query):
+  text = query.text + ' Please reply "query-name: value"'
+  SendSMS(query.user.phone, text)  
 
 def SendQuery(query):
   query.lastSentAt = datetime.now() # refresh the query
   query.put() # commit it
-  return SendByEmail(query)
+  if query.user.query_medium == 'sms':
+    return SendQueryBySMS(query)
+  else:
+    return SendByEmail(query)
 
-# it may be a problem if this takes a long time
+# it will be a problem if this takes a long time
 class SendQueriesHandler(webapp.RequestHandler):
   def get(self):
     self.response.out.write("Cronning this fucker!")

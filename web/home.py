@@ -13,6 +13,9 @@ from Data import ImportCSVHandler
 from ui.manage_queries import ManageQueriesHandler
 from ui.manage_data import ManageDataHandler
 from ui.analyze import AnalyzeDataHandler
+from ui.account import AccountHandler
+from sms import ReceiveSMSHandler
+from update_account import UpdateAccountHandler
 
 from model import User, Query, DataPoint
 from incoming_mail import EmailResponseHandler
@@ -40,8 +43,11 @@ appRoute = webapp.WSGIApplication( [
   ('/data/import', ImportCSVHandler),
   ('/queries', ManageQueriesHandler),
   ('/data', ManageDataHandler),
+  ('/account', AccountHandler),
+  ('/account/update', UpdateAccountHandler),
   ('/import', ImportDataHandler),
   ('/analyze', AnalyzeDataHandler),
+  ('/sms/receive', ReceiveSMSHandler),
   EmailResponseHandler.mapping(),
 ], debug=True)
 
