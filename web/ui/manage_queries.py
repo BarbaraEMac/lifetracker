@@ -25,7 +25,7 @@ class ManageQueriesHandler(webapp.RequestHandler):
       # add a new query
       # edit queries 
       
-      html_file = open("ui/queries.html")
+      html_file = open("ui/html/manage_queries.html")
       html = html_file.read()
 
       # generate the query table

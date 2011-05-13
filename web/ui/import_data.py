@@ -21,7 +21,7 @@ class ImportDataHandler(webapp.RequestHandler):
       
       logout_url = users.create_logout_url(self.request.uri)
 
-      html_file = open("ui/import_data.html")
+      html_file = open("ui/html/import_data.html")
       html = html_file.read()
 
       query_id = self.request.get('query_id', None)

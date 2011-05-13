@@ -22,7 +22,7 @@ class AnalyzeDataHandler(webapp.RequestHandler):
       
       logout_url = users.create_logout_url(self.request.uri)
 
-      html_file = open("ui/analyze.html")
+      html_file = open("ui/html/analyze.html")
       html = html_file.read()
 
       query_id = self.request.get('query_id')

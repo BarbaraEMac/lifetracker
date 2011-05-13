@@ -21,7 +21,7 @@ class ManageDataHandler(webapp.RequestHandler):
       
       logout_url = users.create_logout_url(self.request.uri)
 
-      html_file = open("ui/data.html")
+      html_file = open("ui/html/manage_data.html")
       html = html_file.read()
 
       # generate the query table
