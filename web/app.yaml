@@ -19,7 +19,7 @@ handlers:
   static_dir: ui/js
 
 - url: .*
-  script: home.py
+  script: bindings.py
 
 - url: /_ah/mail/.+
   script: incoming_mail.py
