@@ -9,23 +9,23 @@ from model import User, Query, DataPoint
 # throw out all the sleep DPs that don't have a corresponding DP in sleep
 # average 
 
-def PercentFromAvgIntOnSlicedInt(aquery, bquery, value):
-  avg = QueryAverage(aquery)
-  slicedAvg = AvgIntOnSlicedInt(aquery, bquery, value)
+def percent_from_avg_int_on_sliced_int(aquery, bquery, value):
+  avg = query_average(aquery)
+  slicedAvg = avg_int_on_sliced_int(aquery, bquery, value)
   if slicedAvg == 0:
     return 0
   return (avg/slicedAvg - 1)*100
 
 # hold b constant and we want the cross section of a
-def AvgIntOnSlicedInt(aquery, bquery, value):
+def avg_int_on_sliced_int(aquery, bquery, value):
   adatapoints = DataPoint.get_by_query(aquery)
   bdatapoints = DataPoint.get_by_query(bquery)
-  adata = MapizeIntData(adatapoints)
-  bdata = MapizeIntData(bdatapoints)
+  adata = mapize_int_data(adatapoints)
+  bdata = mapize_int_data(bdatapoints)
 
   # bucket sleep by days
-  bdata = BucketToDays(bdata)
-  adata = BucketToDays(adata)
+  bdata = bucket_to_days(bdata)
+  adata = bucket_to_days(adata)
  
   # throwout all the sleep dps that aren't 8 
   for key in bdata.keys():
@@ -49,15 +49,15 @@ def AvgIntOnSlicedInt(aquery, bquery, value):
 
 
   # average the bdata values 
-  avg = MapDataAverage(adata)
+  avg = map_data_average(adata)
 
-  logging.info("Average: " + str(avg))
+  logging.info("average: " + str(avg))
   logging.info("End\n")
 
   # return it
   return avg
 
-def Slice(aquery, bquery):
+def slice(aquery, bquery):
   # how to do this...
   return ''
 
@@ -65,15 +65,15 @@ def Slice(aquery, bquery):
 
 # this is imperfect, it doesn't completely match up with Variance, 
 # which it should. check it out later.
-def Covariance(int_query_a, int_query_b):
+def covariance(int_query_a, int_query_b):
   # cov = sum for all i (x - xnaught)(y-ynaught) all over N-1
   # we need to match up points between the two datasets
 
   adatapoints = DataPoint.get_by_query(int_query_a)
   bdatapoints = DataPoint.get_by_query(int_query_b)
 
-  adata = MapizeIntData(adatapoints)
-  bdata = MapizeIntData(bdatapoints)
+  adata = mapize_int_data(adatapoints)
+  bdata = mapize_int_data(bdatapoints)
 
   #if adata is None:
   #  print int_query_a.name + " is none!"
@@ -81,11 +81,11 @@ def Covariance(int_query_a, int_query_b):
   # tweak the data so we only have a single point for each day 
   # this can return just index: data, since we don't care about the actual
   # times
-  adata = BucketToDays(adata)
-  bdata = BucketToDays(bdata)
+  adata = bucket_to_days(adata)
+  bdata = bucket_to_days(bdata)
 
   # tweak the data such that there is a 1:1 mapping between the sets
-  adata, bdata = Symmettrysize(adata, bdata)
+  adata, bdata = symmettrysize(adata, bdata)
 
   # logging.info('\nLength1:' +  str(len(adata)))
   # logging.info('\nLength2: ' + str(len(bdata)))
@@ -94,8 +94,8 @@ def Covariance(int_query_a, int_query_b):
 
   # do the actual covariance
   N = len(adata)
-  aAvg = MapDataAverage(adata)
-  bAvg = MapDataAverage(bdata)
+  aAvg = map_data_average(adata)
+  bAvg = map_data_average(bdata)
 
   sum = 0 
   for i in adata.keys():
@@ -112,7 +112,7 @@ def Covariance(int_query_a, int_query_b):
   return cov
 
 # we can make this smarter at some point. e.g. average nearby timestamps
-def Symmettrysize(adata, bdata):
+def symmettrysize(adata, bdata):
   # tweak the data such that we have a 1:1 mapping between the sets
   # sort both sets
   # foreach datapoint
@@ -129,20 +129,20 @@ def Symmettrysize(adata, bdata):
 
   return adata, bdata
 
-def MapizeIntData(datapoints):
+def mapize_int_data(datapoints):
   map = {}
   for dp in datapoints:
     map[int(dp.timestamp.strftime("%s"))] = int(dp.text)
   return map
 
-def NearestDay(timestamp):
+def nearest_day(timestamp):
   return (timestamp // 86400)*86400
 
 # input: a bunch of datapoints
 # output: a bunch of datapoints such that there is only a single datapoint
 #   per day. If we find multiple datapoints for a daty, average them
 #   returns the datapoints in map format
-def BucketToDays(mapData):
+def bucket_to_days(mapData):
   # foreach datapoint
   #   normalize the timestamp to the start of the day
   #   this will have the effect of bucketing the timestamps into days
@@ -151,13 +151,13 @@ def BucketToDays(mapData):
   for timestamp in mapData.keys():
     data = mapData[timestamp]
     del mapData[timestamp] # remove the old datapoint from the list
-    timestamp = NearestDay(timestamp) #normalize the timestamp
+    timestamp = nearest_day(timestamp) #normalize the timestamp
     mapData[timestamp] = data  # re-insert the datapoint
 
   return mapData
 
 
-def MapDataAverage(mapData):
+def map_data_average(mapData):
   sum = 0
   for key in mapData.keys():
     sum += mapData[key]
@@ -166,11 +166,11 @@ def MapDataAverage(mapData):
 
   return average
 
-def QueryAverage(query):
+def query_average(query):
   datapoints = DataPoint.get_by_query(query)
-  return Average(datapoints)
+  return average(datapoints)
 
-def Average(datapoints):
+def average(datapoints):
   sum = 0
   
   for dp in datapoints:

@@ -2,13 +2,13 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.api import users
 
-from api.Data import NewDataPointHandler
-from api.Data import NewQueryHandler
-from api.Data import EditQueryHandler
-from api.Data import DeleteQueryHandler
-from api.Data import GetQueriesHandler
-from api.Data import GetDataPointsHandler
-from api.Data import ImportCSVHandler
+from api.data import NewDataPointHandler
+from api.data import NewQueryHandler
+from api.data import EditQueryHandler
+from api.data import DeleteQueryHandler
+from api.data import GetQueriesHandler
+from api.data import GetDataPointsHandler
+from api.data import ImportCSVHandler
 from api.update_account import UpdateAccountHandler
 from ui.manage_queries import ManageQueriesHandler
 from ui.manage_data import ManageDataHandler
@@ -18,7 +18,7 @@ from ui.home import HomeHandler
 from ui.import_data import ImportDataHandler
 from communications.sms import ReceiveSMSHandler
 from communications.incoming_mail import EmailResponseHandler
-from communications.SendQueries import SendQueriesHandler
+from communications.send_queries import SendQueriesHandler
 
 from model import User, Query, DataPoint
 

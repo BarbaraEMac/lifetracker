@@ -137,7 +137,7 @@ class ImportCSVHandler(webapp.RequestHandler):
     user = User.get_by_email(user_email)
     query = Query.get_by_id(query_id)
 
-    for duple in self.ParseCSVData(csv_data):
+    for duple in self.parse_csv_data(csv_data):
       timestamp = duple[0]
       text = duple[1]
 
@@ -153,7 +153,7 @@ class ImportCSVHandler(webapp.RequestHandler):
 
     self.redirect('/data')
 
-  def ParseCSVData(self, csv_data):
+  def parse_csv_data(self, csv_data):
     # split into lines
     # for each line
     #   split into timestamp and datapoint

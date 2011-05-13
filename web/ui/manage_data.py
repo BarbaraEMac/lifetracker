@@ -25,23 +25,23 @@ class ManageDataHandler(webapp.RequestHandler):
       html = html_file.read()
 
       # generate the query table
-      html = html % {'logout_url': logout_url, 'user_email': user.email, 'data': self.GenerateDataView(user)}
+      html = html % {'logout_url': logout_url, 'user_email': user.email, 'data': self.generate_data_view(user)}
 
       self.response.out.write(html)
 
-  def GenerateDataView(self, user):
+  def generate_data_view(self, user):
     # get all the queries
 
     queries = Query.get_by_user(user)
     html = ''
     # for each query
-    #   append QueryToData(query)
+    #   append query_to_data(query)
     for query in queries:
-      html += self.QueryToData(query)
+      html += self.query_to_data(query)
     
     return html
 
-  def QueryToData(self, query):
+  def query_to_data(self, query):
     query_template = """<div class="lt-query">
       <h2>%(name)s</h2>
       <table class='lt-data-table'>
@@ -62,13 +62,13 @@ class ManageDataHandler(webapp.RequestHandler):
     # get all datapoints associated with the query
     datapoints = DataPoint.get_by_query(query)
     # for each datapoint from the query
-    #   append DataPointToRow(dp)
+    #   append data_point_to_row(dp)
     for dp in datapoints:
-      rows += self.DataPointToRow(dp)
+      rows += self.data_point_to_row(dp)
    
     return query_template % {'rows': rows, 'name': query.name, 'query_id': query.key()}
 
-  def DataPointToRow(self, dp):
+  def data_point_to_row(self, dp):
     row_template = """<tr><td>%(date)s</td><td>%(text)s</tr>"""
 
     # format a datapoint into a table row

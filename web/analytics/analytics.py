@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 
 from model import User, Query, DataPoint
 
-from multi_analytics import Covariance, AvgIntOnSlicedInt, PercentFromAvgIntOnSlicedInt 
+from multi_analytics import covariance, avg_int_on_sliced_int, percent_from_avg_int_on_sliced_int 
 
 weekdays = {
   0: 'Monday',
@@ -15,22 +15,22 @@ weekdays = {
   6: 'Sunday',
 }
 
-def AnalyzeQueryData(query):
+def analyze_query_data(query):
   if query.format == 'integer':
-    return AnalyzeIntegerQueryData(query)
+    return analyze_integer_query_data(query)
   elif query.format =='time':
-    return AnalyzeTimeQueryData(query)
+    return analyze_time_query_data(query)
   elif query.format == 'text':
-    return AnalyzeTextQueryData(query)
+    return analyze_text_query_data(query)
   else:
     return [{'name': '', 'value': ''}]
 
-def AnalyzeTextQueryData(query):
+def analyze_text_query_data(query):
   datapoints = DataPoint.get_by_query(query)
-  return [{'name': 'Common words', 'value': CommonWords(datapoints)}]
+  return [{'name': 'Common words', 'value': common_words(datapoints)}]
 
 # we can probably map reduce this shit
-def CommonWords(datapoints):
+def common_words(datapoints):
   word_counter = {}
 
   # foreach datapoint
@@ -53,22 +53,22 @@ def CommonWords(datapoints):
 
 
 
-def AnalyzeTimeQueryData(query):
+def analyze_time_query_data(query):
   datapoints = DataPoint.get_by_query(query)
   return [
-    {'name': 'Average Time', 'value': AverageTime(datapoints)},
-    {'name': 'Peaks on Day', 'value': HighestDayAverageTime(datapoints)},
-    {'name': 'Lowest on Day', 'value': LowestDayAverageTime(datapoints)},
-    {'name': 'Average Time on Monday', 'value': AverageTimeOnDay(datapoints,0)},
-    {'name': 'Average Time on Tuesday', 'value': AverageTimeOnDay(datapoints,1)},
-    {'name': 'Average Time on Wednesday', 'value': AverageTimeOnDay(datapoints,2)},
-    {'name': 'Average Time on Thursday', 'value': AverageTimeOnDay(datapoints,3)},
-    {'name': 'Average Time on Friday', 'value': AverageTimeOnDay(datapoints,4)},
-    {'name': 'Average Time on Saturday', 'value': AverageTimeOnDay(datapoints,5)},
-    {'name': 'Average Time on Sunday', 'value': AverageTimeOnDay(datapoints,6)},
+    {'name': 'average Time', 'value': average_time(datapoints)},
+    {'name': 'Peaks on Day', 'value': highest_day_average_time(datapoints)},
+    {'name': 'Lowest on Day', 'value': lowest_day_average_time(datapoints)},
+    {'name': 'average Time on Monday', 'value': average_time_on_day(datapoints,0)},
+    {'name': 'average Time on Tuesday', 'value': average_time_on_day(datapoints,1)},
+    {'name': 'average Time on Wednesday', 'value': average_time_on_day(datapoints,2)},
+    {'name': 'average Time on Thursday', 'value': average_time_on_day(datapoints,3)},
+    {'name': 'average Time on Friday', 'value': average_time_on_day(datapoints,4)},
+    {'name': 'average Time on Saturday', 'value': average_time_on_day(datapoints,5)},
+    {'name': 'average Time on Sunday', 'value': average_time_on_day(datapoints,6)},
     ]
 
-def StringToTimeDelta(string):
+def string_to_time_delta(string):
   # assume every dp is x:y
   hours = int(string[ : string.find(':') ])
   minutes = int(string[string.find(':') + 1 : ])
@@ -88,46 +88,46 @@ def StringToTimeDelta(string):
 def timedelta_total_seconds(td):
   return td.seconds + td.days*86400
 
-def AverageTime(datapoints):
+def average_time(datapoints):
   # interpret each datapoint as a timedelta
   # then average them
 
   totSeconds = 0
   for dp in datapoints:
-    totSeconds += timedelta_total_seconds(StringToTimeDelta(dp.text))
+    totSeconds += timedelta_total_seconds(string_to_time_delta(dp.text))
 
   avgSeconds = totSeconds / len(datapoints)
 
   return timedelta(seconds=avgSeconds)
 
-def HighestDayAverageTime(datapoints):
+def highest_day_average_time(datapoints):
   highestDay = 0
-  highestDayAvg = timedelta(seconds=0 )
+  highestday_avg = timedelta(seconds=0 )
 
   for day in range(0,7):
-    if AverageTimeOnDay(datapoints,day) > highestDayAvg:
+    if average_time_on_day(datapoints,day) > highestday_avg:
       highestDay = day
-      highestDayAvg = AverageTimeOnDay(datapoints,day)
+      highestday_avg = average_time_on_day(datapoints,day)
     
   return weekdays[highestDay]
 
-def LowestDayAverageTime(datapoints):
+def lowest_day_average_time(datapoints):
   lowestDay = 0
-  lowestDayAvg = AverageTimeOnDay(datapoints,0)
+  lowestday_avg = average_time_on_day(datapoints,0)
 
   for day in range(1,7):
-    if AverageTimeOnDay(datapoints,day) < lowestDayAvg:
+    if average_time_on_day(datapoints,day) < lowestday_avg:
       lowestDay = day
-      lowestDayAvg = AverageTimeOnDay(datapoints,day)
+      lowestday_avg = average_time_on_day(datapoints,day)
     
   return weekdays[lowestDay]
   
-def AverageTimeOnDay(datapoints,day):
+def average_time_on_day(datapoints,day):
   totSeconds = 0
   days = 0
   for dp in datapoints:
     if dp.timestamp.weekday() == day:
-      totSeconds += timedelta_total_seconds(StringToTimeDelta(dp.text))
+      totSeconds += timedelta_total_seconds(string_to_time_delta(dp.text))
       days += 1
 
   avgSeconds = totSeconds / days
@@ -136,49 +136,49 @@ def AverageTimeOnDay(datapoints,day):
 
 
 
-def FloatStrFormat(fl):
+def float_str_format(fl):
   return '%.2f' % (fl)
 
-def AnalyzeIntegerQueryData(query):
+def analyze_integer_query_data(query):
   datapoints = DataPoint.get_by_query(query)
   analytic_list = [
-          {'name': 'Average', 'value': FloatStrFormat(Average(datapoints))},
-          {'name': 'Range', 'value': (Range(datapoints))},
-          {'name': 'Variance', 'value': FloatStrFormat(Variance(datapoints))},
-          {'name': 'Standard Deviation', 'value': FloatStrFormat(StandardDeviation(datapoints))},
-          {'name': 'Peaks On', 'value': PeaksOnDay(datapoints)},
-          {'name': 'Monday Average', 'value': FloatStrFormat(DayAvg(datapoints, 0))},
-          {'name': 'Tuesday Average', 'value': FloatStrFormat(DayAvg(datapoints, 1))},
-          {'name': 'Wednesday Average', 'value': FloatStrFormat(DayAvg(datapoints, 2))},
-          {'name': 'Thursday Average', 'value': FloatStrFormat(DayAvg(datapoints, 3))},
-          {'name': 'Friday Average', 'value': FloatStrFormat(DayAvg(datapoints, 4))},
-          {'name': 'Saturday Average', 'value': FloatStrFormat(DayAvg(datapoints, 5))},
-          {'name': 'Sunday Average', 'value': FloatStrFormat(DayAvg(datapoints, 6))},
+          {'name': 'average', 'value': float_str_format(average(datapoints))},
+          {'name': 'range', 'value': (data_range(datapoints))},
+          {'name': 'variance', 'value': float_str_format(variance(datapoints))},
+          {'name': 'Standard Deviation', 'value': float_str_format(standard_deviation(datapoints))},
+          {'name': 'Peaks On', 'value': peaks_on_day(datapoints)},
+          {'name': 'Monday average', 'value': float_str_format(day_avg(datapoints, 0))},
+          {'name': 'Tuesday average', 'value': float_str_format(day_avg(datapoints, 1))},
+          {'name': 'Wednesday average', 'value': float_str_format(day_avg(datapoints, 2))},
+          {'name': 'Thursday average', 'value': float_str_format(day_avg(datapoints, 3))},
+          {'name': 'Friday average', 'value': float_str_format(day_avg(datapoints, 4))},
+          {'name': 'Saturday average', 'value': float_str_format(day_avg(datapoints, 5))},
+          {'name': 'Sunday average', 'value': float_str_format(day_avg(datapoints, 6))},
         ]
 
   user = query.user 
   for q in Query.get_by_user(user):
     if q.format == 'integer' and q.name != query.name:
-      analytic_list.extend([{'name': 'Covariance with ' + q.name,
-                            'value': FloatStrFormat(Covariance(query,q))}])
+      analytic_list.extend([{'name': 'covariance with ' + q.name,
+                            'value': float_str_format(covariance(query,q))}])
 
   for q in Query.get_by_user(user):
     if q.format == 'integer' and q.name != query.name:
-      for x in range(QueryRange(q)[0], QueryRange(q)[1]):
+      for x in range(query_range(q)[0], query_range(q)[1]):
         analytic_list.extend([
-          {'name': 'Average when ' + q.name + ' = ' + str(x),
-            'value': FloatStrFormat(AvgIntOnSlicedInt(query, q, x))},
+          {'name': 'average when ' + q.name + ' = ' + str(x),
+            'value': float_str_format(avg_int_on_sliced_int(query, q, x))},
           {'name': 'Change from average when ' + q.name + ' = ' + str(x),
-            'value': FloatStrFormat(PercentFromAvgIntOnSlicedInt(query, q, x))}
+            'value': float_str_format(percent_from_avg_int_on_sliced_int(query, q, x))}
         ])
   
   return analytic_list
 
-def QueryRange(query):
+def query_range(query):
   datapoints = DataPoint.get_by_query(query)
-  return Range(datapoints)
+  return data_range(datapoints)
 
-def Range(datapoints):
+def data_range(datapoints):
   min = int(datapoints[0].text)
   max = int(datapoints[0].text)
 
@@ -190,7 +190,7 @@ def Range(datapoints):
 
   return (min, max)
 
-def MapDataAverage(mapData):
+def mapdata_average(mapData):
   sum = 0
   for key in mapData.keys():
     sum += mapData[key]
@@ -201,7 +201,7 @@ def MapDataAverage(mapData):
 
   return average
 
-def DataAverage(datapoints):
+def data_average(datapoints):
   sum = 0
   
   for dp in datapoints:
@@ -211,11 +211,11 @@ def DataAverage(datapoints):
 
   return average
 
-def QueryAverage(query):
+def query_average(query):
   datapoints = DataPoint.get_by_query(query)
-  return Average(datapoints)
+  return average(datapoints)
 
-def Average(datapoints):
+def average(datapoints):
   sum = 0
   
   for dp in datapoints:
@@ -225,8 +225,8 @@ def Average(datapoints):
 
   return average
 
-def Variance(datapoints):
-  mu = Average(datapoints)
+def variance(datapoints):
+  mu = average(datapoints)
   squaresum = 0
  
   for dp in datapoints:
@@ -236,22 +236,22 @@ def Variance(datapoints):
 
   return sigma
 
-def StandardDeviation(datapoints):
-  return math.sqrt(Variance(datapoints))
+def standard_deviation(datapoints):
+  return math.sqrt(variance(datapoints))
  
 # returns the day the query is the highest 
-def PeaksOnDay(datapoints):
-  maxDayAvg = 0
+def peaks_on_day(datapoints):
+  maxday_avg = 0
   maxOnDay = 0
 
   for day in range(0,7):
-    if DayAvg(datapoints, day) > maxDayAvg:
+    if day_avg(datapoints, day) > maxday_avg:
       maxOnDay = day
-      maxDayAvg = DayAvg(datapoints, day)
+      maxday_avg = day_avg(datapoints, day)
 
   return weekdays[maxOnDay]
 
-def DayAvg(datapoints, day):
+def day_avg(datapoints, day):
   daySum = 0
   days = 0
  

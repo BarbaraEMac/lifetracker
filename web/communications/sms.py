@@ -15,7 +15,7 @@ CALLER_ID = '6502048725'
 
 account = twilio.Account(ACCOUNT_SID, ACCOUNT_TOKEN) 
 
-def SendSMS(toNumber, text):
+def send_sms(toNumber, text):
   data = {
     'From': CALLER_ID,
     'To': str(toNumber),
@@ -47,7 +47,7 @@ class ReceiveSMSHandler(webapp.RequestHandler):
       return
 
     # parse the response
-    query_name, value = self.ParseBody(body)
+    query_name, value = self.parse_body(body)
     if query_name == '' or value == '':
       logging.error('ParseBody Failed!')
       return
@@ -75,7 +75,7 @@ class ReceiveSMSHandler(webapp.RequestHandler):
     self.response.out.write('<Response><Sms>Got it!</Sms></Response>')
 
   # need some validation in here too
-  def ParseBody(self, response):
+  def parse_body(self, response):
     try: 
       query_name = response [ : response.index(':')]
       value = response[response.index(':') + 1:]

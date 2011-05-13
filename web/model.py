@@ -47,7 +47,7 @@ class Query(db.Model):
   def get_by_user_and_name(user, name):
     return Query.all().filter('user =', user).filter('name =', name).get()
 
-  def isStale(self):
+  def is_stale(self):
     if datetime.now() > self.lastSentAt + timedelta(minutes=self.frequency):
       return True
     return False

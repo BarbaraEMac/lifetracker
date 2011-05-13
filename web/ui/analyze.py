@@ -1,7 +1,7 @@
 from google.appengine.ext import webapp
 from google.appengine.api import users
 
-from analytics.analytics import AnalyzeQueryData
+from analytics.analytics import analyze_query_data
 from model import User, Query, DataPoint
 
 class AnalyzeDataHandler(webapp.RequestHandler):
@@ -28,18 +28,18 @@ class AnalyzeDataHandler(webapp.RequestHandler):
       query_id = self.request.get('query_id')
       query = Query.get_by_id(query_id)
 
-      analytics = AnalyzeQueryData(query)
-      analytics_html = self.GenerateAnalysisView(analytics)
+      analytics = analyze_query_data(query)
+      analytics_html = self.generate_analysis_view(analytics)
 
       html = html % {'analytics_rows': analytics_html, 'logout_url': logout_url, 'user_email': user.email, 'query_name': query.name}
 
       self.response.out.write(html)
 
-  def StatToRow(self, analytic):
+  def stat_to_row(self, analytic):
     return "<tr><td>%(name)s</td><td>%(value)s</td></tr>" % {'name': analytic['name'], 'value': analytic['value']}
 
-  def GenerateAnalysisView(self, analytics):
+  def generate_analysis_view(self, analytics):
     html = ''
     for analytic in analytics:
-      html += self.StatToRow(analytic) 
+      html += self.stat_to_row(analytic) 
     return html

@@ -29,11 +29,11 @@ class ManageQueriesHandler(webapp.RequestHandler):
       html = html_file.read()
 
       # generate the query table
-      html = html % {'queries': self.GenerateQueryTable(user), 'logout_url': logout_url, 'user_email': user.email}
+      html = html % {'queries': self.generate_query_table(user), 'logout_url': logout_url, 'user_email': user.email}
 
       self.response.out.write(html)
 
-  def QueryToTableRow(self, query):
+  def query_to_table_row(self, query):
     row = "<tr id='%(query_id)s'>\
       <td class='name-cell'><p id='name-%(query_id)s'>%(name)s</p>\
       <input id='edit-name-%(query_id)s' value='%(name)s' class='query-edit-field'/>\
@@ -57,13 +57,13 @@ class ManageQueriesHandler(webapp.RequestHandler):
 
     return row % queryData
 
-  def GenerateQueryTable(self, user):
+  def generate_query_table(self, user):
     queries = Query.get_by_user(user)
 
     html = ''
 
     for query in queries:
-      html += self.QueryToTableRow(query)
+      html += self.query_to_table_row(query)
 
     return html
 
