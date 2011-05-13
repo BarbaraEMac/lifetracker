@@ -1,8 +1,8 @@
 from google.appengine.ext import webapp
 from google.appengine.api import users
 
+from analytics.analytics import AnalyzeQueryData
 from model import User, Query, DataPoint
-from analytics import AnalyzeQueryData
 
 class AnalyzeDataHandler(webapp.RequestHandler):
   def get(self):

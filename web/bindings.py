@@ -2,25 +2,25 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.api import users
 
-from SendQueries import SendQueriesHandler
-from Data import NewDataPointHandler
-from Data import NewQueryHandler
-from Data import EditQueryHandler
-from Data import DeleteQueryHandler
-from Data import GetQueriesHandler
-from Data import GetDataPointsHandler
-from Data import ImportCSVHandler
+from api.Data import NewDataPointHandler
+from api.Data import NewQueryHandler
+from api.Data import EditQueryHandler
+from api.Data import DeleteQueryHandler
+from api.Data import GetQueriesHandler
+from api.Data import GetDataPointsHandler
+from api.Data import ImportCSVHandler
+from api.update_account import UpdateAccountHandler
 from ui.manage_queries import ManageQueriesHandler
 from ui.manage_data import ManageDataHandler
 from ui.analyze import AnalyzeDataHandler
 from ui.account import AccountHandler
 from ui.home import HomeHandler
-from sms import ReceiveSMSHandler
-from update_account import UpdateAccountHandler
+from ui.import_data import ImportDataHandler
+from communications.sms import ReceiveSMSHandler
+from communications.incoming_mail import EmailResponseHandler
+from communications.SendQueries import SendQueriesHandler
 
 from model import User, Query, DataPoint
-from incoming_mail import EmailResponseHandler
-from ui.import_data import ImportDataHandler
 
 
 appRoute = webapp.WSGIApplication( [

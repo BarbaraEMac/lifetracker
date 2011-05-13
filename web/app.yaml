@@ -22,7 +22,7 @@ handlers:
   script: bindings.py
 
 - url: /_ah/mail/.+
-  script: incoming_mail.py
+  script: communications/incoming_mail.py
   login: admin
 
 builtins:
