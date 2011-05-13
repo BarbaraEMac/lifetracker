@@ -2,27 +2,6 @@
   display: none;
 }
 
-#lt-base {
-  width: 941px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-#header {
-  margin-top: 20px;
-  margin-bottom: 50px;
-}
-
-h1 {
-  font-size: 30pt; 
-}
-
-h2 {
-  font-size: larger;
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-
 #query-list, #new-query {
   margin-bottom: 40px;
 }
