@@ -16,9 +16,9 @@ from ui.analyze import AnalyzeDataHandler
 from ui.account import AccountHandler
 from ui.home import HomeHandler
 from ui.import_data import ImportDataHandler
-from communications.sms import ReceiveSMSHandler
-from communications.incoming_mail import EmailResponseHandler
-from communications.send_queries import SendQueriesHandler
+from com.sms import ReceiveSMSHandler
+from com.incoming_mail import EmailResponseHandler
+from com.send_queries import SendQueriesHandler
 
 from model import User, Query, DataPoint
 
