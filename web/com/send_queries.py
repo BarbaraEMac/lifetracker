@@ -47,7 +47,7 @@ class SendQueriesHandler(webapp.RequestHandler):
     queries = Query.all().fetch(1000)
 
     for query in queries:
-      if query.isStale():
+      if query.is_stale():
         print query.name + " is stale"
         send_query(query)
         return
