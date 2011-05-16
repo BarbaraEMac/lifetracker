@@ -2,6 +2,8 @@ import logging
 
 from model import User, Query, DataPoint
 
+from common import query_average, average
+
 # what is your average mood on days you sleep for eight hours?
 # bucket mood by days
 # bucket sleep by days
@@ -105,7 +107,10 @@ def covariance(int_query_a, int_query_b):
   # logging.info('aAvg = ' + str(aAvg) + ', bAvg = ' + str(bAvg))
 
   # logging.info('Sum = ' + str(sum))
-  cov = float(sum)/(N-1)
+  if N-1 <= 0:
+    cov = 0
+  else:
+    cov = float(sum)/(N-1)
  
   # logging.info('Cov = ' + str(cov))
  
@@ -132,7 +137,7 @@ def symmettrysize(adata, bdata):
 def mapize_int_data(datapoints):
   map = {}
   for dp in datapoints:
-    map[int(dp.timestamp.strftime("%s"))] = int(dp.text)
+    map[int(dp.timestamp.strftime("%s"))] = int(float(dp.text))
   return map
 
 def nearest_day(timestamp):
@@ -163,19 +168,5 @@ def map_data_average(mapData):
     sum += mapData[key]
 
   average = float(sum)/len(mapData)
-
-  return average
-
-def query_average(query):
-  datapoints = DataPoint.get_by_query(query)
-  return average(datapoints)
-
-def average(datapoints):
-  sum = 0
-  
-  for dp in datapoints:
-    sum += int(dp.text)
-
-  average = float(sum)/len(datapoints)
 
   return average

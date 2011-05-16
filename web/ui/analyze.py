@@ -35,11 +35,19 @@ class AnalyzeDataHandler(webapp.RequestHandler):
 
       self.response.out.write(html)
 
-  def stat_to_row(self, analytic):
-    return "<tr><td>%(name)s</td><td>%(value)s</td></tr>" % {'name': analytic['name'], 'value': analytic['value']}
+  #def stat_to_row(self, analytic):
+  def stat_to_row(self, name, value):
+    #return "<tr><td>%(name)s</td><td>%(value)s</td></tr>" % {'name': analytic['name'], 'value': analytic['value']}
+    return "<tr><td>%(name)s</td><td>%(value)s</td></tr>" % {'name': name, 'value': value}
 
   def generate_analysis_view(self, analytics):
     html = ''
-    for analytic in analytics:
-      html += self.stat_to_row(analytic) 
+    # we could make analytics a simple map
+    # then we could do:
+    # for key, value in analytics
+    #   ...
+    """for analytic in analytics:
+      html += self.stat_to_row(analytic)"""
+    for (name, value) in sorted(analytics.items()):
+      html += self.stat_to_row(name, value)
     return html
