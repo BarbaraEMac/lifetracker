@@ -33,8 +33,9 @@ class Query(db.Model):
   # the last time we sent this query
   lastSentAt = db.DateTimeProperty(required=True, auto_now_add=True)
   name = db.StringProperty(required=True)
+  normalized_name = db.StringProperty(required=True)
   text = db.StringProperty(required=True)
- 
+
   @staticmethod
   def get_by_id(id):
     return db.get(id)
@@ -45,7 +46,11 @@ class Query(db.Model):
  
   @staticmethod 
   def get_by_user_and_name(user, name):
-    return Query.all().filter('user =', user).filter('name =', name).get()
+    return Query.all().filter('user =', user).filter('normalized_name =', Query.normalize_name(name)).get()
+
+  @staticmethod
+  def normalize_name(name):
+    return name.lower().strip()
 
   def is_stale(self):
     if datetime.now() > self.lastSentAt + timedelta(minutes=self.frequency):

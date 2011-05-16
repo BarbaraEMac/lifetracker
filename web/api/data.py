@@ -18,6 +18,10 @@ class NewQueryHandler(webapp.RequestHandler):
 
     query = Query(
       name = name,
+      # we should really do normalization inside the Query constructor,
+      # but it will take some time to figure out how, lacking a nearby
+      # python badass
+      normalized_name = Query.normalize_name(name), 
       text = text,
       frequency = frequency,
       user = user,
