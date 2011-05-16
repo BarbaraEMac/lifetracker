@@ -48,9 +48,17 @@ def common_words(datapoints):
   # find the three highest word counts in word_counter
   popular = sorted(word_counter, key = word_counter.get, reverse = True)
 
-  # return the top three
-  return popular[0] + ', ' + popular[1] + ', ' + popular[2]
+  # return the top three, if there are three.
+  top_three = ''
+  length = len(popular)
+  if length > 0:
+    top_three += popular[0]
+  if length > 1:
+    top_three += ', ' + popular[1]
+  if length > 2: 
+    top_three += ', ' + popular[2]
 
+  return top_three
 
 
 def analyze_time_query_data(query):
