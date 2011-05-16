@@ -7,7 +7,7 @@ $(document).ready(function() {
     new_entry_id = '#new-entry-button-' + query_id;
 
     $(new_entry_id).css('display', 'none');
-    $(insert_row_id).css('display', 'inline');   
+    $(insert_row_id).css('display', 'table-row');   
     $(submit_id).css('display', 'inline');
    
     // do this as we send it 
