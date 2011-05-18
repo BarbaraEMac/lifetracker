@@ -70,3 +70,8 @@ class DataPoint(db.Model):
   def get_as_dict(self):
     return {'text': self.text, 'query': str(self.query.key()), 'timestamp': self.timestamp.strftime("%s")}
 
+  @staticmethod
+  def get_as_float(dp): # I may be breaking standards here
+    # need to surround this with try brackets
+    return float(dp.text)
+

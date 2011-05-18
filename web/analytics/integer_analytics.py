@@ -26,9 +26,11 @@ def analyze_integer_query_data(query):
 def basic_suite(datapoints):
   basic_list = []
 
-  basic_list.append(('average', float_str_format(average(datapoints))))
-  basic_list.append(('range', data_range(datapoints)))
-  basic_list.append(('variance', float_str_format(variance(datapoints))))
+  basic_list.append(('Average', float_str_format(average(datapoints))))
+  basic_list.append(('Median', median(datapoints)))
+  basic_list.append(('Mode', mode(datapoints)))
+  basic_list.append(('Range', data_range(datapoints)))
+  basic_list.append(('Variance', float_str_format(variance(datapoints))))
   basic_list.append(('Standard Deviation', float_str_format(standard_deviation(datapoints))))
 
   return basic_list
@@ -147,7 +149,27 @@ def variance(datapoints):
 
 def standard_deviation(datapoints):
   return math.sqrt(variance(datapoints))
- 
+
+def median(datapoints):
+  # sort the values, return the middle. can probably use sorted for this
+  values = map(DataPoint.get_as_float, datapoints)
+  values.sort()
+  return values[len(values)/2]
+
+def mode(datapoints):
+  values = map(DataPoint.get_as_float, datapoints)
+  values.sort()
+  val_dict = {}
+  for val in values:
+    if val in val_dict:
+      val_dict[val] += 1
+    else:
+      val_dict[val] = 1
+
+  values = sorted(val_dict, key=val_dict.get, reverse=True)
+  # a little harder than median
+  return values[0]
+
 # returns the day the query is the highest 
 def peaks_on_day(datapoints):
   maxday_avg = 0
