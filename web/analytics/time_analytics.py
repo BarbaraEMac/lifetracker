@@ -7,33 +7,35 @@ from common import weekdays
 
 def analyze_time_query_data(query):
   datapoints = DataPoint.get_by_query(query)
-  analytic_list = {}
+  analytic_list = []
 
-  analytic_list.update(basic_suite(datapoints))
+  analytic_list.extend(basic_suite(datapoints))
 
-  analytic_list.update(daily_suite(datapoints))
+  analytic_list.extend(daily_suite(datapoints))
 
   return analytic_list
 
 def basic_suite(datapoints):
-  basic_list = {}
+  basic_list = []
 
-  basic_list['Average Time'] = average_time(datapoints)
+  basic_list.append(('Average Time', average_time(datapoints)))
   
   return basic_list
 
 def daily_suite(datapoints):
-  daily_list = {}
+  daily_list = []
 
-  daily_list['Peaks on Day'] = highest_day_average_time(datapoints)
-  daily_list['Lowest on Day'] = lowest_day_average_time(datapoints)
-  daily_list['Average Time on Monday'] = average_time_on_day(datapoints,0)
-  daily_list['Average Time on Tuesday'] = average_time_on_day(datapoints,1)
-  daily_list['Average Time on Wednesday'] = average_time_on_day(datapoints,2)
-  daily_list['Average Time on Thursday'] = average_time_on_day(datapoints,3)
-  daily_list['Average Time on Friday'] = average_time_on_day(datapoints,4)
-  daily_list['Average Time on Saturday'] = average_time_on_day(datapoints,5)
-  daily_list['Average Time on Sunday'] = average_time_on_day(datapoints,6)
+  daily_list.extend([
+    ('Peaks on Day', highest_day_average_time(datapoints)),
+    ('Lowest on Day', lowest_day_average_time(datapoints)),
+    ('Average Time on Monday', average_time_on_day(datapoints,0)),
+    ('Average Time on Tuesday', average_time_on_day(datapoints,1)),
+    ('Average Time on Wednesday', average_time_on_day(datapoints,2)),
+    ('Average Time on Thursday', average_time_on_day(datapoints,3)),
+    ('Average Time on Friday', average_time_on_day(datapoints,4)),
+    ('Average Time on Saturday', average_time_on_day(datapoints,5)),
+    ('Average Time on Sunday', average_time_on_day(datapoints,6)),
+  ])
     
   return daily_list
 

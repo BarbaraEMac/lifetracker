@@ -5,16 +5,16 @@ from model import User, Query, DataPoint
 
 def analyze_text_query_data(query):
   datapoints = DataPoint.get_by_query(query)
-  analytic_list = {}
+  analytic_list = []
 
-  analytic_list.update(basic_suite(datapoints))
+  analytic_list.extend(basic_suite(datapoints))
 
   return analytic_list
 
 def basic_suite(datapoints):
-  basic_list = {}
+  basic_list = []
 
-  basic_list['Common Words'] = common_words(datapoints)
+  basic_list.append(('Common Words', common_words(datapoints)))
   
   return basic_list
 

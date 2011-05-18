@@ -10,45 +10,47 @@ from multi_analytics import covariance, avg_int_on_sliced_int, percent_from_avg_
 
 def analyze_integer_query_data(query):
   datapoints = DataPoint.get_by_query(query)
-  # this is a list of maps. we could just make it a map.
-  analytic_list = {}
+
+  analytic_list = []
   # basics
-  analytic_list.update(basic_suite(datapoints))
+  analytic_list.extend(basic_suite(datapoints))
   # daily basics
-  analytic_list.update(daily_suite(datapoints))
+  analytic_list.extend(daily_suite(datapoints))
 
-  analytic_list.update(covariance_suite(query))
+  analytic_list.extend(covariance_suite(query))
 
-  analytic_list.update(crosssection_suite(query ))
+  analytic_list.extend(crosssection_suite(query ))
 
   return analytic_list
 
 def basic_suite(datapoints):
-  basic_list = {}
+  basic_list = []
 
-  basic_list['average'] = float_str_format(average(datapoints))
-  basic_list['range'] = data_range(datapoints)
-  basic_list['variance'] = float_str_format(variance(datapoints))
-  basic_list['Standard Deviation'] = float_str_format(standard_deviation(datapoints))
+  basic_list.append(('average', float_str_format(average(datapoints))))
+  basic_list.append(('range', data_range(datapoints)))
+  basic_list.append(('variance', float_str_format(variance(datapoints))))
+  basic_list.append(('Standard Deviation', float_str_format(standard_deviation(datapoints))))
 
   return basic_list
 
 def daily_suite(datapoints):
-  daily_list = {}
+  daily_list = []
 
-  daily_list['Peaks On'] = peaks_on_day(datapoints)
-  daily_list['Monday Average'] = float_str_format(day_avg(datapoints, 0))
-  daily_list['Tuesday Average'] = float_str_format(day_avg(datapoints, 1))
-  daily_list['Wednesday Average'] = float_str_format(day_avg(datapoints, 2))
-  daily_list['Thursday Average'] = float_str_format(day_avg(datapoints, 3))
-  daily_list['Friday Average'] = float_str_format(day_avg(datapoints, 4))
-  daily_list['Saturday Average'] = float_str_format(day_avg(datapoints, 5))
-  daily_list['Sunday Average'] = float_str_format(day_avg(datapoints, 6))
+  daily_list.extend([
+    ('Peaks On',  peaks_on_day(datapoints)),
+    ('Monday Average',  float_str_format(day_avg(datapoints, 0))),
+    ('Tuesday Average',  float_str_format(day_avg(datapoints, 1))),
+    ('Wednesday Average',  float_str_format(day_avg(datapoints, 2))),
+    ('Thursday Average',  float_str_format(day_avg(datapoints, 3))),
+    ('Friday Average',  float_str_format(day_avg(datapoints, 4))),
+    ('Saturday Average',  float_str_format(day_avg(datapoints, 5))),
+    ('Sunday Average',  float_str_format(day_avg(datapoints, 6))),
+  ])
 
   return daily_list
   
 def crosssection_suite(query):
-  crosssection_list = {}
+  crosssection_list = []
   user = query.user
 
   for q in Query.get_by_user(user):
@@ -57,19 +59,19 @@ def crosssection_suite(query):
         avg_name = 'Average when ' + q.name + ' = ' + str(x)
         avg_value = float_str_format(avg_int_on_sliced_int(query, q, x))
   
-        crosssection_list[avg_name] = avg_value
+        crosssection_list.append((avg_name, avg_value))
 
         percent_name = 'Change from average when ' + q.name + ' = ' + str(x)
         percent_value =float_str_format(percent_from_avg_int_on_sliced_int(query, q, x))
 
-        crosssection_list[percent_name] = percent_value
+        crosssection_list.append((percent_name, percent_value))
 
     elif q.format == 'text':
       for word in common_words(DataPoint.get_by_query(q)).split(', '):
         avg_name = 'Average when "' + word + '" is in ' + q.name
         avg_value = float_str_format(avg_int_on_sliced_text(query, q, word))
 
-        crosssection_list[avg_name] = avg_value
+        crosssection_list.append((avg_name, avg_value))
 
         #percent_name = 'Change from average when ' + word + ' in ' +q.name
         #percent_value = float_str_format(percent_from_avg_int_on_sliced_int(query, q, x))
@@ -79,13 +81,13 @@ def crosssection_suite(query):
   return crosssection_list
 
 def covariance_suite(query):
-  covariance_list = {}
+  covariance_list = []
   user = query.user 
 
   for q in Query.get_by_user(user):
     if q.format == 'integer' and q.name != query.name:
-      covariance_list['Covariance with ' + q.name] \
-        = float_str_format(covariance(query,q))
+      covariance_list.append(
+        ('Covariance with ' + q.name, float_str_format(covariance(query,q))))
 
   return covariance_list
 
