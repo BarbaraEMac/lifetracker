@@ -29,7 +29,7 @@ def send_by_email(query):
 
 def send_query_by_sms(query):
   text = query.text + ' Please reply "query-name: value"'
-  SendSMS(query.user.phone, text)  
+  send_sms(query.user.phone, text)  
 
 def send_query(query):
   query.lastSentAt = datetime.now() # refresh the query
