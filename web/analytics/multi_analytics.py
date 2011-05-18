@@ -3,6 +3,7 @@ import logging
 from model import User, Query, DataPoint
 
 from common import query_average, average
+from utils.time import nearest_day
 
 def integer_cross_section(data, value):
   for key in data.keys():
@@ -171,9 +172,6 @@ def mapize_data(datapoints):
   for dp in datapoints:
     map[int(dp.timestamp.strftime("%s"))] = dp.text
   return map
-
-def nearest_day(timestamp):
-  return (timestamp // 86400)*86400
 
 # input: a bunch of datapoints
 # output: a bunch of datapoints such that there is only a single datapoint
