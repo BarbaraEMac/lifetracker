@@ -5,7 +5,8 @@ from model import User, Query, DataPoint
 
 from common import weekdays, query_average, average
 
-from multi_analytics import covariance, avg_int_on_sliced_int, percent_from_avg_int_on_sliced_int 
+from text_analytics import common_words
+from multi_analytics import covariance, avg_int_on_sliced_int, percent_from_avg_int_on_sliced_int, avg_int_on_sliced_text
 
 def analyze_integer_query_data(query):
   datapoints = DataPoint.get_by_query(query)
@@ -62,6 +63,18 @@ def crosssection_suite(query):
         percent_value =float_str_format(percent_from_avg_int_on_sliced_int(query, q, x))
 
         crosssection_list[percent_name] = percent_value
+
+    elif q.format == 'text':
+      for word in common_words(DataPoint.get_by_query(q)).split(', '):
+        avg_name = 'Average when "' + word + '" is in ' + q.name
+        avg_value = float_str_format(avg_int_on_sliced_text(query, q, word))
+
+        crosssection_list[avg_name] = avg_value
+
+        #percent_name = 'Change from average when ' + word + ' in ' +q.name
+        #percent_value = float_str_format(percent_from_avg_int_on_sliced_int(query, q, x))
+
+        #crosssection_list[percent_name] = percent_value
         
   return crosssection_list
 

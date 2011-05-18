@@ -48,6 +48,6 @@ class AnalyzeDataHandler(webapp.RequestHandler):
     #   ...
     """for analytic in analytics:
       html += self.stat_to_row(analytic)"""
-    for (name, value) in sorted(analytics.items()):
+    for (name, value) in sorted(analytics.items(), reverse=True):
       html += self.stat_to_row(name, value)
     return html

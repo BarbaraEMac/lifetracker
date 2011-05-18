@@ -4,6 +4,33 @@ from model import User, Query, DataPoint
 
 from common import query_average, average
 
+# what is your average mood on days you eat oatmeal?
+# mapize each dataset
+# bucket mood and breakfast by days
+# throw out datapoints in breakfast that arent 'value'
+# symmettrisize the datasets
+# return the average over mood
+def avg_int_on_sliced_text(aquery, bquery, value):
+  adatapoints = DataPoint.get_by_query(aquery)
+  bdatapoints = DataPoint.get_by_query(bquery)
+  adata = mapize_int_data(adatapoints)
+  bdata = mapize_data(bdatapoints) # not int data!
+
+  # bucket to days
+  adata = bucket_to_days(adata)
+  bdata = bucket_to_days(bdata)
+
+  # throw out all the datapoints that aren't 'value'
+  for key in bdata.keys():
+    if bdata[key].find(value) == -1:
+      del bdata[key]
+
+  symmettrysize(adata, bdata)   
+
+  avg = map_data_average(adata)
+
+  return avg
+
 # what is your average mood on days you sleep for eight hours?
 # bucket mood by days
 # bucket sleep by days
@@ -138,6 +165,12 @@ def mapize_int_data(datapoints):
   map = {}
   for dp in datapoints:
     map[int(dp.timestamp.strftime("%s"))] = int(float(dp.text))
+  return map
+
+def mapize_data(datapoints):
+  map = {}
+  for dp in datapoints:
+    map[int(dp.timestamp.strftime("%s"))] = dp.text
   return map
 
 def nearest_day(timestamp):
