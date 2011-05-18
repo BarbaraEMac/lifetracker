@@ -4,6 +4,20 @@ from model import User, Query, DataPoint
 
 from common import query_average, average
 
+def integer_cross_section(data, value):
+  for key in data.keys():
+    if not data[key] == value:
+      del data[key]
+
+  return data
+
+def text_cross_section(data, value):
+  for key in data.keys():
+    if data[key].find(value) == -1:
+      del data[key]
+
+  return data
+
 # what is your average mood on days you eat oatmeal?
 # mapize each dataset
 # bucket mood and breakfast by days
@@ -21,11 +35,9 @@ def avg_int_on_sliced_text(aquery, bquery, value):
   bdata = bucket_to_days(bdata)
 
   # throw out all the datapoints that aren't 'value'
-  for key in bdata.keys():
-    if bdata[key].find(value) == -1:
-      del bdata[key]
+  bdata = text_cross_section(bdata, value)
 
-  symmettrysize(adata, bdata)   
+  adata, bdata = symmettrysize(adata, bdata)   
 
   avg = map_data_average(adata)
 
@@ -57,18 +69,10 @@ def avg_int_on_sliced_int(aquery, bquery, value):
   adata = bucket_to_days(adata)
  
   # throwout all the sleep dps that aren't 8 
-  for key in bdata.keys():
-    if not bdata[key] == value:
-      del bdata[key]
-      
-  for key in adata.keys():
-    if not key in bdata.keys():
-      del adata[key]
 
-  # technically there could still be keys in bdata that aren't in adata
-  """for key in bdata.keys():
-    if not key in adata.keys():
-      del bdata[keys]"""
+  bdata = integer_cross_section(bdata, value)
+     
+  symmettrysize(adata, bdata)
 
   if len(adata) == 0:
     return 0
@@ -85,11 +89,6 @@ def avg_int_on_sliced_int(aquery, bquery, value):
 
   # return it
   return avg
-
-def slice(aquery, bquery):
-  # how to do this...
-  return ''
-
 
 
 # this is imperfect, it doesn't completely match up with Variance, 
