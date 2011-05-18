@@ -2,8 +2,10 @@ import logging
 
 from model import User, Query, DataPoint
 
-from common import query_average, average
 from utils.time import nearest_day
+from datetime import datetime
+
+from common import query_average, average
 
 def integer_cross_section(data, value):
   for key in data.keys():
@@ -164,13 +166,13 @@ def symmettrysize(adata, bdata):
 def mapize_int_data(datapoints):
   map = {}
   for dp in datapoints:
-    map[int(dp.timestamp.strftime("%s"))] = int(float(dp.text))
+    map[dp.timestamp_as_int()] = int(float(dp.text))
   return map
 
 def mapize_data(datapoints):
   map = {}
   for dp in datapoints:
-    map[int(dp.timestamp.strftime("%s"))] = dp.text
+    map[dp.timestamp_as_int()] = dp.text
   return map
 
 # input: a bunch of datapoints

@@ -68,7 +68,10 @@ class DataPoint(db.Model):
     return DataPoint.all().filter('query = ', query).order('timestamp').fetch(1000)
 
   def get_as_dict(self):
-    return {'text': self.text, 'query': str(self.query.key()), 'timestamp': self.timestamp.strftime("%s")}
+    return {'text': self.text, 'query': str(self.query.key()), 'timestamp': self.timestamp_as_int()}
+
+  def timestamp_as_int(self):
+    return int(self.timestamp.strftime("%s"))
 
   @staticmethod
   def get_as_float(dp): # I may be breaking standards here

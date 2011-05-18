@@ -1,10 +1,12 @@
 # all the functions haviing to do with manipulating time should go
 # in here
 
+from google.appengine.ext import webapp
 from datetime import datetime
 
-def datetime_as_int(dt)
-  return int(dt.strftime('%s'))
+# there exist problems with this, but I dunno WTF they are.
+def datetime_as_int(dt):
+  return int(dt.strftime("%s"))
 
 def nearest_day(timestamp):
   return (timestamp // 86400)*86400
