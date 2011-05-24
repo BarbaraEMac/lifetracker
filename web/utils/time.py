@@ -2,9 +2,10 @@
 # in here
 
 from google.appengine.ext import webapp
-from datetime import datetime
+import datetime
 
-# there exist problems with this, but I dunno WTF they are.
+# dt.strftime does not work in this file. I have no idea why. For now,
+# just don't call it.
 def datetime_as_int(dt):
   return int(dt.strftime("%s"))
 
@@ -17,9 +18,8 @@ def morning(timestamp):
 def nighttime(timestamp):
   return nearest_day(timestamp) + 23*60*60 + 59*60 # 23:59
 
-def is_daytime():
+def is_daytime(now):
   # if it is between 10 am and midnight
-  now = datetime_as_int(datetime.now())
   if now > morning(now) and now < nighttime(now):
     return True
   else:

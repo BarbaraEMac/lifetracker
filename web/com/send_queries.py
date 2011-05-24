@@ -47,7 +47,9 @@ class SendQueriesHandler(webapp.RequestHandler):
     queries = Query.all().fetch(1000)
 
     for query in queries:
-      if query.is_stale() and is_daytime(): # only send when people are wake
+      # only send when people are awake
+      now = int(datetime.now().strftime('%s'))
+      if query.is_stale() and is_daytime(now):
         print query.name + " is stale"
         send_query(query)
         return
