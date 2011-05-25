@@ -3,11 +3,15 @@ from google.appengine.api import users
 
 from model import User, Query, DataPoint
 
+from constants import whitelist
+
 class ManageQueriesHandler(webapp.RequestHandler):
   def get(self):
     google_user = users.get_current_user()
     if google_user == None:
       self.redirect(users.create_login_url(self.request.uri))
+    elif not google_user.email() in whitelist:
+      self.redirect(users.create_logout_url(self.request.uri))
     else:
       user = User.get_by_google_user(google_user)
       if user == None:
@@ -18,13 +22,14 @@ class ManageQueriesHandler(webapp.RequestHandler):
         )
 
         user.put()
-      
+     
+ 
       logout_url = users.create_logout_url(self.request.uri)
 
       # display all the user's queries
       # add a new query
       # edit queries 
-      
+
       html_file = open("ui/html/manage_queries.html")
       html = html_file.read()
 

@@ -3,12 +3,15 @@ from google.appengine.api import users
 
 from analytics.analytics import analyze_query_data
 from model import User, Query, DataPoint
+from constants import whitelist
 
 class AnalyzeDataHandler(webapp.RequestHandler):
   def get(self):
     google_user = users.get_current_user()
     if google_user == None:
       self.redirect(users.create_login_url(self.request.uri))
+    elif not google_user.email() in whitelist:
+      self.redirect(users.create_logout_url(self.request.uri))
     else:
       user = User.get_by_google_user(google_user)
       if user == None:
