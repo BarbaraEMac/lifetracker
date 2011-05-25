@@ -1,4 +1,3 @@
-
 <html>
 <head>
   <link rel="stylesheet" type="text/css" href="css/reset.css"/>
@@ -21,7 +20,12 @@
   <div id='lt-account'>
     <p>Email: %(user_email)s</p>
     <p>Phone Number: <input id='phone-number' type='text' value='%(user_phonenumber)s'/></p>
-    <p>Receive queries via (either 'email' or 'sms'): <input id='query-medium' value='%(query_medium)s' type='text'/></p>
+    <p>Receive queries via: 
+      <select id='query-medium'>
+        <option %(sms_selected)s>SMS</option>
+        <option %(email_selected)s>email</option>
+      </select>
+    </p>
     <input id='user_email' type='hidden' value='%(user_email)s'/>
     <p><a id='account-update-button' href='#'>Update</a></p>
   </div>

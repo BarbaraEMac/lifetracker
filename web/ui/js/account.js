@@ -5,8 +5,7 @@ $(document).ready(function() {
     phone_number = $('#phone-number').val();
     
     medium = $('#query-medium').val()
-    if (medium != 'sms' && medium != 'email') {
-      alert('Medium must be one of "sms" or "email"');
+    if (medium != 'SMS' && medium != 'email') {
       return;
     }
 

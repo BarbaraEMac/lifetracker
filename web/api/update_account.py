@@ -16,8 +16,10 @@ class UpdateAccountHandler(webapp.RequestHandler):
       # need to check that no one has this phone number yet
       # also, validate the phone number somewhat
       user.phone = phone
-    if medium != None and (medium == 'sms' or medium == 'email'):
-      user.query_medium = medium
+    if medium != None:
+      medium = medium.lower()
+      if medium == 'sms' or medium == 'email':
+        user.query_medium = medium
 
     user.put()
 

@@ -35,7 +35,13 @@
         <td class='name-cell'><input id='new-query-name-input' type='text' value='name'/></td>
         <td class='text-cell'><input id='new-query-text-input' type='text' value='text'</td>
         <td class='frequency-cell'><input id='new-query-frequency-input' type='text' value='frequency'/></td>
-        <td class='format-cell'><input id='new-query-format-input' type='text' value='format'/></td>
+        <td class='format-cell'>
+          <select id='new-query-format-input'>
+            <option>Integer</option>
+            <option>Text</option>
+            <option>Time</option>
+          </select>
+        </td>
         <td class='timestamp-cell'><input id='user_email' type='hidden' value='%(user_email)s'/></td>
         <td class='action-cell'><a id='new-query-submit' href='#'>Create</a></td>
     </table>

@@ -28,7 +28,15 @@ class AccountHandler(webapp.RequestHandler):
       html_file = open("ui/html/account.html")
       html = html_file.read()
 
+      sms_selected = ''
+      email_selected = ''
+      
+      if user.query_medium == 'email':
+        email_selected = 'selected'
+      else:
+        sms_selected = 'selected'
+
       # generate the query table
-      html = html % {'logout_url': logout_url, 'user_email': user.email, 'user_phonenumber': user.phone, 'query_medium': user.query_medium}
+      html = html % {'logout_url': logout_url, 'user_email': user.email, 'user_phonenumber': user.phone, 'sms_selected': sms_selected, 'email_selected': email_selected}
 
       self.response.out.write(html)

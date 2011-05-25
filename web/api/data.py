@@ -12,7 +12,7 @@ class NewQueryHandler(webapp.RequestHandler):
     frequency = int(self.request.get("frequency"))
     text = self.request.get('text')
     user_email = self.request.get('user_email')
-    format = self.request.get('format')
+    format = self.request.get('format').lower()
 
     user = User.get_by_email(user_email)
 
