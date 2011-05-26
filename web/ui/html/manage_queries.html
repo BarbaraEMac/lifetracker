@@ -34,7 +34,15 @@
       <tr id='query-input-row'>
         <td class='name-cell'><input id='new-query-name-input' type='text' value='name'/></td>
         <td class='text-cell'><input id='new-query-text-input' type='text' value='text'</td>
-        <td class='frequency-cell'><input id='new-query-frequency-input' type='text' value='frequency'/></td>
+        <td class='frequency-cell'>
+          <select id='new-query-frequency-input'>
+            <option id='freq-1440'>Every Day</option>
+            <option id='freq-360'>Every 6 Hours</option>
+            <option id='freq-180'>Every 3 Hours</option>
+            <option id='freq-60'>Every Hour</option>
+            <option id='freq-1'>Every Minute</option>
+          </select>
+        </td>
         <td class='format-cell'>
           <select id='new-query-format-input'>
             <option>Integer</option>
@@ -50,4 +58,4 @@
 </div>
 
 </body>
-</html>
+

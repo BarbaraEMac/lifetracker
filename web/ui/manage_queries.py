@@ -47,7 +47,14 @@ class ManageQueriesHandler(webapp.RequestHandler):
       <input id='edit-text-%(query_id)s' class='query-edit-field' value='%(text)s'/>\
       </td>\
       <td class='frequency-cell'><p id='frequency-%(query_id)s'>%(frequency)s</p>\
-      <input id='edit-frequency-%(query_id)s' class='query-edit-field' value='%(frequency)s'/>\
+        <input id='freq-minutes-%(query_id)s' value='%(freq_minutes)s' type='hidden'/> \
+        <select id='edit-frequency-%(query_id)s' class='query-edit-field'>\
+          <option id='freq-1440'>Every Day</option> \
+          <option id='freq-360'>Every 6 Hours</option> \
+          <option id='freq-180'>Every 3 Hours</option> \
+          <option id='freq-60'>Every Hour</option> \
+          <option id='freq-1'>Every Minute</option> \
+        </select> \
       </td>\
       <td class='format-cell'>%(format)s</td>\
       <td class='timestamp-cell'>%(lastsentat)s</td>\
@@ -58,9 +65,37 @@ class ManageQueriesHandler(webapp.RequestHandler):
       <a class='query-delete-confirm-button' id='confirm-delete-%(query_id)s' href='#'>Really?</a>\
       </td>\
       </tr>"
-    queryData = {'query_id': query.key(), 'name': query.name, 'text': query.text, 'format': query.format, 'frequency': query.frequency, 'lastsentat': query.lastSentAt}
+    queryData = {
+      'query_id': query.key(), 
+      'name': query.name, 
+      'text': query.text, 
+      'format': query.format, 
+      'frequency': self.frequency_minutes_to_text(query.frequency),
+      'lastsentat': query.lastSentAt,
+      'freq_minutes': query.frequency,
+    }
 
     return row % queryData
+
+  def frequency_minutes_to_text(self, mins):
+    freq_text = ''
+
+    if mins < 60: 
+      freq_text = 'Every %s minutes' % (mins)
+    elif mins < 1440:
+      hours = mins // 60
+      if hours == 1:
+        freq_text = 'Every hour'
+      else:
+        freq_text = 'Every %s hours' % (hours)
+    else:
+      days = mins // 1440
+      if days == 1:
+        freq_text = 'Every day'
+      else:
+        freq_text = 'Every %s days' % (days)
+
+    return freq_text
 
   def generate_query_table(self, user):
     queries = Query.get_by_user(user)

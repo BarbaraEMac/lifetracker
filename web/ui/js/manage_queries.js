@@ -1,4 +1,17 @@
 $(document).ready(function() {
+  $('select.query-edit-field').each(function() {
+    query_id = $(this).attr('id').substring(15);
+    
+    freq_minutes_id = '#freq-minutes-' + query_id;
+
+    freq_minutes = $(freq_minutes_id).val();
+
+    select_id = '#edit-frequency-' + query_id;
+    option_id = '#freq-' + freq_minutes;
+
+    $(select_id + ' ' + option_id).attr('selected', 'selected');
+  });
+
   $('.query-delete-confirm-button').click(function() {
     query_id = $(this).attr('id').substring(15);
    
@@ -39,7 +52,7 @@ $(document).ready(function() {
 
     new_name = $('#new-query-name-input').val();
     new_text = $('#new-query-text-input').val();
-    new_frequency = $('#new-query-frequency-input').val();
+    new_frequency = $('#new-query-frequency-input :selected').attr('id').substring(5);
     new_format = $('#new-query-format-input').val();
     user_email = $('#user_email').val();
 
@@ -71,7 +84,7 @@ $(document).ready(function() {
     $(edit_id).css('display', 'none');
     $(submit_id).css('display', 'inline');
     $(tr_id + ' p').css('display', 'none');
-    $(tr_id + ' input.query-edit-field').css('display', 'inline');  
+    $(tr_id + ' input.query-edit-field, ' + tr_id + ' select.query-edit-field').css('display', 'inline');  
   });
 
   $('.query-edit-submit-button').click(function() {
@@ -85,7 +98,7 @@ $(document).ready(function() {
 
     new_name = $(name_id).val();
     new_text = $(text_id).val();
-    new_frequency = $(frequency_id).val();
+    new_frequency = $(frequency_id + ' :selected').attr('id').substring(5);
 
     new_query_data = {
       'query_id': query_id,
@@ -111,6 +124,6 @@ $(document).ready(function() {
     $(edit_id).css('display', 'inline');
     $(submit_id).css('display', 'none');
     $(tr_id + ' p').css('display', 'inline');
-    $(tr_id + ' input.query-edit-field').css('display', 'none');  
+    $(tr_id + ' input.query-edit-field, ' + tr_id + ' select.query-edit-field').css('display', 'none');  
   });
 });
