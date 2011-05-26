@@ -79,7 +79,10 @@ def highest_day_average_time(datapoints):
   highestday_avg = timedelta(seconds=0 )
 
   for day in range(0,7):
-    if average_time_on_day(datapoints,day) > highestday_avg:
+    this_day_avg = average_time_on_day(datapoints,day)
+    if this_day_avg == None:
+      continue
+    elif this_day_avg > highestday_avg:
       highestDay = day
       highestday_avg = average_time_on_day(datapoints,day)
     
@@ -90,7 +93,13 @@ def lowest_day_average_time(datapoints):
   lowestday_avg = average_time_on_day(datapoints,0)
 
   for day in range(1,7):
-    if average_time_on_day(datapoints,day) < lowestday_avg:
+    this_day_avg = average_time_on_day(datapoints,day)
+
+    if this_day_avg == None:
+      continue
+    elif lowestday_avg == None:
+      lowest_day_avg = this_day_avg
+    elif this_day_avg < lowestday_avg:
       lowestDay = day
       lowestday_avg = average_time_on_day(datapoints,day)
     

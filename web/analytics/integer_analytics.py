@@ -162,7 +162,15 @@ def variance(datapoints):
   return sigma
 
 def standard_deviation(datapoints):
-  return math.sqrt(variance(datapoints))
+  if len(datapoints) == 0:
+    return None
+ 
+  var = variance(datapoints)
+  
+  if var == None:
+    return None
+ 
+  math.sqrt(variance(datapoints))
 
 def median(datapoints):
   if len(datapoints) == 0:
@@ -174,6 +182,9 @@ def median(datapoints):
   return values[len(values)/2]
 
 def mode(datapoints):
+  if len(datapoints) == 0:
+    return None
+
   values = map(DataPoint.get_as_float, datapoints)
   values.sort()
   val_dict = {}
