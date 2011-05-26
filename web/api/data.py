@@ -46,6 +46,7 @@ class EditQueryHandler(webapp.RequestHandler):
 
     if name:
       query.name = name
+      query.normalized_name = Query.normalize_name(name)
     if frequency:
       query.frequency = int(frequency)
     if text:
