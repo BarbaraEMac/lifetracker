@@ -52,14 +52,16 @@ class ManageDataHandler(webapp.RequestHandler):
         <thead>
           <td class='date-cell'>Date</td>
           <td class='text-cell'>Response</td>
+          <td>Delete</td>
         <thead>
         %(rows)s
         <tr class='input-row' id='input-row-%(query_id)s'>
           <td class='date-cell'>Now</td>
           <td class='text-cell'><input type='text' value='value'/></td>
+          <td><a class='new-entry-submit-button' id='new-entry-submit-button-%(query_id)s' href='#'>Submit</a></td>
         </tr>
       </table>
-      <p class='new-entry'><a class='new-entry-button' id='new-entry-button-%(query_id)s' href="#">New entry</a> <a class='new-entry-submit-button' id='new-entry-submit-button-%(query_id)s' href='#'>Submit</a> <a class='import-data-button' href='import?query_id=%(query_id)s'>Import Data</a> <a href='analyze?query_id=%(query_id)s'>Analyze</a></p>
+      <p class='new-entry'><a class='new-entry-button' id='new-entry-button-%(query_id)s' href="#">New entry</a> <a class='import-data-button' href='import?query_id=%(query_id)s'>Import Data</a> <a href='analyze?query_id=%(query_id)s'>Analyze</a></p>
     </div>"""
 
     rows =  ''
@@ -73,8 +75,8 @@ class ManageDataHandler(webapp.RequestHandler):
     return query_template % {'rows': rows, 'name': query.name, 'query_id': query.key()}
 
   def data_point_to_row(self, dp):
-    row_template = """<tr><td>%(date)s</td><td>%(text)s</tr>"""
+    row_template = """<tr><td>%(date)s</td><td>%(text)s</td><td><a id='delete-%(dp_id)s' class='dp-delete-button' href='#'>Delete</a></td></tr>"""
 
     # format a datapoint into a table row
-    return row_template % {'date': dp.timestamp, 'text': dp.text}
+    return row_template % {'date': dp.timestamp, 'text': dp.text, 'dp_id': dp.key()}
 

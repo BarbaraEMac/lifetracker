@@ -100,6 +100,15 @@ class NewDataPointHandler(webapp.RequestHandler):
 
     self.response.out.write('success')
 
+class DeleteDataPointHandler(webapp.RequestHandler):
+  def post(self):
+    dp_id = self.request.get('dp_id')
+
+    dp = db.get(dp_id)
+    dp.delete()
+
+    self.response.out.write('success');
+
 class GetQueriesHandler(webapp.RequestHandler):
   def get(self):
     user_email = self.request.get('user_email')

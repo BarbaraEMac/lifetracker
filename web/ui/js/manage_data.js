@@ -1,4 +1,22 @@
 $(document).ready(function() {
+  $('.dp-delete-button').click(function() {
+    dp_id = $(this).attr('id').substring(7);
+
+    data =  {
+      'dp_id': dp_id,
+    }
+
+    // do some ajax.
+    $.ajax({
+      url: 'data/deletePoint',
+      type: 'POST',
+      data: data,
+      success: function() {
+        window.location.reload(); 
+      }
+    });
+  });
+
   $('.new-entry-button').click(function() {
     query_id = $(this).attr('id').substring(17);
 
@@ -9,9 +27,6 @@ $(document).ready(function() {
     $(new_entry_id).css('display', 'none');
     $(insert_row_id).css('display', 'table-row');   
     $(submit_id).css('display', 'inline');
-   
-    // do this as we send it 
-    //$('.input-row .date-cell').html((new Date).getTime());
   });
 
   $('.new-entry-submit-button').click(function() {

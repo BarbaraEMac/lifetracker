@@ -8,6 +8,7 @@ from api.data import EditQueryHandler
 from api.data import DeleteQueryHandler
 from api.data import GetQueriesHandler
 from api.data import GetDataPointsHandler
+from api.data import DeleteDataPointHandler
 from api.data import ImportCSVHandler
 from api.update_account import UpdateAccountHandler
 from ui.manage_queries import ManageQueriesHandler
@@ -32,6 +33,7 @@ appRoute = webapp.WSGIApplication( [
   ('/data/deleteQuery', DeleteQueryHandler),
   ('/data/queries', GetQueriesHandler),
   ('/data/points', GetDataPointsHandler),
+  ('/data/deletePoint', DeleteDataPointHandler),
   ('/data/import', ImportCSVHandler),
   ('/queries', ManageQueriesHandler),
   ('/data', ManageDataHandler),
