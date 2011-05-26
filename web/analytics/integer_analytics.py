@@ -95,6 +95,8 @@ def covariance_suite(query):
 
 
 def float_str_format(fl):
+  if fl == None:
+    return '0'
   return '%.2f' % (fl)
 
 # we should have a function in here that returns an iterable of the
@@ -104,6 +106,9 @@ def query_range(query):
   return data_range(datapoints)
 
 def data_range(datapoints):
+  if len(datapoints) == 0:
+    return (0,0)
+
   min = int(datapoints[0].text)
   max = int(datapoints[0].text)
 
@@ -116,6 +121,9 @@ def data_range(datapoints):
   return (min, max)
 
 def mapdata_average(mapData):
+  if len(mapData) == 0:
+    return None
+
   sum = 0
   for key in mapData.keys():
     sum += mapData[key]
@@ -127,6 +135,9 @@ def mapdata_average(mapData):
   return average
 
 def data_average(datapoints):
+  if len(datapoints) == 0:
+    return None
+
   sum = 0
   
   for dp in datapoints:
@@ -137,11 +148,14 @@ def data_average(datapoints):
   return average
 
 def variance(datapoints):
+  if len(datapoints) == 0:
+    return None
+
   mu = average(datapoints)
   squaresum = 0
  
   for dp in datapoints:
-    squaresum += (int(dp.text)-mu)*(int(dp.text)-mu)
+    squaresum += (float(dp.text)-mu)*(float(dp.text)-mu)
 
   sigma = float(squaresum)/len(datapoints)
 
@@ -151,6 +165,9 @@ def standard_deviation(datapoints):
   return math.sqrt(variance(datapoints))
 
 def median(datapoints):
+  if len(datapoints) == 0:
+    return None
+
   # sort the values, return the middle. can probably use sorted for this
   values = map(DataPoint.get_as_float, datapoints)
   values.sort()
@@ -188,8 +205,11 @@ def day_avg(datapoints, day):
  
   for dp in datapoints:
     if dp.timestamp.weekday() == day:
-      daySum += int(dp.text)
+      daySum += float(dp.text)
       days += 1
+
+  if days == 0:
+    return None
 
   return float(daySum)/days  
 

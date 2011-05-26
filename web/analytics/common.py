@@ -15,11 +15,14 @@ def query_average(query):
   return average(datapoints)
 
 def average(datapoints):
+  if len(datapoints) == 0:
+    return None
+
   sum = 0
   
   for dp in datapoints:
-    sum += int(dp.text)
+    sum += float(dp.text)
 
-  average = float(sum)/len(datapoints)
+  average = sum/len(datapoints)
 
   return average

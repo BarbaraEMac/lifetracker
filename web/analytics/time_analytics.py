@@ -60,6 +60,9 @@ def timedelta_total_seconds(td):
   return td.seconds + td.days*86400
 
 def average_time(datapoints):
+  if len(datapoints) == 0:
+    return None
+
   # interpret each datapoint as a timedelta
   # then average them
 
@@ -100,6 +103,9 @@ def average_time_on_day(datapoints,day):
     if dp.timestamp.weekday() == day:
       totSeconds += timedelta_total_seconds(string_to_time_delta(dp.text))
       days += 1
+
+  if days == 0:
+    return None
 
   avgSeconds = totSeconds / days
 

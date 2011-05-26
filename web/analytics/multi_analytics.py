@@ -56,8 +56,10 @@ def avg_int_on_sliced_text(aquery, bquery, value):
 def percent_from_avg_int_on_sliced_int(aquery, bquery, value):
   avg = query_average(aquery)
   slicedAvg = avg_int_on_sliced_int(aquery, bquery, value)
+
   if slicedAvg == 0:
-    return 0
+    return None
+
   return (avg/slicedAvg - 1)*100
 
 # hold b constant and we want the cross section of a
@@ -125,6 +127,10 @@ def covariance(int_query_a, int_query_b):
 
   # do the actual covariance
   N = len(adata)
+
+  if N <= 1: # we divide by N-1 just below
+    return None
+
   aAvg = map_data_average(adata)
   bAvg = map_data_average(bdata)
 
@@ -195,6 +201,9 @@ def bucket_to_days(mapData):
 
 
 def map_data_average(mapData):
+  if len(mapData) == 0:
+    return None
+
   sum = 0
   for key in mapData.keys():
     sum += mapData[key]
