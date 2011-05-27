@@ -13,10 +13,11 @@ def nearest_day(timestamp):
   return (timestamp // 86400)*86400
 
 def morning(timestamp):
-  return nearest_day(timestamp) + 10*60*60 # 10 am
+  return nearest_day(timestamp) + 14*60*60 # 10 am in EST, since we get 
+  # times in UTC. yes this is hackey.
 
 def nighttime(timestamp):
-  return nearest_day(timestamp) + 23*60*60 + 59*60 # 23:59
+  return nearest_day(timestamp) + 27*60*60 + 59*60 # 23:59
 
 def is_daytime(now):
   # if it is between 10 am and midnight
