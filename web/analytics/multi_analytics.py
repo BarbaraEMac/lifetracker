@@ -134,7 +134,7 @@ def covariance(int_query_a, int_query_b):
   aAvg = map_data_average(adata)
   bAvg = map_data_average(bdata)
 
-  sum = 0 
+  sum = 0.0
   for i in adata.keys():
     # logging.info('adata[i] = ' + str(adata[i]) + ', bdata[i] = ' + str(bdata[i]))
     sum += (adata[i] - aAvg)*(bdata[i] - bAvg)
@@ -145,7 +145,7 @@ def covariance(int_query_a, int_query_b):
   if N-1 <= 0:
     cov = 0
   else:
-    cov = float(sum)/(N-1)
+    cov = sum/(N-1)
  
   # logging.info('Cov = ' + str(cov))
  
@@ -172,7 +172,7 @@ def symmettrysize(adata, bdata):
 def mapize_int_data(datapoints):
   map = {}
   for dp in datapoints:
-    map[dp.timestamp_as_int()] = int(float(dp.text))
+    map[dp.timestamp_as_int()] = dp.as_float()
   return map
 
 def mapize_data(datapoints):
@@ -204,10 +204,10 @@ def map_data_average(mapData):
   if len(mapData) == 0:
     return None
 
-  sum = 0
+  sum = 0.0
   for key in mapData.keys():
     sum += mapData[key]
 
-  average = float(sum)/len(mapData)
+  average = sum/len(mapData)
 
   return average
