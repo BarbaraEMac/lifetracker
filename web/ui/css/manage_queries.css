@@ -43,29 +43,29 @@ tr#query-input-row {
 }
 
 td.name-cell {
-  min-width: 119px;
+  width: 100px;
 }
 
 td.text-cell {
-  width: 242px;
+  width: 400px;
 }
 
 td.frequency-cell {
-  width: 93px;
+  width: 150px;
 }
 
 td.format-cell {
-  width: 65px;
-}
-
-td.timestamp-cell {
-  width: 248px;
+  width: 150px;
 }
 
 td.action-cell {
-  width: 41px;
+  width: 100px;
 }
 
-.query-delete-confirm-button {
+td.action-cell a {
+  display: block;
+}
+
+td.action-cell a.query-delete-confirm-button, td.action-cell a.query-edit-submit-button {
   display: none;
 }

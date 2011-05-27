@@ -57,7 +57,6 @@ class ManageQueriesHandler(webapp.RequestHandler):
         </select> \
       </td>\
       <td class='format-cell'>%(format)s</td>\
-      <td class='timestamp-cell'>%(lastsentat)s</td>\
       <td class='action-cell'>\
       <a class='query-edit-button' id='edit-%(query_id)s' href='#'>Edit</a>\
       <a class='query-edit-submit-button' id='submit-%(query_id)s' href='#'>Submit</a>\

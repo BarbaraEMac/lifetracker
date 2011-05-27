@@ -26,7 +26,6 @@
         <td class='text-cell'>Text</td>
         <td class='frequency-cell'>Frequency</td>
         <td class='format-cell'>Format</td>
-        <td class='timestamp-cell'>Last Sent At</td>
         <td class='action-cell'>Edit</td>
       </thead>
       <!-- append query entries here -->
@@ -50,10 +49,10 @@
             <option>Time</option>
           </select>
         </td>
-        <td class='timestamp-cell'><input id='user_email' type='hidden' value='%(user_email)s'/></td>
         <td class='action-cell'><a id='new-query-submit' href='#'>Create</a></td>
     </table>
     <p id='new-query-create'><a id='new-query-create-button' href='#'>New Query</a></p>
+    <input id='user_email' type='hidden' value='%(user_email)s'/>
   </div>
 </div>
 
