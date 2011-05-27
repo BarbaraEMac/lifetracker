@@ -1,0 +1,15 @@
+# this script switches the target of appcfg between our test account
+# and our prod account.
+
+#!/bin/bash
+
+if [ "$1" == 'prod' ]; then
+  echo 'Targeting prod'
+  cat app.yaml | sed 's/application: lifetrckr.*$/application: lifetrckr/g' > app.yaml2
+  mv app.yaml2 app.yaml
+else
+  echo 'Targeting dev'
+  cat app.yaml | sed 's/application: lifetrckr.*$/application: lifetrckr-dev/g' > app.yaml2
+  mv app.yaml2 app.yaml
+fi
+
