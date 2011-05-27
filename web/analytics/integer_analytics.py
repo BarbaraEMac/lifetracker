@@ -109,14 +109,14 @@ def data_range(datapoints):
   if len(datapoints) == 0:
     return (0,0)
 
-  min = int(datapoints[0].text)
-  max = int(datapoints[0].text)
+  min = datapoints[0].as_float()
+  max = datapoints[0].as_float()
 
   for dp in datapoints:
-    if int(float(dp.text)) > max:
-      max = int(float(dp.text))
-    if int(float(dp.text)) < min:
-      min = int(float(dp.text))
+    if dp.as_float() > max:
+      max = dp.as_float()
+    if dp.as_float() < min:
+      min = dp.as_float()
 
   return (min, max)
 
@@ -124,13 +124,13 @@ def mapdata_average(mapData):
   if len(mapData) == 0:
     return None
 
-  sum = 0
+  sum = 0.0
   for key in mapData.keys():
     sum += mapData[key]
 
   logging.info('Sum: ' + sum + ' Length: ' + len(mapData))
 
-  average = float(sum)/float(len(mapData))
+  average = sum/len(mapData)
 
   return average
 
@@ -141,9 +141,9 @@ def data_average(datapoints):
   sum = 0
   
   for dp in datapoints:
-    sum += int(dp.text)
+    sum += dp.as_float()
 
-  average = float(sum)/len(datapoints)
+  average = sum/len(datapoints)
 
   return average
 
@@ -155,9 +155,9 @@ def variance(datapoints):
   squaresum = 0
  
   for dp in datapoints:
-    squaresum += (float(dp.text)-mu)*(float(dp.text)-mu)
+    squaresum += (dp.as_float()-mu)*(dp.as_float()-mu)
 
-  sigma = float(squaresum)/len(datapoints)
+  sigma = squaresum/len(datapoints)
 
   return sigma
 
@@ -177,7 +177,7 @@ def median(datapoints):
     return None
 
   # sort the values, return the middle. can probably use sorted for this
-  values = map(DataPoint.get_as_float, datapoints)
+  values = map(DataPoint.as_float, datapoints)
   values.sort()
   return values[len(values)/2]
 
@@ -185,7 +185,7 @@ def mode(datapoints):
   if len(datapoints) == 0:
     return None
 
-  values = map(DataPoint.get_as_float, datapoints)
+  values = map(DataPoint.as_float, datapoints)
   values.sort()
   val_dict = {}
   for val in values:
@@ -216,13 +216,13 @@ def day_avg(datapoints, day):
  
   for dp in datapoints:
     if dp.timestamp.weekday() == day:
-      daySum += float(dp.text)
+      daySum += dp.as_float()
       days += 1
 
   if days == 0:
     return None
 
-  return float(daySum)/days  
+  return daySum/days  
 
 
 

@@ -18,10 +18,10 @@ def average(datapoints):
   if len(datapoints) == 0:
     return None
 
-  sum = 0
+  sum = 0.0
   
   for dp in datapoints:
-    sum += float(dp.text)
+    sum += dp.as_float()
 
   average = sum/len(datapoints)
 

@@ -73,8 +73,7 @@ class DataPoint(db.Model):
   def timestamp_as_int(self):
     return int(self.timestamp.strftime("%s"))
 
-  @staticmethod
-  def get_as_float(dp): # I may be breaking standards here
+  def as_float(dp): # I may be breaking standards here
     # need to surround this with try brackets
     return float(dp.text)
 
