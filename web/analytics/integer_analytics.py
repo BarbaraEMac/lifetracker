@@ -56,7 +56,7 @@ def crosssection_suite(query):
   user = query.user
 
   for q in Query.get_by_user(user):
-    if q.format == 'integer' and q.name != query.name:
+    if q.format == 'number' and q.name != query.name:
       for x in range(query_range(q)[0], query_range(q)[1]):
         avg_name = 'Average when ' + q.name + ' = ' + str(x)
         avg_value = float_str_format(avg_int_on_sliced_int(query, q, x))
@@ -87,7 +87,7 @@ def covariance_suite(query):
   user = query.user 
 
   for q in Query.get_by_user(user):
-    if q.format == 'integer' and q.name != query.name:
+    if q.format == 'number' and q.name != query.name:
       covariance_list.append(
         ('Covariance with ' + q.name, float_str_format(covariance(query,q))))
 

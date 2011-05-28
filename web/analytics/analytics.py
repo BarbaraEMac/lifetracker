@@ -8,7 +8,7 @@ from time_analytics import analyze_time_query_data
 from integer_analytics import analyze_integer_query_data
 
 def analyze_query_data(query):
-  if query.format == 'integer':
+  if query.format == 'number': 
     return analyze_integer_query_data(query)
   elif query.format =='time':
     return analyze_time_query_data(query)
