@@ -26,7 +26,7 @@ class User(db.Model):
 
 class Query(db.Model):
   format = db.StringProperty(required=True, 
-    choices = ('text', 'number', 'time'))
+    choices = ('text', 'integer', 'time'))
   user = db.ReferenceProperty(User)
   # the frequency at which to send the query
   frequency = db.IntegerProperty(required=True)
