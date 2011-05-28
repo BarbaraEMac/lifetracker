@@ -10,6 +10,7 @@ from api.data import GetQueriesHandler
 from api.data import GetDataPointsHandler
 from api.data import DeleteDataPointHandler
 from api.data import ImportCSVHandler
+from api.data import ExportCSVHandler
 from api.update_account import UpdateAccountHandler
 from ui.manage_queries import ManageQueriesHandler
 from ui.manage_data import ManageDataHandler
@@ -17,6 +18,7 @@ from ui.analyze import AnalyzeDataHandler
 from ui.account import AccountHandler
 from ui.home import HomeHandler
 from ui.import_data import ImportDataHandler
+from ui.export_data import ExportDataHandler
 from com.sms import ReceiveSMSHandler
 from com.incoming_mail import EmailResponseHandler
 from com.send_queries import SendQueriesHandler
@@ -35,11 +37,13 @@ appRoute = webapp.WSGIApplication( [
   ('/data/points', GetDataPointsHandler),
   ('/data/deletePoint', DeleteDataPointHandler),
   ('/data/import', ImportCSVHandler),
+  ('/data/export', ExportCSVHandler),
   ('/queries', ManageQueriesHandler),
   ('/data', ManageDataHandler),
   ('/account', AccountHandler),
   ('/account/update', UpdateAccountHandler),
   ('/import', ImportDataHandler),
+  ('/export', ExportDataHandler),
   ('/analyze', AnalyzeDataHandler),
   ('/sms/receive', ReceiveSMSHandler),
   EmailResponseHandler.mapping(),

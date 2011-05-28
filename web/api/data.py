@@ -142,6 +142,25 @@ class GetDataPointsHandler(webapp.RequestHandler):
 
     self.response.out.write(json.dumps(datapoints))
 
+class ExportCSVHandler(webapp.RequestHandler):
+  def get(self):
+    user_email = self.request.get('user_email')
+    query_id = self.request.get('query_id')
+
+    query = Query.get_by_id(query_id)
+
+    datapoints = DataPoint.get_by_query(query)
+    
+    csv_data = ''
+    
+    for dp in datapoints:
+      csv_data += self.dp_to_csv(dp)
+
+    self.response.out.write(csv_data)
+
+  def dp_to_csv(self, dp):
+    return '%s,%s\n' % (dp.timestamp.strftime('%s'), dp.text)
+  
 class ImportCSVHandler(webapp.RequestHandler):
   def post(self):
     user_email = self.request.get('user_email')

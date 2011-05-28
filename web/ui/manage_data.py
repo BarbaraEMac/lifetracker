@@ -61,7 +61,7 @@ class ManageDataHandler(webapp.RequestHandler):
           <td><a class='new-entry-submit-button' id='new-entry-submit-button-%(query_id)s' href='#'>Submit</a></td>
         </tr>
       </table>
-      <p class='new-entry'><a class='new-entry-button' id='new-entry-button-%(query_id)s' href="#">New entry</a> <a class='import-data-button' href='import?query_id=%(query_id)s'>Import Data</a> <a href='analyze?query_id=%(query_id)s'>Analyze</a></p>
+      <p class='new-entry'><a class='new-entry-button' id='new-entry-button-%(query_id)s' href="#">New entry</a> <a class='import-data-button' href='import?query_id=%(query_id)s'>Import Data</a> <a class='export-data-button' href='export?query_id=%(query_id)s'>Export Data</a> <a href='analyze?query_id=%(query_id)s'>Analyze</a></p>
     </div>"""
 
     rows =  ''
