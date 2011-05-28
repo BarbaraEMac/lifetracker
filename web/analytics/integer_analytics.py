@@ -170,7 +170,7 @@ def standard_deviation(datapoints):
   if var == None:
     return None
  
-  math.sqrt(variance(datapoints))
+  return math.sqrt(var)
 
 def median(datapoints):
   if len(datapoints) == 0:
