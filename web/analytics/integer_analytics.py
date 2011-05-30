@@ -6,7 +6,7 @@ from model import User, Query, DataPoint
 from common import weekdays, query_average, average
 
 from text_analytics import common_words
-from multi_analytics import covariance, avg_int_on_sliced_int, percent_from_avg_int_on_sliced_int, avg_int_on_sliced_text
+from multi_analytics import covariance, avg_int_on_sliced_int, percent_from_avg_int_on_sliced_int, avg_int_on_sliced_text, correlation_coefficient
 
 def analyze_integer_query_data(query):
   datapoints = DataPoint.get_by_query(query)
@@ -18,6 +18,8 @@ def analyze_integer_query_data(query):
   analytic_list.extend(daily_suite(datapoints))
 
   analytic_list.extend(covariance_suite(query))
+
+  analytic_list.extend(correlation_suite(query))
 
   analytic_list.extend(crosssection_suite(query ))
 
@@ -92,6 +94,17 @@ def covariance_suite(query):
         ('Covariance with ' + q.name, float_str_format(covariance(query,q))))
 
   return covariance_list
+
+def correlation_suite(query):
+  correlation_list = []
+  user = query.user 
+
+  for q in Query.get_by_user(user):
+    if q.format == 'number' and q.name != query.name:
+      correlation_list.append(
+        ('Correlation with ' + q.name, float_str_format(correlation_coefficient(query,q))))
+
+  return correlation_list
 
 
 def float_str_format(fl):

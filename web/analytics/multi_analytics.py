@@ -1,4 +1,4 @@
-import logging
+import logging, math
 
 from model import User, Query, DataPoint
 
@@ -94,6 +94,25 @@ def avg_int_on_sliced_int(aquery, bquery, value):
 
   # return it
   return avg
+
+# the covariance divided by the product of the standard deviations
+def correlation_coefficient(aquery, bquery):
+  cov = covariance(aquery, bquery)
+  
+  adatapoints = DataPoint.get_by_query(aquery)
+  bdatapoints = DataPoint.get_by_query(bquery)
+
+  sdA = standard_deviation(adatapoints)
+  sdB = standard_deviation(bdatapoints)
+
+  cc = cov / (sdA * sdB)
+
+  return cc
+
+def sum_squared_diff_avg(datapoints):
+  # get the average
+    
+  return 0
 
 
 # this is imperfect, it doesn't completely match up with Variance, 
@@ -211,3 +230,28 @@ def map_data_average(mapData):
   average = sum/len(mapData)
 
   return average
+
+def variance(datapoints):
+  if len(datapoints) == 0:
+    return None
+
+  mu = average(datapoints)
+  squaresum = 0
+ 
+  for dp in datapoints:
+    squaresum += (dp.as_float()-mu)*(dp.as_float()-mu)
+
+  sigma = squaresum/len(datapoints)
+
+  return sigma
+
+def standard_deviation(datapoints):
+  if len(datapoints) == 0:
+    return None
+ 
+  var = variance(datapoints)
+  
+  if var == None:
+    return None
+ 
+  return math.sqrt(var)
