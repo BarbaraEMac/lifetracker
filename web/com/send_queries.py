@@ -27,7 +27,7 @@ def send_by_email(query):
   message.send()
 
 def send_query_by_sms(query):
-  text = query.text + ' Please reply "query-name: value"'
+  text = query.text + ' Please reply ' + query.name + ': value"'
   send_sms(query.user.phone, text)  
 
 def send_query(query):
