@@ -105,6 +105,9 @@ def correlation_coefficient(aquery, bquery):
   sdA = standard_deviation(adatapoints)
   sdB = standard_deviation(bdatapoints)
 
+  if sdA is None or sdB is None:
+    return None
+  
   cc = cov / (sdA * sdB)
 
   return cc

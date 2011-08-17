@@ -75,5 +75,12 @@ class DataPoint(db.Model):
 
   def as_float(dp): # I may be breaking standards here
     # need to surround this with try brackets
-    return float(dp.text)
+    text_float = ''
+
+    try:
+      text_float = float(dp.text)
+    except ValueError:
+      text_float = 0.0
+    
+    return text_float
 
