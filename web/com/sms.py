@@ -70,6 +70,8 @@ class ReceiveSMSHandler(webapp.RequestHandler):
 
     dp.put()
 
+    query.refresh()
+
     logging.info('Received datapoint ' + query_name + ': ' + value + '\n')
 
     self.response.out.write('<Response><Sms>Got it!</Sms></Response>')

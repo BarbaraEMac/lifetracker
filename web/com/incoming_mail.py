@@ -38,3 +38,5 @@ class EmailResponseHandler(InboundMailHandler):
       timestamp = timestamp)
       
     dp.put()
+
+    query.refresh()

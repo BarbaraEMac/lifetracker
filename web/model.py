@@ -4,6 +4,8 @@ from google.appengine.api import users
 from datetime import datetime
 from datetime import timedelta
 
+import logging
+
 class User(db.Model):
   google_user = db.UserProperty()
   first_name = db.StringProperty()
@@ -56,6 +58,11 @@ class Query(db.Model):
     if datetime.now() > self.lastSentAt + timedelta(minutes=self.frequency):
       return True
     return False
+
+  def refresh(self):
+    logging.info("Refreshing query: " + self.name)
+    self.lastSentAt = datetime.now()
+    self.put()
     
 
 class DataPoint(db.Model):
