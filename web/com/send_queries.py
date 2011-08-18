@@ -42,16 +42,13 @@ def send_query(query):
 # it will be a problem if this takes a long time
 class SendQueriesHandler(webapp.RequestHandler):
   def get(self):
-    self.response.out.write("Cronning this fucker!")
+    users = User.all().fetch(1000)
 
-    queries = Query.all().fetch(1000)
-
-    for query in queries:
-      # only send when people are awake
-      now = int(datetime.now().strftime('%s'))
-      if query.is_stale() and is_daytime(now):
-        print query.name + " is stale"
-        send_query(query)
-        return
-
+    for user in users:
+      queries = Query.get_by_user(user)
+      for query in queries:
+        now = int(datetime.now().strftime('%s'))
+        if query.is_stale() and is_daytime(now):
+          send_query(query)
+          break # only send one query per user every interval
 
