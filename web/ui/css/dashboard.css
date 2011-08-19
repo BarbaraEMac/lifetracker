@@ -1,0 +1,194 @@
+.metric {
+  background-color: white;
+  border: 1px solid;
+  border-radius: 5px;
+  width: 900px;
+  height: 100px;
+  margin-bottom: 33px;
+}
+
+div.metric-name-container {
+  float: left;
+  display: inline;
+  width: 300px;
+  height: 100px;
+}
+
+h3.metric-name {
+  font-size: 24pt;
+  text-align: center;
+  margin-top: 30px;
+  margin-left: auto;
+}
+
+div.metric-snapshot {
+  float: left;
+  display: inline;
+  width: 300px;
+  height: 100px;
+}
+
+div.metric-snapshot p {
+  font-size: larger;
+  text-align: center;
+  margin-top: 20px;
+}
+
+div.metric-options {
+  float: right;
+  display: inline;
+  width: 294px;
+  height: 100px;
+}
+
+div.metric-options a {
+  margin-top: 6px;
+  display: block;
+  text-align: center;
+}
+
+div.metric-options a.query-delete-confirm-button {
+  display: none;
+}
+
+/* rules for editing metrics */
+div.metric .edit-field {
+  display: none;
+}
+
+div.metric.editing .edit-field {
+  display: block;
+}
+
+div.metric .edit-frequency {
+  width: 107px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+div.metric input.edit-name {
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 24pt;
+  margin-top: 30px;
+  text-align: center;
+}
+
+div.edit-text-container {
+  width: 100%;
+}
+
+div.edit-text-container p, div.new-text-container p{
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  font-size: larger;
+}
+
+input.edit-text {
+  width: 700px;
+  font-size: 18pt;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+div.metric a.query-edit-submit-button {
+  display: none;
+}
+
+div.metric.editing h3.metric-name, div.metric.editing p.overview-metric, 
+div.metric.editing a.query-edit-button {
+  display: none;
+}
+
+div.metric.editing a.query-edit-submit-button, div.metric.editing div.edit-text-container {
+  display: block;
+}
+
+/* rules for the new-metric box */
+div#new-query-container {
+  height: 100px;
+  width: 900px;
+  display: block;
+  border-radius: 5px;
+}
+
+div#new-query-inputs {
+  display: none;
+}
+
+div#new-query-container.inputs-active #new-query-inputs {
+  display: block;
+  height: 170px;
+  background-color: white;
+  border: 1px solid;
+  border-radius: 5px;
+  margin-bottom: 33px;
+}
+
+div#new-query-container.inputs-active #new-query-create-button {
+  display: none;
+}
+
+div#new-query-container #new-query-create-button {
+  text-align: right;
+}
+
+div#new-query-inputs {
+  display: none;
+}
+
+div#new-query-container.inputs-active #new-query-name-input {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 95%;
+  font-size: 24pt;
+  margin-top: 30px;
+  text-align: center;
+}
+
+/* rules for the analytics-dropdown */
+img.analytics-loading {
+  display: none;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 89px;
+}
+
+div.analyzing img.analytics-loading {
+  display: block; 
+}
+
+div.analyzing.analytics-loaded img.analytics-loading {
+  display: none;
+}
+
+div.metric div.analytics-container {
+  display: none;
+  margin-top: 100px;
+  border-top: 1px solid;
+  overflow: hidden;
+}
+
+div.metric.analyzing div.analytics-container {
+  display: block;
+  height: 400px;
+  width: 100%;
+}
+
+div.metric div.analytics-container h2 {
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+div.metric table.analytics-table {
+  margin-top: 10px;
+  width: 50%;
+}
+
+div.metric table.analytics-table td {
+  border: none;
+}

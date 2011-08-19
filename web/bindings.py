@@ -8,13 +8,15 @@ from api.data import EditQueryHandler
 from api.data import DeleteQueryHandler
 from api.data import GetQueriesHandler
 from api.data import GetDataPointsHandler
+from api.data import GetDataPointsForQueryHandler
 from api.data import DeleteDataPointHandler
 from api.data import ImportCSVHandler
 from api.data import ExportCSVHandler
 from api.update_account import UpdateAccountHandler
-from ui.manage_queries import ManageQueriesHandler
+from ui.dashboard import DashboardHandler
 from ui.manage_data import ManageDataHandler
 from ui.analyze import AnalyzeDataHandler
+from ui.analyze import AnalyzeDataJSONHandler
 from ui.account import AccountHandler
 from ui.home import HomeHandler
 from ui.import_data import ImportDataHandler
@@ -35,16 +37,18 @@ appRoute = webapp.WSGIApplication( [
   ('/data/deleteQuery', DeleteQueryHandler),
   ('/data/queries', GetQueriesHandler),
   ('/data/points', GetDataPointsHandler),
+  ('/data/pointsForQuery', GetDataPointsForQueryHandler),
   ('/data/deletePoint', DeleteDataPointHandler),
   ('/data/import', ImportCSVHandler),
   ('/data/export', ExportCSVHandler),
-  ('/queries', ManageQueriesHandler),
+  ('/dashboard', DashboardHandler),
   ('/data', ManageDataHandler),
   ('/account', AccountHandler),
   ('/account/update', UpdateAccountHandler),
   ('/import', ImportDataHandler),
   ('/export', ExportDataHandler),
   ('/analyze', AnalyzeDataHandler),
+  ('/analyzeJSON', AnalyzeDataJSONHandler),
   ('/sms/receive', ReceiveSMSHandler),
   EmailResponseHandler.mapping(),
 ], debug=True)

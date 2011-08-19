@@ -3,6 +3,10 @@ from datetime import datetime, timedelta
 
 from model import User, Query, DataPoint
 
+def text_overview(query):
+  datapoints = DataPoint.get_by_query(query)
+  return 'Common Words: ' + common_words(datapoints)
+
 def analyze_text_query_data(query):
   datapoints = DataPoint.get_by_query(query)
   analytic_list = []

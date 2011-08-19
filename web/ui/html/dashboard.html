@@ -1,0 +1,62 @@
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="css/reset.css"/>
+  <link rel="stylesheet" type="text/css" href="css/lt-common.css"/>
+  <link rel="stylesheet" type="text/css" href="css/dashboard.css"/>
+  
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="text/javascript"></script>
+  <script src="js/dashboard.js"></script>
+</head>
+<body>
+
+<div id="lt-base">
+  <div id="header">
+    <h1>Dashboard</h1>
+    <a href="data">Manage Data</a>  
+    <a href="dashboard">Dashboard</a>
+    <a href="account">Account</a>
+    <a href="%(logout_url)s"/>Logout</a>
+  </div>
+
+  <div id="query-list">
+    %(queries)s
+    <input id='user_email' type='hidden' value='%(user_email)s'/>
+    <div id='new-query-container'>
+      <a id='new-query-create-button' href='#'>New Query</a>
+      <div id='new-query-inputs'>
+        <div class='metric-name-container'>
+        <input type='text' id='new-query-name-input' class='edit-field edit-name' value='Query Name'/>
+        </div>
+        <div class='metric-snapshot'>
+          <p>Frequency: 
+            <select id='new-query-frequency-input' class='new-frequency'>
+              <option id='freq-1440'>Every Day</option>           
+              <option id='freq-360'>Every 6 Hours</option>           
+              <option id='freq-180'>Every 3 Hours</option>           
+              <option id='freq-60'>Every Hour</option>           
+              <option id='freq-1'>Every Minute</option>         
+            </select>
+          </p>
+          <p>Format:
+            <select id='new-query-format-input' class='new-format'>
+              <option id='number'>Number</option>
+              <option id='text'>Text</option>
+              <option id='time'>Time</option>
+            </select>
+          </p>
+        </div>
+        <div class='metric-options'>
+          <a id='new-query-submit' href='#'>Create</a>
+        </div>
+        <div class='new-text-container'>
+          <p>Query Text:
+            <input type='text' id='new-query-text-input' class='edit-text' value='Query Text'/>
+        </div>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+

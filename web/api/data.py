@@ -108,7 +108,7 @@ class DeleteDataPointHandler(webapp.RequestHandler):
     dp = db.get(dp_id)
     dp.delete()
 
-    self.response.out.write('success');
+    self.response.out.write('success')
 
 class GetQueriesHandler(webapp.RequestHandler):
   def get(self):
@@ -141,6 +141,23 @@ class GetDataPointsHandler(webapp.RequestHandler):
         datapoints.append(datapoint.get_as_dict())
 
     self.response.out.write(json.dumps(datapoints))
+
+class GetDataPointsForQueryHandler(webapp.RequestHandler):
+  def get(self):
+    user_email = self.request.get('user_email')
+    query_id = self.request.get('query_id')
+
+    user = User.get_by_email(user_email)
+    query = db.get(query_id) #hmmm
+
+    datapoints = []
+
+    for datapoint in DataPoint.get_by_query(query):
+      datapoints.append(datapoint.get_as_dict())
+
+    self.response.out.write(json.dumps(datapoints))
+    
+
 
 class ExportCSVHandler(webapp.RequestHandler):
   def get(self):

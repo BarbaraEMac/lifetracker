@@ -74,6 +74,10 @@ class DataPoint(db.Model):
   def get_by_query(query, quantity=1000):
     return DataPoint.all().filter('query = ', query).order('timestamp').fetch(1000)
 
+  @staticmethod
+  def get_by_query_most_recent(query):
+    return DataPoint.all().filter('query = ', query).order('timestamp').fetch(1)
+    
   def get_as_dict(self):
     return {'text': self.text, 'query': str(self.query.key()), 'timestamp': self.timestamp_as_int()}
 

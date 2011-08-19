@@ -8,6 +8,10 @@ from common import weekdays, query_average, average
 from text_analytics import common_words
 from multi_analytics import covariance, avg_int_on_sliced_int, percent_from_avg_int_on_sliced_int, avg_int_on_sliced_text, correlation_coefficient
 
+def integer_overview(query):
+  datapoints = DataPoint.get_by_query(query)
+  return 'Average: ' + float_str_format(average(datapoints))
+
 def analyze_integer_query_data(query):
   datapoints = DataPoint.get_by_query(query)
 

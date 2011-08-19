@@ -5,6 +5,10 @@ from model import User, Query, DataPoint
 
 from common import weekdays
 
+def time_overview(query):
+  datapoints = DataPoint.get_by_query(query)
+  return 'Average Time: ' + str(average_time(datapoints))
+ 
 def analyze_time_query_data(query):
   datapoints = DataPoint.get_by_query(query)
   analytic_list = []
