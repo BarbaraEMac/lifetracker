@@ -41,12 +41,11 @@ def daily_suite(datapoints):
 
 def string_to_time_delta(string):
   # assume every dp is x:y
-  hours = int(string[ : string.find(':') ])
-  minutes = int(string[string.find(':') + 1 : ])
-
-  if hours == '':
+  try: 
+    hours = int(string[ : string.find(':') ])
+    minutes = int(string[string.find(':') + 1 : ])
+  except ValueError:
     hours = 0
-  if minutes == '':
     minutes = 0
 
   # here we're assuming if a time is before 6, it is pm. 
@@ -54,7 +53,7 @@ def string_to_time_delta(string):
   if hours < 6:
     hours +=12
 
-  return timedelta(hours=int(hours), minutes=int(minutes))
+  return timedelta(hours=hours, minutes=minutes)
 
 def timedelta_total_seconds(td):
   return td.seconds + td.days*86400
