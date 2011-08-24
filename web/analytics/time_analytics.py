@@ -22,7 +22,7 @@ def analyze_time_query_data(query):
 def basic_suite(datapoints):
   basic_list = []
 
-  basic_list.append(('Average Time', average_time(datapoints)))
+  basic_list.append(('Average Time', str(average_time(datapoints))))
   
   return basic_list
 
@@ -32,13 +32,13 @@ def daily_suite(datapoints):
   daily_list.extend([
     ('Peaks on Day', highest_day_average_time(datapoints)),
     ('Lowest on Day', lowest_day_average_time(datapoints)),
-    ('Average Time on Monday', average_time_on_day(datapoints,0)),
-    ('Average Time on Tuesday', average_time_on_day(datapoints,1)),
-    ('Average Time on Wednesday', average_time_on_day(datapoints,2)),
-    ('Average Time on Thursday', average_time_on_day(datapoints,3)),
-    ('Average Time on Friday', average_time_on_day(datapoints,4)),
-    ('Average Time on Saturday', average_time_on_day(datapoints,5)),
-    ('Average Time on Sunday', average_time_on_day(datapoints,6)),
+    ('Average Time on Monday', str(average_time_on_day(datapoints,0))),
+    ('Average Time on Tuesday', str(average_time_on_day(datapoints,1))),
+    ('Average Time on Wednesday', str(average_time_on_day(datapoints,2))),
+    ('Average Time on Thursday', str(average_time_on_day(datapoints,3))),
+    ('Average Time on Friday', str(average_time_on_day(datapoints,4))),
+    ('Average Time on Saturday', str(average_time_on_day(datapoints,5))),
+    ('Average Time on Sunday', str(average_time_on_day(datapoints,6))),
   ])
     
   return daily_list
@@ -75,7 +75,7 @@ def average_time(datapoints):
 
   avgSeconds = totSeconds / len(datapoints)
 
-  return timedelta(seconds=avgSeconds)
+  return str(timedelta(seconds=avgSeconds))
 
 def highest_day_average_time(datapoints):
   highestDay = 0
