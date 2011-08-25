@@ -22,8 +22,7 @@ class DashboardHandler(webapp.RequestHandler):
           email=google_user.email()
         )
 
-        user.put()
-     
+        user.put() 
  
       logout_url = users.create_logout_url(self.request.uri)
 
@@ -42,8 +41,9 @@ class DashboardHandler(webapp.RequestHandler):
   def query_to_table_row(self, query):
     metric_html = \
     """<div id='metric-%(query_id)s' class='metric'>
+      <input type='hidden' id='metric-%(query_id)s-type' value='%(format)s'/>
       <div class='metric-name-container'>
-        <h3 class='metric-name'>%(name)s</h3>
+        <h3 id='metric-%(query_id)s-name' class='metric-name'>%(name)s</h3>
         <input type='text' value='%(name)s' id='edit-name-%(query_id)s' class='edit-field edit-name'/>
       </div>
       <div class='metric-snapshot'>
@@ -73,9 +73,13 @@ class DashboardHandler(webapp.RequestHandler):
         <input id='edit-text-%(query_id)s' class='edit-field edit-text' type='text' value='%(text)s'/>
       </div>
       <div id='analytics-container-%(query_id)s' class='analytics-container'>
-        <h2>Analytics</h2>
-        <img class='analytics-loading' src='images/loading.gif'/>
-        <table id='analytics-%(query_id)s' class='analytics-table'></table>
+        <div id='numeric-analytics-container-%(query_id)s' class='numeric-analytics'>
+          <img class='analytics-loading' src='images/loading.gif'/>
+          <table id='analytics-%(query_id)s' class='analytics-table'></table>
+        </div>
+        <div id='chart-%(query_id)s' class='chart'>
+          <img class='chart-loading' src='images/loading.gif'/>
+        </div>
       </div>
     </div>
 """

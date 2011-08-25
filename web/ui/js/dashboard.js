@@ -184,30 +184,126 @@ $(document).ready(function() {
       return
     }
 
-    // otherwise, we need to load the anlytics asynchronously
 
-    // ajax to /analyze
-    params = {
-      'query_id': query_id,
-    };
+    
+    if(!$(metric_id).hasClass('analytics-loaded')) {
+      params = {
+        'query_id': query_id,
+      };
 
-    $.ajax({
-      url: 'analyzeJSON',
-      type: 'GET',
-      data: params,
-      success: function(response) {
-        data = eval(response);
+      $.ajax({
+        url: 'analyzeJSON',
+        type: 'GET',
+        data: params,
+        success: function(response) {
+          data = eval(response);
 
-        for (index in data) {
-          row = "<tr><td>" + data[index][0] + "</td><td>" + data[index][1] + "</td></tr>";
-          $(analytics).append(row);
-          if (index > 7) break; // only show the top seven for now.
-        }        
-   
-        // mark the metric has having its analytics in place so we
-        // don't reload them the next time we click 
-        $(metric_id).addClass('analytics-loaded');
-      },
-    });
+          for (index in data) {
+            row = "<tr><td>" + data[index][0] + "</td><td>" + data[index][1] + "</td></tr>";
+            $(analytics).append(row);
+            if (index > 7) break; // only show the top seven for now.
+          }        
+     
+          // mark the metric has having its analytics in place so we
+          // don't reload them the next time we click 
+          $(metric_id).addClass('analytics-loaded');
+        },
+      });
+    }
+
+    if(!$(metric_id).hasClass('chart-loaded')) {
+      // TODO: 
+      // number: line-chart DONE
+      // time: line-chart DONE
+      // text: bar-graph of incidences of the most frequent words
+
+      // ajax to /data/pointsForQuery to get all the points
+      // parse them into the format google wants
+      // do the google-charty stuff
+
+      chart_div = 'chart-' + query_id;
+
+      // get the type of the metric
+      metric_type_id = metric_id + '-type';
+      type = $(metric_type_id).val();
+
+      // get the name of the metric
+      metric_name_id = metric_id + '-name';
+      metric_name = $(metric_name_id).html();
+
+      if (type == 'text') {
+        $.ajax({
+          url: 'analyze/text/wordFrequencies',
+          type: 'GET',
+          data: params,
+          success: function(response) {
+            $(metric_id).addClass('chart-loaded');
+
+            data = eval(response)[0];
+
+            // there's gotta be a better way to do this
+            // JSON is serializing as an object, not an associative array
+            data_length = 0;
+            for (key in data) {
+              data_length++;
+            }
+
+            var chart_data = new google.visualization.DataTable();
+            chart_data.addColumn('string', 'word');
+            chart_data.addColumn('number', metric_name);
+
+            chart_data.addRows(data_length);
+
+            i = 0;
+            for (key in data) {
+              chart_data.setValue(parseInt(i), 0, key); 
+              chart_data.setValue(parseInt(i), 1, data[key]);           
+              i++;
+            }
+            
+            var chart = new google.visualization.BarChart(
+              document.getElementById(chart_div));
+
+            chart.draw(chart_data, {
+              width: 440, 
+              height: 390, 
+              vAxis: {'title': 'Word', 'titleTextStyle': {'color': 'red', 'fontSize': 14}},
+              hAxis: {'title': 'Occurrences', 'titleTextStyle': {'color': 'red', 'fontSize': 14}},
+            });
+          },
+        });
+      } else if (type == 'number' || type == 'time') {
+        $.ajax({
+          url: 'data/pointsForQuery',
+          type: 'GET',
+          data: params,
+          success: function(response) {
+            $(metric_id).addClass('chart-loaded');
+
+            data = eval(response);
+
+            var chart_data = new google.visualization.DataTable();
+            chart_data.addColumn('string', 'index');
+            chart_data.addColumn('number', metric_name);
+
+            chart_data.addRows(data.length);
+
+            for (i in data) {
+              chart_data.setValue(parseInt(i), 0, (i).toString()); 
+              chart_data.setValue(parseInt(i), 1, parseInt(data[i]['text']));           }
+            
+            var chart = new google.visualization.LineChart(
+              document.getElementById(chart_div));
+
+            chart.draw(chart_data, {
+              width: 440, 
+              height: 390, 
+              hAxis: {'title': 'Time', 'titleTextStyle': {'color': 'red', 'fontSize': 14}},
+            });
+          },
+        });
+      }
+    }
+
   });
 });

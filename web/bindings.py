@@ -17,6 +17,7 @@ from ui.dashboard import DashboardHandler
 from ui.manage_data import ManageDataHandler
 from ui.analyze import AnalyzeDataHandler
 from ui.analyze import AnalyzeDataJSONHandler
+from ui.analyze import TextMetricWordFrequencies
 from ui.account import AccountHandler
 from ui.home import HomeHandler
 from ui.import_data import ImportDataHandler
@@ -49,6 +50,7 @@ appRoute = webapp.WSGIApplication( [
   ('/export', ExportDataHandler),
   ('/analyze', AnalyzeDataHandler),
   ('/analyzeJSON', AnalyzeDataJSONHandler),
+  ('/analyze/text/wordFrequencies', TextMetricWordFrequencies),
   ('/sms/receive', ReceiveSMSHandler),
   EmailResponseHandler.mapping(),
 ], debug=True)

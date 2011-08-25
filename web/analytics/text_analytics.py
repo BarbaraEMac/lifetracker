@@ -22,7 +22,8 @@ def basic_suite(datapoints):
   
   return basic_list
 
-# we can probably map reduce this shit
+# TODO: DRY
+
 def common_words(datapoints):
   word_counter = {}
 
@@ -52,3 +53,29 @@ def common_words(datapoints):
     top_three += ', ' + popular[2]
 
   return top_three
+
+
+def common_word_frequencies(datapoints):
+  word_counter = {}
+
+  # foreach datapoint
+    # tokenize the text
+    # add each word into word_counter
+  for dp in datapoints:
+    words = dp.text.split()
+    for word in words:
+      logging.info('Word: ' + word)
+      if word in word_counter:
+        word_counter[word] = word_counter[word] + 1
+      else:
+        word_counter[word] = 1
+  
+  # find the three highest word counts in word_counter
+  popular = sorted(word_counter, key = word_counter.get, reverse = True)
+
+  frequencies = {}
+  
+  for x in range(0, min(3, len(popular))):
+    frequencies[popular[x]] = word_counter[popular[x]]
+  
+  return frequencies
