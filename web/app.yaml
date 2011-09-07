@@ -18,6 +18,9 @@ handlers:
 - url: /js
   static_dir: ui/js
 
+- url: /fonts
+  static_dir: ui/fonts
+
 - url: .*
   script: bindings.py
 

@@ -15,7 +15,7 @@ div.metric-name-container {
 }
 
 h3.metric-name {
-  font-size: 24pt;
+  font-size: 30pt;
   text-align: center;
   margin-top: 30px;
   margin-left: auto;
@@ -42,7 +42,8 @@ div.metric-options {
 }
 
 div.metric-options a {
-  margin-top: 6px;
+  font-size: 14pt;
+  margin-top: 5px;
   display: block;
   text-align: center;
 }
@@ -133,6 +134,7 @@ div#new-query-container.inputs-active #new-query-create-button {
 }
 
 div#new-query-container #new-query-create-button {
+  font-size: 24pt;
   text-align: right;
 }
 
