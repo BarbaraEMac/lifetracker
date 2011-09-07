@@ -5,6 +5,6 @@ whitelist = [
   'gareth.macleod.test@gmail.com',
   'test@example.com',
   'annbgomez@gmail.com',
-  'henry.jibs@gmail.com',
+  'henrys.jibs@gmail.com',
   'calum.mcculloch@gmail.com',
  ]
