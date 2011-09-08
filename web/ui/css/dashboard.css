@@ -109,47 +109,39 @@ div.metric.editing a.query-edit-submit-button, div.metric.editing div.edit-text-
 }
 
 /* rules for the new-metric box */
-div#new-query-container {
+div#new-metric-container {
   height: 100px;
   width: 900px;
   display: block;
   border-radius: 5px;
 }
 
-div#new-query-inputs {
-  display: none;
-}
-
-div#new-query-container.inputs-active #new-query-inputs {
-  display: block;
-  height: 170px;
-  background-color: white;
+div#new-metric-container.active {
+  background: white;
   border: 1px solid;
+}
+
+#new-query-create-button {
+  font-size: 24pt;
+}
+
+#lt-new-metric-prompt {
+  width: 900px;
+  height: 100px;
+  text-align: left;
+  padding-left: 100px;
   border-radius: 5px;
-  margin-bottom: 33px;
-}
-
-div#new-query-container.inputs-active #new-query-create-button {
-  display: none;
-}
-
-div#new-query-container #new-query-create-button {
   font-size: 24pt;
-  text-align: right;
-}
-
-div#new-query-inputs {
+  font-family: 'Ostrich-Black';
   display: none;
 }
 
-div#new-query-container.inputs-active #new-query-name-input {
+div#new-metric-container.active #lt-new-metric-prompt {
   display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 95%;
-  font-size: 24pt;
-  margin-top: 30px;
-  text-align: center;
+}
+
+div#new-metric-container.active #new-query-create-button {
+  display: none;
 }
 
 /* rules for the analytics-dropdown */

@@ -1,7 +1,7 @@
 from google.appengine.ext import webapp
 from google.appengine.api import users
 
-from model import User, Query, DataPoint
+from model import User, Query, DataPoint, TemplateMetric
 
 from analytics.analytics import overview
 from constants import whitelist
@@ -34,7 +34,7 @@ class DashboardHandler(webapp.RequestHandler):
       html = html_file.read()
 
       # generate the query table
-      html = html % {'queries': self.generate_query_table(user), 'logout_url': logout_url, 'user_email': user.email}
+      html = html % {'queries': self.generate_query_table(user), 'logout_url': logout_url, 'user_email': user.email, 'template_metrics': TemplateMetric.json_list()}
 
       self.response.out.write(html)
 

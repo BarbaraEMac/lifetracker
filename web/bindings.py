@@ -12,6 +12,8 @@ from api.data import GetDataPointsForQueryHandler
 from api.data import DeleteDataPointHandler
 from api.data import ImportCSVHandler
 from api.data import ExportCSVHandler
+from api.data import FirstTimeUserHandler
+from api.data import LoginURLGetterHandler
 from api.update_account import UpdateAccountHandler
 from ui.dashboard import DashboardHandler
 from ui.manage_data import ManageDataHandler
@@ -25,9 +27,9 @@ from ui.export_data import ExportDataHandler
 from com.sms import ReceiveSMSHandler
 from com.incoming_mail import EmailResponseHandler
 from com.send_queries import SendQueriesHandler
+from scripts.init_templates import InitTemplatesHandler
 
 from model import User, Query, DataPoint
-
 
 appRoute = webapp.WSGIApplication( [
   ('/', HomeHandler),
@@ -46,12 +48,15 @@ appRoute = webapp.WSGIApplication( [
   ('/data', ManageDataHandler),
   ('/account', AccountHandler),
   ('/account/update', UpdateAccountHandler),
+  ('/firstTimeUser', FirstTimeUserHandler),
   ('/import', ImportDataHandler),
   ('/export', ExportDataHandler),
   ('/analyze', AnalyzeDataHandler),
   ('/analyzeJSON', AnalyzeDataJSONHandler),
   ('/analyze/text/wordFrequencies', TextMetricWordFrequencies),
   ('/sms/receive', ReceiveSMSHandler),
+  ('/scripts/init_templates', InitTemplatesHandler),
+  ('/loginURL', LoginURLGetterHandler),
   EmailResponseHandler.mapping(),
 ], debug=True)
 

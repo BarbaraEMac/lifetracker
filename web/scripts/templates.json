@@ -1,0 +1,182 @@
+[
+  {
+    "name": "Running",
+    "text": "How far did you run yesterday?",
+    "frequency": 1440,
+    "format": "number"
+  },
+  {
+    "name": "Biking",
+    "text": "How far did you bike yesterday?",
+    "frequency": 1440,
+    "format": "number"
+  },
+  {
+    "name": "Gym",
+    "text": "Did you go to the gym yesterday?",
+    "frequency": 1440,
+    "format": "text"
+  },
+  {
+    "name": "Breakfast",
+    "text": "What did you have for breakfast this morning?",
+    "frequency": 1440,
+    "format": "text"
+  },
+  {
+    "name": "Lunch",
+    "text": "What did you have for lunch this afternoon?",
+    "frequency": 1440,
+    "format": "text"
+  },
+  {
+    "name": "Dinner",
+    "text": "What did you have for dinner this evening?",
+    "frequency": 1440,
+    "format": "number"
+  },
+  {
+    "name": "Calories",
+    "text": "How many calories did you eat yesterday?",
+    "frequency": 1440,
+    "format": "number"
+  },
+  {
+    "name": "BMI",
+    "text": "What is your BMI today?",
+    "frequency": 1440,
+    "format": "number"
+  },
+  {
+    "name": "Caffeine",
+    "text": "How many mg of caffeine did you have yesterday?",
+    "frequency": 1440,
+    "format": "number"
+  },
+  {
+    "name": "Coffee",
+    "text": "How many cups of coffee did you have yesterday?",
+    "frequency": 1440,
+    "format": "number"
+  },
+  {
+    "name": "Tea",
+    "text": "How many cups of tea did you have yesterday?",
+    "frequency": 1440,
+    "format": "number"
+  },
+  {
+    "name": "Weight",
+    "text": "How much do you weigh today?",
+    "frequency": 1440,
+    "format": "number"
+  },
+  {
+    "name": "BMI",
+    "text": "What is your BMI today?",
+    "frequency": 1440,
+    "format": "number"
+  },
+  {
+    "name": "Calories",
+    "text": "How many calories did you have today?",
+    "frequency": 1440,
+    "format": "number"
+  },
+  {
+    "name": "Sleep Hours",
+    "text": "How many hours did you sleep last night?",
+    "frequency": 1440,
+    "format": "number"
+  },
+  {
+    "name": "Waking Hour",
+    "text": "What time did you wake up this morning?",
+    "frequency": 1440,
+    "format": "time"
+  },
+  {
+    "name": "Napping",
+    "text": "How many hours did you nap yesterday?",
+    "frequency": 1440,
+    "format": "number"
+  },
+  {
+    "name": "Bedtime hour",
+    "text": "When did you go to bed last night?",
+    "frequency": 1440,
+    "format": "time"
+  },
+  {
+    "name": "Difficulty Sleeping",
+    "text": "How easy was it to fall asleep last night? (1 very easy, 5 very hard",
+    "frequency": 1440,
+    "format": "number"
+  },
+  {
+    "name": "Bedtime routine",
+    "text": "What did you do in the hour before going to bed last night?",
+    "frequency": 1440,
+    "format": "text"
+  },
+  {
+    "name": "TV",
+    "text": "How many hours of TV/movies did you watch yesterday?",
+    "frequency": 1440,
+    "format": "number"
+  },
+  {
+    "name": "Social",
+    "text": "How many hours were you actively social yesterday?",
+    "frequency": 1440,
+    "format": "number"
+  },
+  {
+    "name": "Working hours",
+    "text": "How many ideal working hours did you get yesterday?",
+    "frequency": 1440,
+    "format": "number"
+  },
+  {
+    "name": "Teeth Brushing",
+    "text": "Did you brush your teeth last night?",
+    "frequency": 1440,
+    "format": "text"
+  },
+  {
+    "name": "Outside",
+    "text": "How many hours were you outside yesterday?",
+    "frequency": 1440,
+    "format": "number"
+  },
+  {
+    "name": "Girls",
+    "text": "Did you have any particular interaction with any cute girls yesterday?",
+    "frequency": 1440,
+    "format": "text"
+  },
+  { 
+    "name": "Guys", 
+    "text": "Did you have any particular interaction with any cute guys yesterday?", 
+    "frequency": 1440, 
+    "format": "text"
+  }, 
+  {
+    "name": "Sex",
+    "text": "Did you have sex yesterday?",
+    "frequency": 1440,
+    "format": "text"
+  },
+  {
+    "name": "Mood",
+    "text": "What is your mood 1-5?",
+    "frequency": 1440,
+    "format": "number"
+  },
+  {
+    "name": "Energy",
+    "text": "How energetic are you right now, 1-5?",
+    "frequency": 1440,
+    "format": "number"
+  }
+]

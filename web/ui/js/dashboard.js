@@ -1,3 +1,11 @@
+metric_defaults = {
+  "name": "default",
+  "text": "What is the value of default right now?",
+  "frequency": 1440,
+  "format": "number",
+  "template_id": 0,
+}
+
 $(document).ready(function() { 
   $('select.edit-frequency').each(function() {
     query_id = $(this).attr('id').substring(15);
@@ -28,7 +36,7 @@ $(document).ready(function() {
         alert('failure!');
       },
       success: function() {
-        window.location.reload();
+        window.location = '/dashboard';
       },
     }); 
   });
@@ -42,7 +50,17 @@ $(document).ready(function() {
   });
 
   $('#new-query-create-button').click(function() {
-    $('#new-query-container').addClass('inputs-active');
+    $('#new-metric-container').addClass('active');
+
+    // make the page taller and scroll so that the whole autocomplate
+    // will be in view
+    height = $('#lt-base').height()
+    $('#lt-base').height(height + 400 + 'px');
+    $("body").animate({
+      "scrollTop": $('#lt-new-metric-prompt').offset().top + "px"
+    }, 500, function() {
+      $('#lt-new-metric-prompt').focus();
+    });
   });
 
   $('#new-query-submit').click(function() {
@@ -68,7 +86,7 @@ $(document).ready(function() {
       url: 'data/newQuery',
       data: data, 
       success: function() {
-          window.location.reload() 
+          window.location = '/dashboard';
         },
     });
   });
@@ -120,7 +138,7 @@ $(document).ready(function() {
       type: 'POST',
       data: new_query_data,
       success: function() {
-        window.location.reload();
+        window.location = '/dashboard';
       },
     });
   });
@@ -183,8 +201,6 @@ $(document).ready(function() {
     if($(metric_id).hasClass('analytics-loaded')) {
       return
     }
-
-
     
     if(!$(metric_id).hasClass('analytics-loaded')) {
       params = {
@@ -306,4 +322,96 @@ $(document).ready(function() {
     }
 
   });
+
+  metric_names = [];
+  for (name in template_metrics) {
+    metric_names.push(name);
+  }
+
+
+  $('#lt-new-metric-prompt').autocomplete({
+    source: metric_names,
+  });
+
+  $('#lt-new-metric-prompt').keypress(function(key) {
+    if (key.which == 13) {
+      metric_name = $('#lt-new-metric-prompt').val();
+      addMetric(metric_name);
+    }
+  });
+
+  if (window.location.search.indexOf('first_time') != -1) {
+    intro();
+  } else if (window.location.search.indexOf('setup_complete') != -1) {
+    intro_complete();
+  }
 });
+
+intro_complete = function() {
+  // tip all the different things
+  $('#setup-complete-dialog').dialog({
+    width: '500px',
+    position: ['top','center'],
+    buttons: [{
+      text: 'Awesome',
+      click: function() {
+        $(this).dialog("close");
+      }
+    }]
+  });
+}
+
+// a series of dialogs/tooltips that introduce the user to the UI
+intro = function() {
+  $('#first-time-dialog').dialog({
+    width: '500px',
+    buttons: [{
+      text: 'Let\'s do it!',
+      click: function() {
+        window.location = '/account?first_time=true';
+      }
+    }]
+  });
+}
+
+addMetric = function(name) {
+  var metric;
+
+  if (template_metrics[metric_name] != undefined) {
+    metric = getTemplateValues(metric_name);
+  } else {
+    metric = getDefaultValues(metric_name);
+  }
+
+  user_email = $('#user_email').val();
+
+  // post to /addQuery
+  data = {
+    'frequency': metric['frequency'],
+    'text': metric['text'],
+    'format': metric['format'],
+    'template_id': metric['template_id'],
+    'name': metric['name'],
+    'user_email': user_email,
+  }
+
+  $.ajax({
+    url: 'data/newQuery',
+    type: 'post',
+    data: data,
+    success: function() {
+        window.location = '/dashboard';
+    }
+  });
+}
+
+getDefaultValues = function(name) {
+  metric = metric_defaults;
+  metric["name"] = name;
+  metric["text"] = "What is the value of " + name + " right now?";
+  return metric;
+}
+
+getTemplateValues = function(template_name) {
+  return template_metrics[template_name];
+}

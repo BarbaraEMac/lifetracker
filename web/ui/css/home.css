@@ -1,17 +1,66 @@
 #lt-splash {
-  margin-top: 325px;
+  margin-top: 200px;
+  width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
 
-#lt-tingler {
-  font-size: 20pt;
+#lt-splash.hidden {
+  display: none;
 }
 
-#lt-sig {
-  margin-left: 700px;
+#lt-prompt-text {
+  font-size: 50pt;
 }
 
-img#lt-badge {
-  width: 100px;
+#lt-prompt {
+  width: 700px;
+  height: 50px;
+  border-radius: 5px;
+  font-size: 24pt;
+  padding-left: 5px;
+  font-family: 'Ostrich-Black';
+  text-align: center;
+}
+
+#lt-title-container {
+  margin-top: 200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#lt-title {
+  text-align: center;
+  width: 100%; 
+  font-size: 40pt;
+}
+
+#lt-header {
+  width: 100%;
+  height: 50px;
+}
+
+#lt-user-actions {
+  margin-top: 20px;
+  width: 80px;
+  float: right;
+}
+
+#dashboard {
+  display: none;
+}
+
+#lt-splash.adding {
+  text-align: left;
+  margin-top: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+#lt-splash.adding #lt-prompt {
+  width: 900px;
   height: 100px;
-  margin-right: 5px;
+  text-align: left;
+  padding-left: 100px;
 }

@@ -3,8 +3,12 @@
   <link rel="stylesheet" type="text/css" href="css/reset.css"/>
   <link rel="stylesheet" type="text/css" href="css/lt-common.css"/>
   <link rel="stylesheet" type="text/css" href="css/dashboard.css"/>
+  <link rel="stylesheet" type="text/css" href="css/popup.css"/>
+  <link rel="stylesheet" type="text/css" href="css/new_metric_autocomplete.css"/>
   
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="text/javascript"></script>
+  <script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js' type='text/javascript'></script>
+
 
  <!-- Google Chart Stuff -->
   <script type="text/javascript" src="https://www.google.com/jsapi"></script>
@@ -13,7 +17,11 @@
     google.load('visualization', '1.0', {'packages':['corechart']});
   </script>
 
+  <script type='text/javascript'>
+    var template_metrics = %(template_metrics)s;
+  </script>
   <script src="js/dashboard.js"></script>
+
 </head>
 <body>
 
@@ -29,40 +37,20 @@
   <div id="query-list">
     %(queries)s
     <input id='user_email' type='hidden' value='%(user_email)s'/>
-    <div id='new-query-container'>
-      <a id='new-query-create-button' href='#'>New Query</a>
-      <div id='new-query-inputs'>
-        <div class='metric-name-container'>
-        <input type='text' id='new-query-name-input' class='edit-field edit-name' value='Query Name'/>
-        </div>
-        <div class='metric-snapshot'>
-          <p>Frequency: 
-            <select id='new-query-frequency-input' class='new-frequency'>
-              <option id='freq-1440'>Every Day</option>           
-              <option id='freq-360'>Every 6 Hours</option>           
-              <option id='freq-180'>Every 3 Hours</option>           
-              <option id='freq-60'>Every Hour</option>           
-              <option id='freq-1'>Every Minute</option>         
-            </select>
-          </p>
-          <p>Format:
-            <select id='new-query-format-input' class='new-format'>
-              <option id='number'>Number</option>
-              <option id='text'>Text</option>
-              <option id='time'>Time</option>
-            </select>
-          </p>
-        </div>
-        <div class='metric-options'>
-          <a id='new-query-submit' href='#'>Create</a>
-        </div>
-        <div class='new-text-container'>
-          <p>Query Text:
-            <input type='text' id='new-query-text-input' class='edit-text' value='Query Text'/>
-        </div>
-        </p>
+    <div id='new-metric-container'>
+      <a id='new-query-create-button' class='tipable' href='#'>New Metric</a>
+      <div id="add-more-queries-tip" class='popup'>
+        You've already set up a few metrics, but the more things you track the 
+  deeper the insights you'll be able to find about yourself. Why not choose a few more?
       </div>
+      <input type='text' id='lt-new-metric-prompt'/>
     </div>
+  </div>
+  <div id="first-time-dialog" class='popup'>
+    You're almost set! All we need is a phone number to send you SMS notifications, and you're done!
+  </div>
+  <div id="setup-complete-dialog" class='popup'>
+    Welcome, Superhuman! This is your dashboard. From here you can view your data, edit your metrics, and run analytics. Happy tracking!
   </div>
 </div>
 

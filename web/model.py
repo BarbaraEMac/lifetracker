@@ -1,6 +1,8 @@
 from google.appengine.ext import db
 from google.appengine.api import users
 
+from django.utils import simplejson as json
+
 from datetime import datetime
 from datetime import timedelta
 
@@ -37,6 +39,31 @@ class User(db.Model):
   def get_by_phone(phone):
     return User.all().filter('phone =', phone).get()
 
+class TemplateMetric(db.Model):
+  format = db.StringProperty(required=True, 
+    choices = ('text', 'number', 'time'))
+  frequency = db.IntegerProperty(required=True)
+  name = db.StringProperty(required=True)
+  normalized_name = db.StringProperty(required=True)
+  text = db.StringProperty(required=True)
+
+  @staticmethod
+  def json_list():
+    template_metrics = TemplateMetric.all().fetch(1000)
+
+    tms = {}
+    for tm in template_metrics:
+      tms[tm.name] = tm.as_dict()
+
+    return json.dumps(tms)
+
+  def as_dict(self):
+    return {'name': self.name,
+            'frequency': self.frequency,
+            'format': self.format,
+            'text': self.text,
+            'template_id': str(self.key())}
+
 class Query(db.Model):
   format = db.StringProperty(required=True, 
     choices = ('text', 'number', 'time'))
@@ -48,6 +75,7 @@ class Query(db.Model):
   name = db.StringProperty(required=True)
   normalized_name = db.StringProperty(required=True)
   text = db.StringProperty(required=True)
+  template = db.ReferenceProperty(TemplateMetric, required=False)
 
   @staticmethod
   def get_by_id(id):

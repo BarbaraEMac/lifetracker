@@ -26,9 +26,22 @@ $(document).ready(function() {
       type: 'post',
       data: data,
       success: function () {
-        window.location.reload();
+        if (window.location.search.indexOf('first_time') != -1) {
+          window.location = '/dashboard?setup_complete=true';
+        } else {
+          window.location.reload();
+        }
       },
     });
     
   });
+
+  if (window.location.search.indexOf('first_time') != -1) {
+    intro();
+  }
 });
+
+// a series of dialogs/tooltips that introduce the user to the UI
+intro = function() {
+  $('#first-time-dialog').css('display', 'inline');
+}

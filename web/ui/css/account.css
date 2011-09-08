@@ -1,0 +1,28 @@
+#lt-account {
+  font-size: 24pt;
+  width: 400px;
+  display: inline;
+  float: left;
+}
+
+#lt-account p {
+  padding: 5px;
+}
+
+#phone-number {
+  font-size: 20pt;
+  padding: 5px;
+  font-family: 'Ostrich-Black';
+}
+
+#first-time-dialog {
+  width: 400px;
+  display: none;
+  background-color: white;
+  border: 1px solid;
+  border-radius: 5px;
+  font-size: 24pt;
+  padding: 50px;
+  display: none;
+  float: right;
+}
