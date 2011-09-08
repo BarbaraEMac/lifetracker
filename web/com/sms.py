@@ -47,44 +47,55 @@ class ReceiveSMSHandler(webapp.RequestHandler):
       return
 
     # parse the response
-    query_name, value = self.parse_body(body)
-    if query_name == '' or value == '':
-      logging.error('ParseBody Failed!')
-      return
-    
-    # get the query
-    query = Query.get_by_user_and_name(user, query_name)
+    query_value_pairs = self.parse_body(body)
 
-    if not query:
-      logging.error("Couldn't get query for user " + user.email + ' and query ' + query.name)
-      return
+    for query_name in query_value_pairs:
+      value = query_value_pairs[query_name]
 
-    timestamp = datetime.now()
-    
-    dp = DataPoint(
-      user = user,
-      query = query,
-      text = value,
-      timestamp = timestamp,
-    )
+      if query_name == '' or value == '':
+        logging.error('Got a bad response');
+        return
 
-    dp.put()
+      query = Query.get_by_user_and_name(user, query_name)
 
-    query.refresh()
+      if not query:
+        logging.error("Couldn't get query for user " + user.email + ' and query ' + query.name)
+        continue
 
-    logging.info('Received datapoint ' + query_name + ': ' + value + '\n')
+      timestamp = datetime.now()
+      
+      dp = DataPoint(
+        user = user,
+        query = query,
+        text = value,
+        timestamp = timestamp,
+      )
+
+      dp.put()
+
+      query.refresh()
+
+      logging.info('Received datapoint ' + query_name + ': ' + value + '\n')
 
     self.response.out.write('<Response><Sms>Got it!</Sms></Response>')
 
+
   # need some validation in here too
   def parse_body(self, response):
-    try: 
-      query_name = response [ : response.index(':')]
-      value = response[response.index(':') + 1:]
-    except Exception, e:
-      logging.error(e)
-      return '', ''
+    pairs = response.split(';')
+    query_value_pairs = {}
 
-    logging.info('Parsed response: ' + query_name + ': ' + value)
-    return query_name, value
+    for pair in pairs:
+      try: 
+        query_name = pair [ : pair.index(':')]
+        value = pair[pair.index(':') + 1:]
+        query_value_pairs[query_name] = value
+      except Exception, e:
+        logging.error(e)
+        continue 
+        #return '', ''
+
+      logging.info('Parsed response: ' + query_name + ': ' + value)
+
+    return query_value_pairs
 
