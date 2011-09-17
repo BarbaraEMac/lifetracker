@@ -2,20 +2,20 @@ import logging
 from google.appengine.ext import webapp
 from datetime import datetime
 
-from model import User, Query, DataPoint
+from model import User, Query, DataPoint, Globals
 
 import twilio
 
-API_VERSION = '2010-04-01'
-
-ACCOUNT_SID = 'ACa777d270a2a38c86e85047b3dbb67df0'
-ACCOUNT_TOKEN = 'b219417b1407f177de18c4a24c50dea2'
-
-CALLER_ID = '6502048725'
+API_VERSION = Globals.get('TWILIO_API_VERSION') 
+ACCOUNT_SID = Globals.get('TWILIO_ACCOUNT_SID')
+ACCOUNT_TOKEN = Globals.get('TWILIO_ACCOUNT_TOKEN') 
+CALLER_ID = Globals.get('TWILIO_CALLER_ID')
 
 account = twilio.Account(ACCOUNT_SID, ACCOUNT_TOKEN) 
 
 def send_sms(toNumber, text):
+  logging.info("Sending SMS! To number: " + toNumber + " with text " + text)
+
   data = {
     'From': CALLER_ID,
     'To': str(toNumber),
@@ -23,6 +23,7 @@ def send_sms(toNumber, text):
   }
 
   try:  
+    logging.info("Request url: " + ('/%s/Accounts/%s/SMS/Messages' % (API_VERSION, ACCOUNT_SID)))
     account.request('/%s/Accounts/%s/SMS/Messages' \
     % (API_VERSION, ACCOUNT_SID), 'POST', data)
   except Exception, e:

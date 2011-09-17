@@ -6,6 +6,17 @@ from datetime import timedelta
 
 import logging
 
+class Globals(db.Model):
+  k = db.StringProperty()
+  v = db.StringProperty()
+
+  @staticmethod
+  def get(k):
+    gvar = Globals.all().filter('k =', k).get()
+    if gvar == None:
+      return None
+    return gvar.v
+ 
 class User(db.Model):
   google_user = db.UserProperty()
   first_name = db.StringProperty()
