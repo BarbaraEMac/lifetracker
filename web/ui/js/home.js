@@ -2,7 +2,55 @@ metrics = new Array();
 
 $(document).ready(function() {
   $('#lt-prompt').focus();
+  new_metric_prompt_init();
+});
 
+newQuery = function(metric) {
+  return "\
+    <div id='metric-%(query_id)s' class='metric'>\
+      <input type='hidden' id='metric-%(query_id)s-type' value='%(format)s'/>\
+      <div class='metric-name-container'>\
+        <h3 id='metric-%(query_id)s-name' class='metric-name'>" 
+        + metric['name'] +  
+        "</h3>\
+        <input type='text' value='" + name + "' id='edit-name-%(query_id)s' class='edit-field edit-name'/>\
+      </div>\
+      <div class='metric-snapshot'>\
+        <p class='overview-metric'>Current: None yet!</p>\
+        <p class='overview-metric'>Analytics: None yet!</p> \
+      </div>\
+      <div class='metric-options'>\
+        <a id='analyze-%(query_id)s' class='analyze-button' href='#'>Analyze</a>\
+        <a id='data-%(query_id)s' class='data-button' href='#'>Data</a>\
+        <a id='edit-%(query_id)s' class='query-edit-button' href='#'>Edit</a>\
+        <a id='submit-%(query_id)s' class='query-edit-submit-button' href='#'>Submit</a>\
+        <a id='delete-%(query_id)s' class='query-delete-button' href='#'>Delete</a>\
+        <a id='confirm-delete-%(query_id)s' class='query-delete-confirm-button' href='#'>Really?</a>\
+      </div>\
+    </div>\
+"
+}
+
+addMetric = function(metric_name) {
+  metric = template_metrics[metric_name];
+  if (template_metrics[metric_name] != undefined) {
+    // get the metric from template_metrics
+  } else {
+    // build it on the page such that the user has to enter in the custom fields
+  }
+  $('#query-list').prepend(newQuery(metric));
+}
+
+showDashboard = function() {
+  $('#lt-header').css('display', 'none');
+  $('#lt-title-container').css('display', 'none');
+
+  $('#lt-splash').addClass('adding');
+  $('#lt-prompt-text').html("What else?");
+  $('#dashboard').css('display', 'block');
+}
+
+new_metric_prompt_init = function() {
   metric_names = [];
   for (name in template_metrics) {
     metric_names.push(name);
@@ -56,52 +104,4 @@ $(document).ready(function() {
       showDashboard();
     }
   });
-
-  // on the third time, push them through the login flow with the correct
-  // callbacks so that they return to their dashboard when their done
-});
-
-newQuery = function(metric) {
-  return "\
-    <div id='metric-%(query_id)s' class='metric'>\
-      <input type='hidden' id='metric-%(query_id)s-type' value='%(format)s'/>\
-      <div class='metric-name-container'>\
-        <h3 id='metric-%(query_id)s-name' class='metric-name'>" 
-        + metric['name'] +  
-        "</h3>\
-        <input type='text' value='" + name + "' id='edit-name-%(query_id)s' class='edit-field edit-name'/>\
-      </div>\
-      <div class='metric-snapshot'>\
-        <p class='overview-metric'>Current: None yet!</p>\
-        <p class='overview-metric'>Analytics: None yet!</p> \
-      </div>\
-      <div class='metric-options'>\
-        <a id='analyze-%(query_id)s' class='analyze-button' href='#'>Analyze</a>\
-        <a id='data-%(query_id)s' class='data-button' href='#'>Data</a>\
-        <a id='edit-%(query_id)s' class='query-edit-button' href='#'>Edit</a>\
-        <a id='submit-%(query_id)s' class='query-edit-submit-button' href='#'>Submit</a>\
-        <a id='delete-%(query_id)s' class='query-delete-button' href='#'>Delete</a>\
-        <a id='confirm-delete-%(query_id)s' class='query-delete-confirm-button' href='#'>Really?</a>\
-      </div>\
-    </div>\
-"
-}
-
-addMetric = function(metric_name) {
-  metric = template_metrics[metric_name];
-  if (template_metrics[metric_name] != undefined) {
-    // get the metric from template_metrics
-  } else {
-    // build it on the page such that the user has to enter in the custom fields
-  }
-  $('#query-list').prepend(newQuery(metric));
-}
-
-showDashboard = function() {
-  $('#lt-header').css('display', 'none');
-  $('#lt-title-container').css('display', 'none');
-
-  $('#lt-splash').addClass('adding');
-  $('#lt-prompt-text').html("What else?");
-  $('#dashboard').css('display', 'block');
 }

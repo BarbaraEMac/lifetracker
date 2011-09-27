@@ -1,4 +1,8 @@
 $(document).ready(function() {
+  init_export_field();
+});
+
+init_export_field = function() {
   query_id = $('#query-id').val();
 
   data = {
@@ -14,6 +18,4 @@ $(document).ready(function() {
       $('#export-textarea').html(response);
     },
   });
-
-
-});
+}
