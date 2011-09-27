@@ -18,9 +18,14 @@ metric_defaults = {
   "template_id": 0,
 }
 
-$(document).ready(function() {
+// can't believe there ins't a jquery function for this. sucks.
+window.onload = (function() {
+  $('#lt-prompt-shadow').offset($('#lt-prompt').offset());
+  $('#lt-prompt-shadow').css('display', 'block');
+  // don't let us focus the shadow input
+  $('#lt-prompt-shadow').focus(function() { $('#lt-prompt').focus() });
   $('#lt-prompt').focus();
-  new_metric_prompt_init();
+  new_metric_prompt_init(); 
 });
 
 newQuery = function(metric) {
@@ -56,7 +61,13 @@ showDashboard = function() {
   $('#lt-splash').addClass('adding');
   $('#lt-prompt-text').html("What else?");
   $('#dashboard').css('display', 'block');
+  $('#example').css('display', 'none');
+  $('#lt-prompt-shadow').offset($('#lt-prompt').offset());
 }
+
+// The current autocomplete. If the user hits 'enter' while this is non-
+// empty, we take the completion to be what the user meant
+completion = ''
 
 new_metric_prompt_init = function() {
   metric_names = [];
@@ -66,16 +77,32 @@ new_metric_prompt_init = function() {
 
   $('#lt-prompt').autocomplete({
     source: metric_names,
+    open: function(event, ui) {
+      if ($('#lt-prompt').val().length >= 3) {
+        completion = $('li.ui-menu-item a').html();
+        $('#lt-prompt-shadow').val(completion);
+      }
+    },
+    close: function(event, ui) {
+      completion = '';
+      $('#lt-prompt-shadow').val('');
+    },
   });
 
   $('#lt-prompt').keypress(function(key) {
     if (key.which == 13) {
-      // transition to the thingy
-      metric_name = $('#lt-prompt').val();
-      
+      var metric_name = '';
+      if (completion != '') {
+        metric_name = completion;  
+      } else {
+        metric_name = $('#lt-prompt').val();
+      }
+
       addMetric(metric_name);
 
       $('#lt-prompt').val('');
+      $('#lt-prompt-shadow').val('');
+      $('#lt-prompt').autocomplete("close");
 
       if ($('.metric').size() >= 3) {
         $('#lt-splash').addClass('hidden');

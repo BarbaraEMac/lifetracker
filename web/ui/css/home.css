@@ -14,14 +14,15 @@
   font-size: 50pt;
 }
 
-#lt-prompt {
+#lt-prompt, 
+#lt-prompt-shadow {
   width: 700px;
   height: 50px;
   border-radius: 5px;
   font-size: 24pt;
   padding-left: 5px;
   font-family: 'Ostrich-Black';
-  text-align: center;
+  text-align: left;
 }
 
 #lt-title-container {
@@ -58,7 +59,8 @@
   margin-right: 0px;
 }
 
-#lt-splash.adding #lt-prompt {
+#lt-splash.adding #lt-prompt, 
+#lt-splash.adding #lt-prompt-shadow {
   width: 900px;
   height: 100px;
   text-align: left;
@@ -68,4 +70,12 @@
 #example {
   font-size: 20pt;
   margin-top: 10px;
+}
+
+#lt-prompt-shadow {
+  text-align: left;
+  z-index: 1000;
+  position: absolute;
+  opacity: 0.2;
+  display: none;
 }
