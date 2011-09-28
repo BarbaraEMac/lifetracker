@@ -53,7 +53,7 @@ class TemplateMetric(db.Model):
 
     tms = {}
     for tm in template_metrics:
-      tms[tm.name] = tm.as_dict()
+      tms[tm.name.lower()] = tm.as_dict()
 
     return json.dumps(tms)
 

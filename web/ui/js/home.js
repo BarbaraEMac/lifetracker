@@ -1,4 +1,22 @@
+// apparently javascript doesn't have native deep-cloning for objects.
+// that's stupid, so this is unelegant.
+cloneMetric = function(oldMetric) {
+  var new_metric = {}; 
+  for (prop in oldMetric) {
+    new_metric[prop] = oldMetric[prop];
+  }
+  return new_metric;
+}
+
 metrics = new Array();
+
+metric_defaults = {
+  "name": "default",
+  "text": "What is the value of default right now?",
+  "frequency": 1440,
+  "format": "number",
+  "template_id": 0,
+}
 
 $(document).ready(function() {
   $('#lt-prompt').focus();
@@ -31,16 +49,6 @@ newQuery = function(metric) {
 "
 }
 
-addMetric = function(metric_name) {
-  metric = template_metrics[metric_name];
-  if (template_metrics[metric_name] != undefined) {
-    // get the metric from template_metrics
-  } else {
-    // build it on the page such that the user has to enter in the custom fields
-  }
-  $('#query-list').prepend(newQuery(metric));
-}
-
 showDashboard = function() {
   $('#lt-header').css('display', 'none');
   $('#lt-title-container').css('display', 'none');
@@ -65,10 +73,8 @@ new_metric_prompt_init = function() {
       // transition to the thingy
       metric_name = $('#lt-prompt').val();
       
-      // ifs around this
-      metrics.push(template_metrics[metric_name]);
-
       addMetric(metric_name);
+
       $('#lt-prompt').val('');
 
       if ($('.metric').size() >= 3) {
@@ -103,5 +109,29 @@ new_metric_prompt_init = function() {
 
       showDashboard();
     }
-  });
+  }); 
+}
+
+addMetric = function(metric_name) {
+  var metric = {};
+
+  if (template_metrics[metric_name.toLowerCase()] != undefined) {
+    metric = getTemplateValues(metric_name.toLowerCase());
+  } else {
+    metric = getDefaultValues(metric_name);
+  }
+
+  metrics[metrics.length] = cloneMetric(metric);
+  $('#query-list').prepend(newQuery(metric));
+}
+
+getDefaultValues = function(metric_name) {
+  var new_metric = metric_defaults;
+  new_metric["name"] = metric_name;
+  new_metric["text"] = "What is the value of " + metric_name + " right now?";
+  return new_metric;
+}
+
+getTemplateValues = function(template_name) {
+  return template_metrics[template_name];
 }

@@ -53,7 +53,7 @@ class FirstTimeUserHandler(webapp.RequestHandler):
       text = metric['text']
       user_email = self.request.get('user_email')
       format = metric['format']
-      template = db.get(metric['template_id'])
+      template_id = metric['template_id']
 
       query = Query(
         name = name,
@@ -65,8 +65,11 @@ class FirstTimeUserHandler(webapp.RequestHandler):
         frequency = frequency,
         user = user,
         format = format,
-        template = template,
       )
+
+      
+      if str(template_id) != '0':
+        query.template = db.get(template_id)
 
       query.put()
 
