@@ -8,17 +8,6 @@ from datetime import timedelta
 
 import logging
 
-class Globals(db.Model):
-  k = db.StringProperty()
-  v = db.StringProperty()
-
-  @staticmethod
-  def get(k):
-    gvar = Globals.all().filter('k =', k).get()
-    if gvar == None:
-      return None
-    return gvar.v
- 
 class User(db.Model):
   google_user = db.UserProperty()
   first_name = db.StringProperty()
@@ -38,6 +27,47 @@ class User(db.Model):
   @staticmethod
   def get_by_phone(phone):
     return User.all().filter('phone =', phone).get()
+
+# a log of actions taken by users on the site
+class ActionLog(db.Model):
+  action = db.StringProperty(required = True)
+  timestamp = db.DateTimeProperty(required = True)
+  user = db.ReferenceProperty(User)
+  data = db.StringProperty()
+
+  @staticmethod
+  def log(action, user = None, data = None):
+    event = ActionLog(action = action, timestamp = datetime.now())
+
+    if data != None:
+      event.data = data
+    if user != None:
+      event.user = user
+
+    event.put()
+
+  @staticmethod
+  def get(action = None, user = None, timewindow = None):
+    results = ActionLog.all()
+    if action != None:
+      results.filter('action =', action)
+    if user != None:
+      results.filter('user =', user)
+    if timewindow != None:
+      results.filter('timestamp >', timewindow)
+
+    return results
+
+class Globals(db.Model):
+  k = db.StringProperty()
+  v = db.StringProperty()
+
+  @staticmethod
+  def get(k):
+    gvar = Globals.all().filter('k =', k).get()
+    if gvar == None:
+      return None
+    return gvar.v
 
 class TemplateMetric(db.Model):
   format = db.StringProperty(required=True, 

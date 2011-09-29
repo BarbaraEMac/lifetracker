@@ -6,7 +6,7 @@ from google.appengine.api import users
 from datetime import datetime
 from django.utils import simplejson as json
 
-from model import User, Query, DataPoint
+from model import User, Query, DataPoint, ActionLog
 from constants import whitelist
 
 class NewQueryHandler(webapp.RequestHandler):
@@ -36,6 +36,8 @@ class NewQueryHandler(webapp.RequestHandler):
       query.template = db.get(template_id)
 
     query.put()
+
+    ActionLog.log('NewMetric', user)
 
 class EditQueryHandler(webapp.RequestHandler):
   def post(self):
@@ -105,6 +107,7 @@ class NewDataPointHandler(webapp.RequestHandler):
     )
 
     dataPoint.put()
+    ActionLog.log('NewDatapoint', query.user, query.name)
 
     self.response.out.write('success')
 

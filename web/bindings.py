@@ -30,6 +30,8 @@ from com.incoming_mail import EmailResponseHandler
 from com.send_queries import SendQueriesHandler
 from scripts.init_templates import InitTemplatesHandler
 
+from intern.engagement import EngagementDashboardHandler
+
 from model import User, Query, DataPoint
 
 appRoute = webapp.WSGIApplication( [
@@ -59,6 +61,7 @@ appRoute = webapp.WSGIApplication( [
   ('/sms/tropo.py', TropoSMSScriptHandler),
   ('/scripts/init_templates', InitTemplatesHandler),
   ('/loginURL', LoginURLGetterHandler),
+  ('/intern/engagement', EngagementDashboardHandler),
   EmailResponseHandler.mapping(),
 ], debug=True)
 

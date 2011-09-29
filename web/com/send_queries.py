@@ -4,7 +4,7 @@ from google.appengine.api import mail
 
 from datetime import datetime
 
-from model import User, Query, DataPoint
+from model import User, Query, DataPoint, ActionLog
 from sms import send_sms
 from utils.time import is_daytime
 
@@ -28,9 +28,13 @@ def send_by_email(query):
 
   message.send()
 
+  ActionLog.log('SentEmail')
+
 def send_query_by_sms(query):
   text = query.text + ' Please reply "' + query.name + ': value"'
   send_sms(query.user.phone, text)  
+
+  ActionLog.log('SentSMS')
 
 def send_query(query):
   if query.user.query_medium == 'sms':
@@ -41,6 +45,8 @@ def send_query(query):
   logging.info("Sent Query: " + query.name + " for user " + query.user.email)
   query.lastSentAt = datetime.now() # refresh the query
   query.put() # commit it
+
+  ActionLog.log('SentQuery')
 
 # it will be a problem if this takes a long time
 class SendQueriesHandler(webapp.RequestHandler):

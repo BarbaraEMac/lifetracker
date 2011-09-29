@@ -21,6 +21,12 @@ handlers:
 - url: /fonts
   static_dir: ui/fonts
 
+- url: /intern/css
+  static_dir: intern/css
+
+- url: /intern/js
+  static_dir: intern/js
+
 - url: .*
   script: bindings.py
 
