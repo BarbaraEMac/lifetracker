@@ -1,7 +1,10 @@
+first_time = false;
+
 $(document).ready(function() {
   $('#account-update-button').click(update_button_click);
 
   if (window.location.search.indexOf('first_time') != -1) {
+    first_time = true;
     intro();
   }
 });
@@ -31,6 +34,10 @@ update_button_click = function() {
     'phone_number': phone_number,
     'medium': medium,
     'user_email': user_email,
+  }
+
+  if (first_time) {
+    data['first_time'] = true;
   }
 
   $.ajax({

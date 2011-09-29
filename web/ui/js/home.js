@@ -18,7 +18,7 @@ metric_defaults = {
   "template_id": 0,
 }
 
-// can't believe there ins't a jquery function for this. sucks.
+// can't believe there ins't a jquery function for onload. sucks.
 window.onload = (function() {
   $('#lt-prompt-shadow').offset($('#lt-prompt').offset());
   $('#lt-prompt-shadow').css('display', 'block');
