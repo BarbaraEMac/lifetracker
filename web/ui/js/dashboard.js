@@ -14,7 +14,6 @@ $(document).ready(function() {
   $('#new-query-submit').click(new_query_create_submit_click);
   $('.query-edit-button').click(query_edit_click);
   $('.query-edit-submit-button').click(query_edit_submit_click);
-  $('a.data-button').click(data_button_click);
   $('a.analyze-button').click(analyze_click);
 
   new_metric_prompt_init();
@@ -224,40 +223,6 @@ query_edit_submit_click = function() {
     },
   });
 }
-
-data_button_click = function() {
-  query_id = $(this).attr('id').substring(5);
-
-  // get the data
-  new_query_data = {
-    'query_id': query_id,
-  };
-
-  // do some ajax shit in here.
-  $.ajax({
-    url: 'data/pointsForQuery',
-    type: 'GET',
-    data: new_query_data,
-    success: function(response) {
-      // expand the thingy
-      metric_id = '#metric-' + query_id;
-      raw_data_container = '#raw-data-' + query_id;
-
-      data = eval(response);
-
-      $(metric_id).css('height', '500px');
-
-      // populate it into a div underneath the thing
-      for (index in data) {
-        row = "<tr><td>" + data[index]['timestamp'] + "</td><td>" + data[index]['text'] + "</td><td><a id='delete-"+ data[index]['dp_id'] + "' class='dp-delete-button' href='#'>Delete</a></td></tr>";
-        $(raw_data_container).append(row);
-      }
-    },
-  });
-
-  // populate it into a div underneath the thing
-}
-
 
 analyze_click = function() {
   query_id = $(this).attr('id').substring(8);

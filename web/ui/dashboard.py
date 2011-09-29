@@ -62,7 +62,6 @@ class DashboardHandler(webapp.RequestHandler):
       </div>
       <div class='metric-options'>
         <a id='analyze-%(query_id)s' class='analyze-button' href='#'>Analyze</a>
-        <a id='data-%(query_id)s' class='data-button' href='#'>Data</a>
         <a id='edit-%(query_id)s' class='query-edit-button' href='#'>Edit</a>
         <a id='submit-%(query_id)s' class='query-edit-submit-button' href='#'>Submit</a>
         <a id='delete-%(query_id)s' class='query-delete-button' href='#'>Delete</a>
