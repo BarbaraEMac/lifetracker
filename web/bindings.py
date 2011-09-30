@@ -12,9 +12,9 @@ from api.data import GetDataPointsForQueryHandler
 from api.data import DeleteDataPointHandler
 from api.data import ImportCSVHandler
 from api.data import ExportCSVHandler
-from api.data import FirstTimeUserHandler
-from api.data import LoginURLGetterHandler
-from api.update_account import UpdateAccountHandler
+from api.account import FirstTimeUserHandler
+from api.account import LoginURLGetterHandler
+from api.account import UpdateAccountHandler
 from ui.dashboard import DashboardHandler
 from ui.manage_data import ManageDataHandler
 from ui.analyze import AnalyzeDataHandler
