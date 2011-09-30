@@ -124,7 +124,8 @@ div#new-metric-container.active {
   font-size: 24pt;
 }
 
-#lt-new-metric-prompt {
+#lt-new-metric-prompt,
+#lt-prompt-shadow {
   width: 900px;
   height: 100px;
   text-align: left;
@@ -134,8 +135,15 @@ div#new-metric-container.active {
   font-family: 'Ostrich-Black';
   display: none;
 }
+#lt-prompt-shadow {
+  display: none;
+  z-index: 1000;
+  position: absolute;
+  opacity: 0.2;
+}
 
-div#new-metric-container.active #lt-new-metric-prompt {
+div#new-metric-container.active #lt-new-metric-prompt,
+div#new-metric-container.active #lt-prompt-shadow  {
   display: block;
 }
 

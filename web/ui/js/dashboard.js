@@ -6,6 +6,8 @@ metric_defaults = {
   "template_id": 0,
 }
 
+var completion = '';
+
 $(document).ready(function() { 
   $('select.edit-frequency').each(select_edit_frequency_init); 
   $('.query-delete-confirm-button').click(query_delete_confirm_click);
@@ -15,6 +17,9 @@ $(document).ready(function() {
   $('.query-edit-button').click(query_edit_click);
   $('.query-edit-submit-button').click(query_edit_submit_click);
   $('a.analyze-button').click(analyze_click);
+
+  // don't let us focus the shadow input
+  $('#lt-prompt-shadow').focus(function() { $('#lt-new-metric-prompt').focus() });
 
   new_metric_prompt_init();
 
@@ -52,7 +57,7 @@ intro = function() {
   });
 }
 
-addMetric = function(name) {
+addMetric = function(metric_name) {
   var metric;
 
   if (template_metrics[metric_name] != undefined) {
@@ -148,6 +153,8 @@ new_query_create_click = function() {
   }, 500, function() {
     $('#lt-new-metric-prompt').focus();
   });
+
+  $('#lt-prompt-shadow').offset($('#lt-new-metric-prompt').offset());
 }
 
 new_query_create_submit_click = function() {
@@ -378,11 +385,26 @@ new_metric_prompt_init = function() {
 
   $('#lt-new-metric-prompt').autocomplete({
     source: metric_names,
+    open: function(event, ui) {
+      if ($('#lt-new-metric-prompt').val().length >= 3) {
+        completion = $('li.ui-menu-item a').html();
+        $('#lt-prompt-shadow').val(completion);
+      }
+    },
+    close: function(event, ui) {
+      completion = '';
+      $('#lt-prompt-shadow').val('');
+    },
   });
 
   $('#lt-new-metric-prompt').keypress(function(key) {
     if (key.which == 13) {
-      metric_name = $('#lt-new-metric-prompt').val();
+      var metric_name = '';
+      if (completion != '') {
+        metric_name = completion;
+      } else {
+        metric_name = $('#lt-new-metric-prompt').val();
+      }
       addMetric(metric_name);
     }
   });
