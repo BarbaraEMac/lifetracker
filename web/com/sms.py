@@ -1,8 +1,12 @@
 import logging
 from google.appengine.ext import webapp
+from google.appengine.api import urlfetch
+
 from datetime import datetime
 
 from model import User, Query, DataPoint, Globals
+
+import urllib
 
 import twilio
 
@@ -13,7 +17,24 @@ CALLER_ID = Globals.get('TWILIO_CALLER_ID')
 
 account = twilio.Account(ACCOUNT_SID, ACCOUNT_TOKEN) 
 
-def send_sms(toNumber, text):
+TROPO_API_URL = Globals.get('TROPO_API_URL')
+TROPO_TOKEN = Globals.get('TROPO_ACCOUNT_TOKEN')
+
+def tropo_send_sms(toNumber, text):
+    data = urllib.urlencode({
+        'action': 'create',
+        'token': TROPO_TOKEN,
+        'numberToDial': toNumber,
+        'msg': text
+    })
+
+    response = urlfetch.fetch(url=TROPO_API_URL, payload=data, deadline=20, method=urlfetch.POST)
+
+    logging.info(response.final_url)
+    logging.info(response.content)
+    return response.content
+
+def twilio_send_sms(toNumber, text):
   logging.info("Sending SMS! To number: " + toNumber + " with text " + text)
 
   data = {
@@ -29,7 +50,14 @@ def send_sms(toNumber, text):
   except Exception, e:
     logging.info(e)
 
+def send_sms(toNumber, text):
+  tropo_send_sms(toNumber, text)
 
+class TropoSMSScriptHandler(webapp.RequestHandler):
+  def get(self):
+    f = open('com/tropo/tropo_sms.py')
+    self.response.out.write(f.read())
+ 
 # we should probably have some security on this thang
 class ReceiveSMSHandler(webapp.RequestHandler):
   def post(self):

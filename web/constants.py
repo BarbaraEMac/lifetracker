@@ -7,4 +7,5 @@ whitelist = [
   'annbgomez@gmail.com',
   'henrys.jibs@gmail.com',
   'calum.mcculloch@gmail.com',
+  'tom@tomprice.ca',
  ]

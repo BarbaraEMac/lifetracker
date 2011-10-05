@@ -8,6 +8,8 @@ from model import User, Query, DataPoint
 from sms import send_sms
 from utils.time import is_daytime
 
+import logging
+
 def send_by_email(query):
   # get the user
   user = query.user
@@ -36,6 +38,7 @@ def send_query(query):
   else:
     send_by_email(query)
 
+  logging.info("Sent Query: " + query.name + " for user " + query.user.email)
   query.lastSentAt = datetime.now() # refresh the query
   query.put() # commit it
 

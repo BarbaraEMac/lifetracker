@@ -25,6 +25,7 @@ from ui.home import HomeHandler
 from ui.import_data import ImportDataHandler
 from ui.export_data import ExportDataHandler
 from com.sms import ReceiveSMSHandler
+from com.sms import TropoSMSScriptHandler
 from com.incoming_mail import EmailResponseHandler
 from com.send_queries import SendQueriesHandler
 from scripts.init_templates import InitTemplatesHandler
@@ -55,6 +56,7 @@ appRoute = webapp.WSGIApplication( [
   ('/analyzeJSON', AnalyzeDataJSONHandler),
   ('/analyze/text/wordFrequencies', TextMetricWordFrequencies),
   ('/sms/receive', ReceiveSMSHandler),
+  ('/sms/tropo.py', TropoSMSScriptHandler),
   ('/scripts/init_templates', InitTemplatesHandler),
   ('/loginURL', LoginURLGetterHandler),
   EmailResponseHandler.mapping(),
