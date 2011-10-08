@@ -1,5 +1,6 @@
 # this script switches the target of appcfg between our test account
-# and our prod account.
+# and our prod account, and turns the sendQueries cronjob off for the dev
+# instance so we're not doubling our text messages
 
 #!/bin/bash
 
@@ -7,9 +8,13 @@ if [ "$1" == 'prod' ]; then
   echo 'Targeting prod'
   cat app.yaml | sed 's/application: lifetrckr.*$/application: lifetrckr/g' > app.yaml2
   mv app.yaml2 app.yaml
+  cat cron.yaml | sed 's/url: \/sendQueriesDev/url: \/sendQueries/g' > cron.yaml2
+  mv cron.yaml2 cron.yaml
 else
   echo 'Targeting dev'
   cat app.yaml | sed 's/application: lifetrckr.*$/application: lifetrckr-dev/g' > app.yaml2
   mv app.yaml2 app.yaml
+  cat cron.yaml | sed 's/url: \/sendQueries/url: \/sendQueriesDev/g' > cron.yaml2
+  mv cron.yaml2 cron.yaml
 fi
 
