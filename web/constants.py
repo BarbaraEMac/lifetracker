@@ -8,4 +8,6 @@ whitelist = [
   'henrys.jibs@gmail.com',
   'calum.mcculloch@gmail.com',
   'tom@tomprice.ca',
+  'shan.lian91@gmail.com',
+  'robertdelder@gmail.com',
  ]
