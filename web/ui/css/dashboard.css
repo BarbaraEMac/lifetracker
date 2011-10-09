@@ -75,6 +75,19 @@ div.metric input.edit-name {
   text-align: center;
 }
 
+div.edit-format-container {
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+
+div.edit-format-container p {
+  text-align: center;
+  font-size: larger;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 5px;
+}
+
 div.edit-text-container {
   width: 100%;
 }

@@ -67,6 +67,16 @@ class DashboardHandler(webapp.RequestHandler):
         <a id='delete-%(query_id)s' class='query-delete-button' href='#'>Delete</a>
         <a id='confirm-delete-%(query_id)s' class='query-delete-confirm-button' href='#'>Really?</a>
       </div>
+      <div id='edit-format-container-%(query_id)s' class='edit-field edit-format-container'>
+        <p>Format</p>
+        <form id='edit-format-%(query_id)s' class='edit-format'>
+        <p>
+          Text <input type='radio' name='format' class='format-text' value='text'/>
+          Number <input type='radio' name='format' class='format-number' value='number'/>
+          Time <input type='radio' name='format' class='format-time' value='time'/>
+        </p>
+        </form>
+      </div>
       <div id='edit-text-container-%(query_id)s' class='edit-field edit-text-container'>
         <p>Query Text:</p>
         <input id='edit-text-%(query_id)s' class='edit-field edit-text' type='text' value='%(text)s'/>

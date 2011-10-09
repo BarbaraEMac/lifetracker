@@ -46,7 +46,7 @@ class EditQueryHandler(webapp.RequestHandler):
     frequency = self.request.get('frequency', None)
     text = self.request.get('text', None)
     #user_email = self.request.get('user_email', None) #hmm
-    #format = self.request.get('format', None) #hmm
+    format = self.request.get('format', None) #hmm
 
     query = db.get(query_id)
     if not query:
@@ -60,6 +60,8 @@ class EditQueryHandler(webapp.RequestHandler):
       query.frequency = int(frequency)
     if text:
       query.text = text
+    if format:
+      query.format = format
 
     query.put()
     
