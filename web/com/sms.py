@@ -4,7 +4,7 @@ from google.appengine.api import urlfetch
 
 from datetime import datetime
 
-from model import User, Query, DataPoint, Globals
+from model import User, Query, DataPoint, Globals, ActionLog
 from lthandler import LTHandler
 
 import urllib
@@ -62,6 +62,8 @@ class TropoSMSScriptHandler(LTHandler):
 # we should probably have some security on this thang
 class ReceiveSMSHandler(LTHandler):
   def post(self):
+    ActionLog.log('ReceivedSMS')
+
     sender_phone = self.request.get('From')
     body = self.request.get('Body')
 
@@ -102,6 +104,8 @@ class ReceiveSMSHandler(LTHandler):
       )
 
       dp.put()
+
+      ActionLog.log('NewDatapoint', user, query.name)
 
       query.refresh()
 

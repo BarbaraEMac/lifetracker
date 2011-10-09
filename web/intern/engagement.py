@@ -1,7 +1,7 @@
 from google.appengine.ext import webapp
 from google.appengine.api import users
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from model import User, Query, DataPoint, ActionLog
 from utils.time import nearest_day
@@ -15,30 +15,47 @@ class EngagementDashboardHandler(LTHandler):
       return
 
     logout_url = users.create_logout_url(self.request.uri)
+    
+    yesterday = datetime.now() - timedelta(hours=24)
 
     new_datapoints = ActionLog.get(
       action = 'NewDatapoint',
-      timewindow = datetime.fromtimestamp(nearest_day(int(datetime.now().strftime("%s"))))
+      timewindow = yesterday,
     ).count()
 
     new_metrics = ActionLog.get(
       action = 'NewMetric', 
-      timewindow = datetime.fromtimestamp(nearest_day(int(datetime.now().strftime("%s"))))
+      timewindow = yesterday,
     ).count()
 
     queries_sent = ActionLog.get(
       action = 'SentQuery',
-      timewindow = datetime.fromtimestamp(nearest_day(int(datetime.now().strftime("%s"))))
+      timewindow = yesterday,
     ).count()
 
     sms_sent = ActionLog.get(
       action = 'SentSMS',
-      timewindow = datetime.fromtimestamp(nearest_day(int(datetime.now().strftime("%s"))))
+      timewindow = yesterday,
     ).count()
 
     emails_sent = ActionLog.get(
       action = 'SentEmail',
-      timewindow = datetime.fromtimestamp(nearest_day(int(datetime.now().strftime("%s"))))
+      timewindow = yesterday,
+    ).count()
+
+    emails_received = ActionLog.get(
+      action = 'ReceivedEmail',
+      timewindow = yesterday,
+    ).count()
+
+    sms_received = ActionLog.get(
+      action = 'ReceivedEmail',
+      timewindow = yesterday,
+    ).count()
+
+    new_logins = ActionLog.get(
+      action = 'FirstTimeLogin',
+      timewindow = yesterday,
     ).count()
 
     # hackey high-number for now.
@@ -56,6 +73,9 @@ class EngagementDashboardHandler(LTHandler):
       'queries_sent': queries_sent,
       'sms_sent': sms_sent,
       'emails_sent': emails_sent,
+      'sms_received': sms_received,
+      'emails_received': emails_received,
+      'new_logins': new_logins,
     }
 
     self.response.out.write(html % params)
