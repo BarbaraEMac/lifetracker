@@ -3,9 +3,14 @@ from google.appengine.ext import webapp
 from django.utils import simplejson as json
 
 from model import Query, TemplateMetric
+from lthandler import LTHandler
 
-class InitTemplatesHandler(webapp.RequestHandler):
+class InitTemplatesHandler(LTHandler):
   def get(self):
+    user = self.get_user()
+    if not user:
+      return
+
     if TemplateMetric.all().count() > 0:
       return
 

@@ -4,10 +4,10 @@ from google.appengine.api import users
 from django.utils import simplejson as json
 
 from model import User, TemplateMetric
-
+from lthandler import LTHandler
 from constants import whitelist
 
-class HomeHandler(webapp.RequestHandler):
+class HomeHandler(LTHandler):
   def get(self):
     google_user = users.get_current_user()
     if google_user != None and google_user.email() in whitelist:

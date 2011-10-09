@@ -5,6 +5,7 @@ from google.appengine.api import urlfetch
 from datetime import datetime
 
 from model import User, Query, DataPoint, Globals
+from lthandler import LTHandler
 
 import urllib
 
@@ -53,13 +54,13 @@ def twilio_send_sms(toNumber, text):
 def send_sms(toNumber, text):
   tropo_send_sms(toNumber, text)
 
-class TropoSMSScriptHandler(webapp.RequestHandler):
+class TropoSMSScriptHandler(LTHandler):
   def get(self):
     f = open('com/tropo/tropo_sms.py')
     self.response.out.write(f.read())
  
 # we should probably have some security on this thang
-class ReceiveSMSHandler(webapp.RequestHandler):
+class ReceiveSMSHandler(LTHandler):
   def post(self):
     sender_phone = self.request.get('From')
     body = self.request.get('Body')

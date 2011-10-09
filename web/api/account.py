@@ -8,11 +8,16 @@ from model import User, Query, DataPoint
 from com.sms import send_sms
 
 import logging
+from lthandler import LTHandler
 from constants import whitelist
 
 # yeah, we really need to get on this input validation bandwagon
-class UpdateAccountHandler(webapp.RequestHandler):
+class UpdateAccountHandler(LTHandler):
   def post(self):
+    user = self.get_user()
+    if not user:
+      return
+
     user_email = self.request.get('user_email', None)
     phone = self.request.get('phone_number', None)
     medium = self.request.get('medium', None)
@@ -38,24 +43,11 @@ class UpdateAccountHandler(webapp.RequestHandler):
   def first_time_message(self, user):
       send_sms(user.phone, "Welcome to Superhuman! Put this number in your phone so you know when we send you queries.")
 
-class FirstTimeUserHandler(webapp.RequestHandler):
+class FirstTimeUserHandler(LTHandler):
   def get(self): # this should really be post, all these db-writes
-    user = None
-    google_user = users.get_current_user()
-    if google_user == None:
-      self.redirect(users.create_login_url(self.request.uri))
-    elif not google_user.email() in whitelist:
-      self.redirect(users.create_logout_url(self.request.uri))
-    else:
-      user = User.get_by_google_user(google_user)
-      if user == None:
-        user = User(google_user = google_user, 
-          first_name='', 
-          last_name='', 
-          email=google_user.email()
-        )
-
-        user.put() 
+    user = self.get_user()
+    if not user:
+      return
 
     # unpack the values from the query string
     metrics_raw = self.request.get('metrics');
@@ -100,7 +92,7 @@ callback url determined on the client. There may be a cleaner way to do this
 rather than just exposing this function as a URL, but we can worry about
 that later.
 """
-class LoginURLGetterHandler(webapp.RequestHandler):
+class LoginURLGetterHandler(LTHandler):
   def get(self):
     url = self.request.get('url');
     self.response.out.write(users.create_login_url(url))

@@ -5,6 +5,8 @@ from google.appengine.api import mail
 from datetime import datetime
 
 from model import User, Query, DataPoint, ActionLog
+from lthandler import LTHandler
+
 from sms import send_sms
 from utils.time import is_daytime
 
@@ -49,8 +51,12 @@ def send_query(query):
   ActionLog.log('SentQuery')
 
 # it will be a problem if this takes a long time
-class SendQueriesHandler(webapp.RequestHandler):
+class SendQueriesHandler(LTHandler):
   def get(self):
+    user = self.get_user()
+    if not user:
+      return
+
     users = User.all().fetch(1000)
 
     for user in users:

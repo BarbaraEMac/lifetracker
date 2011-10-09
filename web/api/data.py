@@ -7,14 +7,19 @@ from datetime import datetime
 from django.utils import simplejson as json
 
 from model import User, Query, DataPoint, ActionLog
+from lthandler import LTHandler
 from constants import whitelist
 
-class NewQueryHandler(webapp.RequestHandler):
+class NewQueryHandler(LTHandler):
   def post(self):
+    user = self.get_user()
+    if not user:
+      return
+
     name = self.request.get("name")
     frequency = int(self.request.get("frequency"))
     text = self.request.get('text')
-    user_email = self.request.get('user_email')
+    user_email = self.request.get('user_email') 
     format = self.request.get('format').lower()
     template_id = self.request.get('template_id')
 
@@ -39,8 +44,12 @@ class NewQueryHandler(webapp.RequestHandler):
 
     ActionLog.log('NewMetric', user)
 
-class EditQueryHandler(webapp.RequestHandler):
+class EditQueryHandler(LTHandler):
   def post(self):
+    user = self.get_user()
+    if not user:
+      return
+
     query_id = self.request.get('query_id')
     name = self.request.get('name', None)
     frequency = self.request.get('frequency', None)
@@ -67,8 +76,12 @@ class EditQueryHandler(webapp.RequestHandler):
     
     self.response.out.write("success")
 
-class DeleteQueryHandler(webapp.RequestHandler):
+class DeleteQueryHandler(LTHandler):
   def post(self):
+    user = self.get_user()
+    if not user:
+      return
+
     query_id = self.request.get('query_id')
 
     query = db.get(query_id)
@@ -88,8 +101,12 @@ class DeleteQueryHandler(webapp.RequestHandler):
 # called to add a datapoint to a user's dataset
 # To hit this, send a post to "{base-url}/response" with
 # data question_id, user_id, data, and a timestamp
-class NewDataPointHandler(webapp.RequestHandler):
+class NewDataPointHandler(LTHandler):
   def post(self):
+    user = self.get_user()
+    if not user:
+      return
+
     query_id = self.request.get('query_id')
     #user_email = self.request.get('user')
     data = self.request.get('data')
@@ -113,8 +130,12 @@ class NewDataPointHandler(webapp.RequestHandler):
 
     self.response.out.write('success')
 
-class DeleteDataPointHandler(webapp.RequestHandler):
+class DeleteDataPointHandler(LTHandler):
   def post(self):
+    user = self.get_user()
+    if not user:
+      return
+
     dp_id = self.request.get('dp_id')
 
     dp = db.get(dp_id)
@@ -122,8 +143,12 @@ class DeleteDataPointHandler(webapp.RequestHandler):
 
     self.response.out.write('success')
 
-class GetQueriesHandler(webapp.RequestHandler):
+class GetQueriesHandler(LTHandler):
   def get(self):
+    user = self.get_user()
+    if not user:
+      return
+
     user_email = self.request.get('user_email')
     
     user = User.get_by_email(user_email)
@@ -139,8 +164,12 @@ class GetQueriesHandler(webapp.RequestHandler):
 # TODO: more filters for the datapoints.
 #   get only for some query
 #   get only for some time-range
-class GetDataPointsHandler(webapp.RequestHandler):
+class GetDataPointsHandler(LTHandler):
   def get(self):
+    user = self.get_user()
+    if not user:
+      return
+
     user_email = self.request.get('user_email')
     
     user = User.get_by_email(user_email)
@@ -154,8 +183,12 @@ class GetDataPointsHandler(webapp.RequestHandler):
 
     self.response.out.write(json.dumps(datapoints))
 
-class GetDataPointsForQueryHandler(webapp.RequestHandler):
+class GetDataPointsForQueryHandler(LTHandler):
   def get(self):
+    user = self.get_user()
+    if not user:
+      return
+
     user_email = self.request.get('user_email')
     query_id = self.request.get('query_id')
 
@@ -169,10 +202,12 @@ class GetDataPointsForQueryHandler(webapp.RequestHandler):
 
     self.response.out.write(json.dumps(datapoints))
     
-
-
-class ExportCSVHandler(webapp.RequestHandler):
+class ExportCSVHandler(LTHandler):
   def get(self):
+    user = self.get_user()
+    if not user:
+      return
+
     user_email = self.request.get('user_email')
     query_id = self.request.get('query_id')
 
@@ -190,8 +225,12 @@ class ExportCSVHandler(webapp.RequestHandler):
   def dp_to_csv(self, dp):
     return '%s,%s\n' % (dp.timestamp.strftime('%s'), dp.text)
   
-class ImportCSVHandler(webapp.RequestHandler):
+class ImportCSVHandler(LTHandler):
   def post(self):
+    user = self.get_user()
+    if not user:
+      return
+
     user_email = self.request.get('user_email')
     query_id = self.request.get('query_id')
     csv_data = self.request.get('csv_data')

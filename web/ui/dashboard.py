@@ -6,37 +6,28 @@ from model import User, Query, DataPoint, TemplateMetric
 from analytics.analytics import overview
 from constants import whitelist
 
-class DashboardHandler(webapp.RequestHandler):
+from lthandler import LTHandler
+
+
+class DashboardHandler(LTHandler):
   def get(self):
-    google_user = users.get_current_user()
-    if google_user == None:
-      self.redirect(users.create_login_url(self.request.uri))
-    elif not google_user.email() in whitelist:
-      self.redirect(users.create_logout_url(self.request.uri))
-    else:
-      user = User.get_by_google_user(google_user)
-      if user == None:
-        user = User(google_user = google_user, 
-          first_name='', 
-          last_name='', 
-          email=google_user.email()
-        )
+    user = self.get_user()
+    if not user:
+      return
 
-        user.put() 
- 
-      logout_url = users.create_logout_url(self.request.uri)
+    logout_url = users.create_logout_url(self.request.uri)
 
-      # display all the user's queries
-      # add a new query
-      # edit queries 
+    # display all the user's queries
+    # add a new query
+    # edit queries 
 
-      html_file = open("ui/html/dashboard.html")
-      html = html_file.read()
+    html_file = open("ui/html/dashboard.html")
+    html = html_file.read()
 
-      # generate the query table
-      html = html % {'queries': self.generate_query_table(user), 'logout_url': logout_url, 'user_email': user.email, 'template_metrics': TemplateMetric.json_list()}
+    # generate the query table
+    html = html % {'queries': self.generate_query_table(user), 'logout_url': logout_url, 'user_email': user.email, 'template_metrics': TemplateMetric.json_list()}
 
-      self.response.out.write(html)
+    self.response.out.write(html)
 
   def query_to_table_row(self, query):
     metric_html = \
