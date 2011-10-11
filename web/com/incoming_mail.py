@@ -4,7 +4,7 @@ from google.appengine.api import mail
 
 from datetime import datetime
 
-from model import User, Query, DataPoint
+from model import User, Query, DataPoint, ActionLog
 
 import logging, email
 

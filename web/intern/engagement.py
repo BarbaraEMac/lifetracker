@@ -49,7 +49,7 @@ class EngagementDashboardHandler(LTHandler):
     ).count()
 
     sms_received = ActionLog.get(
-      action = 'ReceivedEmail',
+      action = 'ReceivedSMS',
       timewindow = yesterday,
     ).count()
 
