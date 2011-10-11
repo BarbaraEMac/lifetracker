@@ -53,10 +53,6 @@ def send_query(query):
 # it will be a problem if this takes a long time
 class SendQueriesHandler(LTHandler):
   def get(self):
-    user = self.get_user()
-    if not user:
-      return
-
     users = User.all().fetch(1000)
 
     for user in users:
