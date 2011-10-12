@@ -43,10 +43,9 @@ newQuery = function(metric) {
         <p class='overview-metric'>Analytics: None yet!</p> \
       </div>\
       <div class='metric-options'>\
-        <a id='analyze-%(query_id)s' class='analyze-button' href='#'>Analyze</a>\
-        <a id='edit-%(query_id)s' class='query-edit-button' href='#'>Edit</a>\
-        <a id='submit-%(query_id)s' class='query-edit-submit-button' href='#'>Submit</a>\
-        <a id='delete-%(query_id)s' class='query-delete-button' href='#'>Delete</a>\
+        <a id='analyze-%(query_id)s' class='analyze-button'>Analyze</a>\
+        <a id='edit-%(query_id)s' class='query-edit-button'>Edit</a>\
+        <a id='delete-%(query_id)s' class='query-delete-button'>Delete</a>\
         <a id='confirm-delete-%(query_id)s' class='query-delete-confirm-button' href='#'>Really?</a>\
       </div>\
     </div>\
