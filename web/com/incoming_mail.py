@@ -90,6 +90,6 @@ class EmailResponseHandler(InboundMailHandler):
       
     dp.put()
     ActionLog.log('ReceivedEmail')
-    ActionLog.log('NewDatapoint', query.name, user=user)
+    ActionLog.log('NewDatapoint', data=query.name, user=user)
 
     query.refresh()
