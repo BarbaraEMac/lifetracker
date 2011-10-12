@@ -76,6 +76,9 @@ class DashboardHandler(LTHandler):
         <div id='numeric-analytics-container-%(query_id)s' class='numeric-analytics'>
           <img class='analytics-loading' src='images/loading.gif'/>
           <table id='analytics-%(query_id)s' class='analytics-table'></table>
+          <p>
+            <a href='analyze?query_id=%(query_id)s' id='analytics-more-%(query_id)s' class='more-analytics-button'>More</a>
+          </p>
         </div>
         <div id='chart-%(query_id)s' class='chart'>
           <img class='chart-loading' src='images/loading.gif'/>

@@ -224,3 +224,14 @@ div.metric table.analytics-table {
 div.metric table.analytics-table td {
   border: none;
 }
+
+div.metric div.analytics-container p {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 20pt;
+  display: none;
+}
+
+div.metric.analytics-loaded div.analytics-container p {
+  display: block;
+}

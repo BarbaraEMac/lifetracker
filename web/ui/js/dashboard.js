@@ -286,7 +286,7 @@ analyze_click = function() {
         for (index in data) {
           row = "<tr><td>" + data[index][0] + "</td><td>" + data[index][1] + "</td></tr>";
           $(analytics).append(row);
-          if (index > 7) break; // only show the top seven for now.
+          if (index > 5) break; // only show the top seven for now.
         }        
    
         // mark the metric has having its analytics in place so we
