@@ -123,7 +123,8 @@ select_edit_frequency_init = function() {
   $(select_id + ' ' + option_id).attr('selected', 'selected');
 }
 
-query_delete_confirm_click = function() {
+query_delete_confirm_click = function(event) {
+  event.preventDefault();
   query_id = $(this).attr('id').substring(15);
  
   data = {
@@ -144,7 +145,8 @@ query_delete_confirm_click = function() {
   }); 
 }
 
-query_delete_click = function() {
+query_delete_click = function(event) {
+  event.preventDefault();
   query_id = $(this).attr('id').substring(7);
   confirm_button_id = '#confirm-delete-' + query_id;
 
@@ -152,7 +154,8 @@ query_delete_click = function() {
   $(confirm_button_id).css('display', 'block');
 }
 
-new_query_create_click = function() {
+new_query_create_click = function(event) {
+  event.preventDefault();
   $('#new-metric-container').addClass('active');
 
   // make the page taller and scroll so that the whole autocomplate
@@ -193,7 +196,8 @@ new_query_create_submit_click = function() {
   });
 }
 
-query_edit_click = function() {
+query_edit_click = function(event) {
+  event.preventDefault();
   query_id = $(this).attr('id').substring(5);
   metric_id = '#metric-' + query_id;
 
@@ -214,7 +218,8 @@ query_edit_click = function() {
   $(metric_id).addClass('editing');
 }
 
-query_edit_submit_click = function() {
+query_edit_submit_click = function(event) {
+  event.preventDefault();
   query_id = $(this).attr('id').substring(7);
   
   name_id = '#edit-name-' + query_id;
@@ -245,7 +250,8 @@ query_edit_submit_click = function() {
   });
 }
 
-analyze_click = function() {
+analyze_click = function(event) {
+  event.preventDefault();
   query_id = $(this).attr('id').substring(8);
   metric_id = '#metric-' + query_id;
   analytics = '#analytics-' + query_id;

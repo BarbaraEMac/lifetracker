@@ -14,7 +14,8 @@ intro = function() {
   $('#first-time-dialog').css('display', 'inline');
 }
 
-update_button_click = function() {
+update_button_click = function(event) {
+  event.preventDefault();
   user_email = $('#user_email').val()
   // get the phone number and the medium
   phone_number = $('#phone-number').val();

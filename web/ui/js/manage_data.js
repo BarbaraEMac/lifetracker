@@ -4,7 +4,8 @@ $(document).ready(function() {
   $('.new-entry-submit-button').click(new_datapoint_submit_click); 
 });
 
-new_datapoint_submit_click = function() {
+new_datapoint_submit_click = function(event) {
+  event.preventDefault();
   query_id = $(this).attr('id').substring(24);
 
   // get the new dp
@@ -27,7 +28,8 @@ new_datapoint_submit_click = function() {
   });
 }
 
-new_datapoint_click = function() {
+new_datapoint_click = function(event) {
+  event.preventDefault();
   query_id = $(this).attr('id').substring(17);
 
   insert_row_id = '#input-row-' + query_id;
@@ -39,8 +41,10 @@ new_datapoint_click = function() {
   $(submit_id).css('display', 'inline');
 }
 
-delete_datapoint_click = function() {
+delete_datapoint_click = function(event) {
+  event.preventDefault();
   dp_id = $(this).attr('id').substring(7);
+  row_id = '#delete-row-' + dp_id;
 
   data =  {
     'dp_id': dp_id,
@@ -51,7 +55,7 @@ delete_datapoint_click = function() {
     type: 'POST',
     data: data,
     success: function() {
-      window.location.reload(); 
+      $(row_id).remove();
     }
   });
 }

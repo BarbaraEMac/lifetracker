@@ -63,7 +63,7 @@ class ManageDataHandler(LTHandler):
     return query_template % {'rows': rows, 'name': query.name, 'query_id': query.key()}
 
   def data_point_to_row(self, dp):
-    row_template = """<tr><td>%(date)s</td><td>%(text)s</td><td><a id='delete-%(dp_id)s' class='dp-delete-button' href='#'>Delete</a></td></tr>"""
+    row_template = """<tr id='delete-row-%(dp_id)s'><td>%(date)s</td><td>%(text)s</td><td><a id='delete-%(dp_id)s' class='dp-delete-button' href='#'>Delete</a></td></tr>"""
 
     # format a datapoint into a table row
     return row_template % {'date': dp.timestamp, 'text': dp.text, 'dp_id': dp.key()}
