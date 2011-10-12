@@ -29,7 +29,7 @@
 }
 
 html {
-  background-color: #f8f8ff;
+  background-image: url('/images/bright_squares.png');
   font-family: 'Ostrich-Rounded';
   font-size: 16pt;
 }
