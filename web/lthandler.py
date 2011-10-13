@@ -27,5 +27,10 @@ class LTHandler(webapp.RequestHandler):
 
         user.put() 
 
+    # this enables admins to see pages in any user's context
+    if self.request.get('admin', None) == 'true' and user.email in admins:
+      user_email = self.request.get('user_email')
+      user = User.get_by_email(user_email)
+
     return user
 
