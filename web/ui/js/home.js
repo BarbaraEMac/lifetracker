@@ -20,12 +20,14 @@ metric_defaults = {
 
 // can't believe there ins't a jquery function for onload. sucks.
 window.onload = (function() {
+  $('#next-page-container').click(next_page_click);
   $('#lt-prompt-shadow').offset($('#lt-prompt').offset());
   $('#lt-prompt-shadow').css('display', 'block');
   // don't let us focus the shadow input
   $('#lt-prompt-shadow').focus(function() { $('#lt-prompt').focus() });
   $('#lt-prompt').focus();
   new_metric_prompt_init(); 
+  init_intro();
 });
 
 newQuery = function(metric) {
@@ -160,3 +162,27 @@ getDefaultValues = function(metric_name) {
 getTemplateValues = function(template_name) {
   return template_metrics[template_name];
 }
+
+next_page_click = function(event) {
+  event.preventDefault();
+
+  this_page = parseInt($('div.page.active').attr('id').substr(4));
+  next_page = this_page + 1;
+  if (next_page > 4) next_page -= 4
+
+  this_page_id = '#page' + this_page;
+  next_page_id = '#page' + next_page;
+
+  $(this_page_id).animate({
+    opacity: 0,
+  }, 500, function() {
+    $(this_page_id).css('display', 'none');
+    $(this_page_id).css('opacity', '1');
+    $(this_page_id).removeClass('active');
+
+    $(next_page_id).css('display', 'block');
+    $(next_page_id).addClass('active');
+  });
+}
+
+

@@ -137,3 +137,10 @@ div.metric .edit-field {
   display: none;
 }
 
+div#page1 {
+  display: block;
+}
+
+div.page {
+  display: none;
+}

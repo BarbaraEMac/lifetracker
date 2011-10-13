@@ -5,6 +5,7 @@
   <link rel="stylesheet" type="text/css" href="css/lt-common.css"/>
   <link rel="stylesheet" type="text/css" href="css/home.css"/>
   <link rel="stylesheet" type="text/css" href="css/popup.css"/>
+  <link rel="stylesheet" type="text/css" href="css/intro.css"/>
   <link rel="stylesheet" type="text/css" href="css/new_metric_autocomplete.css"/>
 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="text/javascript"></script>
@@ -20,37 +21,93 @@
 <body>
 
 <div id="lt-base">
-
-  <div id='dashboard'>
-    <div id="header">
-      <h1>Dashboard</h1>
-      <a href="data">Manage Data</a>  
-      <a href="dashboard">Dashboard</a>
-      <a href="account">Account</a>
-      <a href=""/>Logout</a>
+  <div id='page1' class='page active'>
+    <div id='dashboard'>
+      <div id="header">
+        <h1>Dashboard</h1>
+        <a href="data">Manage Data</a>  
+        <a href="dashboard">Dashboard</a>
+        <a href="account">Account</a>
+        <a href=""/>Logout</a>
+      </div>
+      <div id="query-list">
+        <!-- metrics go here -->
+      </div>
     </div>
-    <div id="query-list">
-      <!-- metrics go here -->
+
+    <div id='lt-header'>
+      <div id='lt-user-actions'>
+        <a id='login' href='%(login_url)s'>Login</a>
+      </div>
+    </div>
+    <div id='lt-splash'>
+      <h2 id='lt-prompt-text'>What would you like to track</h2>
+      <input id='lt-prompt' type='text'/>
+      <p id='example'>e.g. Mood, Sleep Hours, Breakfast</p>
+      <input id='lt-prompt-shadow' type='text'/>
+    </div>
+    <div id='lt-title-container'>
+      <h1 id='lt-title'>SUPERHUMAN</h1>
+    </div>
+
+    <div id='dialog' class='popup'>
+      Its time to get your account set up. You will be redirected to the login screen and then you'll be set to start tracking! 
     </div>
   </div>
 
-  <div id='lt-header'>
-    <div id='lt-user-actions'>
-      <a id='login' href='%(login_url)s'>Login</a>
+  <div id='page2' class='page'>
+    <div class='point'>
+      <div class='text'>
+        <div class='number-container'>
+          <h2>1</h2>
+        </div>
+        <div class='right-text'>
+          <p>First choose what metrics you'd like to track</p>
+        </div>
+      </div>
+      <div class='screenshot-container'>
+        <img id='home-screenshot' src='images/home_screenshot.png'/>
+      </div>
     </div>
   </div>
-  <div id='lt-splash'>
-    <h2 id='lt-prompt-text'>What would you like to track</h2>
-    <input id='lt-prompt' type='text'/>
-    <p id='example'>e.g. Mood, Sleep Hours, Breakfast</p>
-    <input id='lt-prompt-shadow' type='text'/>
-  </div>
-  <div id='lt-title-container'>
-    <h1 id='lt-title'>SUPERHUMAN</h1>
+
+
+  <div id='page3' class='page'>
+    <div class='point'>
+      <div class='text'>
+        <div class='number-container'>
+          <h2>2</h2>
+        </div>
+        <div class='right-text'>
+          <p>We send you prompts on your phone or email, once a day or more, and you update your metrics by texting back.</p>
+        </div>
+      </div>
+      <div class='screenshot-container'>
+        <img id='iphone-screenshot' src='images/iphone_screenshot.png'/>
+      </div>
+    </div>
   </div>
 
-  <div id='dialog' class='popup'>
-    Its time to get your account set up. You will be redirected to the login screen and then you'll be set to start tracking! 
+  <div id='page4' class='page'>
+    <div class='point'>
+      <div class='text'>
+        <div class='number-container'>
+          <h2>3</h2>
+        </div>
+        <div class='right-text'>
+          <p>Over time, you build up a dataset which can be analyzed by our systems, and you can find ways to optimize your life!</p>
+        </div>
+      </div>
+      <div class='screenshot-container'>
+        <img id='dashboard-screenshot' src='images/dashboard_screenshot.png'/>
+      </div>
+    </div>
+  </div>
+
+  <div id='next-page-container'>
+    <a id='next-page-button' href='#'>
+      ?<img src='images/arrow.png'/>
+    </a>
   </div>
 </div>
 
