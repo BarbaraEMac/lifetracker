@@ -2,20 +2,15 @@ from google.appengine.ext import webapp
 from google.appengine.api import users
 
 from model import User, Query, DataPoint
-from lthandler import LTHandler
+from lthandler import LoggedInPageHandler
 from constants import whitelist
 
-class AccountHandler(LTHandler):
+class AccountHandler(LoggedInPageHandler):
   def get(self):
     user = self.get_user()
     if not user:
       return
       
-    logout_url = users.create_logout_url(self.request.uri)
-
-    html_file = open("ui/html/account.html")
-    html = html_file.read()
-
     sms_selected = ''
     email_selected = ''
     
@@ -25,6 +20,16 @@ class AccountHandler(LTHandler):
       sms_selected = 'selected'
 
     # generate the query table
-    html = html % {'logout_url': logout_url, 'user_email': user.email, 'user_phonenumber': user.phone, 'sms_selected': sms_selected, 'email_selected': email_selected}
+    params = {
+      'user_email': user.email, 
+      'user_phonenumber': user.phone, 
+      'sms_selected': sms_selected, 
+      'email_selected': email_selected,
+    }
+
+    self.register_css(['account.css'])
+    self.register_js(['account.js'])
+
+    html = self.render_page('ui/html/account.html', params)
 
     self.response.out.write(html)

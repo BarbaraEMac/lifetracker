@@ -6,8 +6,10 @@ from django.utils import simplejson as json
 from analytics.analytics import analyze_query_data
 from analytics.text_analytics import common_word_frequencies
 from model import User, Query, DataPoint
-from lthandler import LTHandler
+from lthandler import LTHandler, LoggedInPageHandler
 from constants import whitelist
+
+import logging
 
 class TextMetricWordFrequencies(LTHandler):
   def get(self):
@@ -38,24 +40,25 @@ class AnalyzeDataJSONHandler(LTHandler):
 
     self.response.out.write(json.dumps(analytics))
 
-class AnalyzeDataHandler(LTHandler):
+class AnalyzeDataHandler(LoggedInPageHandler):
   def get(self):
     user = self.get_user()
     if not user:
       return
       
-    logout_url = users.create_logout_url(self.request.uri)
-
-    html_file = open("ui/html/analyze.html")
-    html = html_file.read()
-
     query_id = self.request.get('query_id')
     query = Query.get_by_id(query_id)
 
     analytics = analyze_query_data(query)
     analytics_html = self.generate_analysis_view(analytics)
 
-    html = html % {'analytics_rows': analytics_html, 'logout_url': logout_url, 'user_email': user.email, 'query_name': query.name}
+    params = {
+      'analytics_rows': analytics_html, 
+      'user_email': user.email, 
+      'query_name': query.name,
+    }
+
+    html = self.render_page('ui/html/analyze.html', params)
 
     self.response.out.write(html)
 

@@ -34,3 +34,55 @@ class LTHandler(webapp.RequestHandler):
 
     return user
 
+class LoggedInPageHandler(LTHandler):
+  styles = []
+  scripts = []
+
+  def render_page(self, html_file, params):
+    content_html = open(html_file).read() % params
+
+    js = self.render_js()
+    css = self.render_css()
+
+    logout_url = users.create_logout_url(self.request.uri)
+
+    template_html = open('ui/html/template.html').read() 
+
+    template_params = {
+      'css': css, 
+      'js': js, 
+      'page_content': content_html, 
+      'logout_url': logout_url}
+
+    html = template_html % template_params
+
+    return html
+
+  def register_css(self, css_list):
+    self.styles = css_list
+
+  def register_js(self, script_list):
+    self.scripts = script_list
+
+  def render_css(self):
+    css_html = ''
+    for css_file in self.styles:
+      css_html += self.link_tag(css_file) + "\n  "
+    return css_html
+
+  def render_js(self):
+    js_html = ''
+    for js_file in self.scripts:
+      js_html += self.script_tag(js_file) + "\n  "
+    return js_html
+
+  def link_tag(self, css_file):
+    return '<link rel="stylesheet" type="text/css" href="css/%(filename)s"/>' % {'filename': css_file}
+
+  def script_tag(self, js_file):
+    if js_file.find('http://') == 0 or js_file.find('https://') == 0:
+      return '<script src="%(filename)s" type="text/javascript"></script>' % {'filename': js_file}
+    else:
+      return '<script src="js/%(filename)s" type="text/javascript"></script>' % {'filename': js_file}
+
+

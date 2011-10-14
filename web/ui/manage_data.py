@@ -2,22 +2,24 @@ from google.appengine.ext import webapp
 from google.appengine.api import users
 
 from model import User, Query, DataPoint
-from lthandler import LTHandler
+from lthandler import LoggedInPageHandler
 from constants import whitelist
 
-class ManageDataHandler(LTHandler):
+class ManageDataHandler(LoggedInPageHandler):
   def get(self):
     user = self.get_user()
     if not user:
       return
     
-    logout_url = users.create_logout_url(self.request.uri)
+    params = {
+      'user_email': user.email, 
+      'data': self.generate_data_view(user)
+    }
 
-    html_file = open("ui/html/manage_data.html")
-    html = html_file.read()
+    self.register_css(['manage_data.css'])
+    self.register_js(['manage_data.js'])
 
-    # generate the query table
-    html = html % {'logout_url': logout_url, 'user_email': user.email, 'data': self.generate_data_view(user)}
+    html = self.render_page('ui/html/manage_data.html', params)
 
     self.response.out.write(html)
 

@@ -6,26 +6,35 @@ from model import User, Query, DataPoint, TemplateMetric
 from analytics.analytics import overview
 from constants import whitelist
 
-from lthandler import LTHandler
+from lthandler import LoggedInPageHandler
 
 
-class DashboardHandler(LTHandler):
+class DashboardHandler(LoggedInPageHandler):
   def get(self):
     user = self.get_user()
     if not user:
       return
 
-    logout_url = users.create_logout_url(self.request.uri)
-
-    # display all the user's queries
-    # add a new query
-    # edit queries 
-
-    html_file = open("ui/html/dashboard.html")
-    html = html_file.read()
-
     # generate the query table
-    html = html % {'queries': self.generate_query_table(user), 'logout_url': logout_url, 'user_email': user.email, 'template_metrics': TemplateMetric.json_list()}
+    params = {
+      'queries': self.generate_query_table(user), 
+      'user_email': user.email, 
+      'template_metrics': TemplateMetric.json_list(),
+    }
+    
+    self.register_css([
+      'dashboard.css',
+      'popup.css', 
+      'new_metric_autocomplete.css',
+    ])
+
+    self.register_js([
+      'https://www.google.com/jsapi',
+      'google_charts.js',
+      'dashboard.js',
+    ])
+
+    html = self.render_page('ui/html/dashboard.html', params)
 
     self.response.out.write(html)
 
