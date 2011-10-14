@@ -11,3 +11,7 @@ whitelist = [
   'shan.lian91@gmail.com',
   'robertdelder@gmail.com',
  ]
+
+admins = [
+  'gareth.macleod@gmail.com',
+]
