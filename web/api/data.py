@@ -119,13 +119,13 @@ class NewDataPointHandler(LTHandler):
     #user = User.get_by_email(user_email)
     query = db.get(query_id) #hmmm
 
-    dataPoint = DataPoint(
+    dp = DataPoint(
       text = data,
       query = query,
       timestamp = datetime.now()
     )
 
-    dataPoint.put()
+    dp.lt_put()
     ActionLog.log('NewDatapoint', query.user, query.name)
 
     self.response.out.write('success')
@@ -139,7 +139,7 @@ class DeleteDataPointHandler(LTHandler):
     dp_id = self.request.get('dp_id')
 
     dp = db.get(dp_id)
-    dp.delete()
+    dp.lt_delete()
 
     self.response.out.write('success')
 
@@ -250,7 +250,7 @@ class ImportCSVHandler(LTHandler):
         query = query,
         text = duple[1])
     
-      dp.put()
+      dp.lt_put()
 
     self.redirect('/data')
 

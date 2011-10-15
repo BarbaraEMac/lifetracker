@@ -88,7 +88,7 @@ class EmailResponseHandler(InboundMailHandler):
       query = query,
       timestamp = timestamp)
       
-    dp.put()
+    dp.lt_put()
     ActionLog.log('ReceivedEmail')
     ActionLog.log('NewDatapoint', data=query.name, user=user)
 

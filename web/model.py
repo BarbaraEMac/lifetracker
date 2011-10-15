@@ -1,5 +1,6 @@
 from google.appengine.ext import db
 from google.appengine.api import users
+from google.appengine.api import memcache
 
 from django.utils import simplejson as json
 
@@ -138,6 +139,34 @@ class DataPoint(db.Model):
   text = db.StringProperty(required=True)
   query = db.ReferenceProperty(Query)
   timestamp = db.DateTimeProperty(required=True)
+
+  def lt_put(self):
+    # update the metrics's modified timestamp in memcache
+    mck_metric_last_update = str(self.query.key()) + '.last-update'
+    now = datetime.now().strftime("%s")
+
+    memcache.set(
+      key=mck_metric_last_update, 
+      value=now,
+      time=86400
+    )
+
+    # then put the datapoint
+    self.put()
+
+  def lt_delete(self):
+    # update the metrics's modified timestamp in memcache
+    mck_metric_last_update = str(self.query.key()) + '.last-update'
+    now = datetime.now().strftime("%s")
+
+    memcache.set(
+      key=mck_metric_last_update, 
+      value=now,
+      time=86400
+    )
+
+    # then delete the datapoint
+    self.delete()
 
   @staticmethod
   def get_by_query(query, quantity=1000):

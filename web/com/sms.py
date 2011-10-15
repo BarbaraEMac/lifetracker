@@ -103,7 +103,7 @@ class ReceiveSMSHandler(LTHandler):
         timestamp = timestamp,
       )
 
-      dp.put()
+      dp.lt_put()
 
       ActionLog.log('NewDatapoint', user, query.name)
 
