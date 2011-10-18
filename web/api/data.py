@@ -10,6 +10,8 @@ from model import User, Query, DataPoint, ActionLog
 from lthandler import LTHandler
 from constants import whitelist
 
+import logging
+
 class NewQueryHandler(LTHandler):
   def post(self):
     user = self.get_user()
@@ -56,6 +58,7 @@ class EditQueryHandler(LTHandler):
     text = self.request.get('text', None)
     #user_email = self.request.get('user_email', None) #hmm
     format = self.request.get('format', None) #hmm
+    ask_when = self.request.get('ask_when', None)
 
     query = db.get(query_id)
     if not query:
@@ -71,6 +74,13 @@ class EditQueryHandler(LTHandler):
       query.text = text
     if format:
       query.format = format
+    if ask_when: 
+      # this has the amusing side-effect that it is impossible to have an 
+      # empty 'ask_when' field, and hence a query will always be sent
+      ask_when_list = ask_when.split(',')
+      # there's always a trailing empty item in the list
+      ask_when_list = ask_when_list[:len(ask_when_list) -1]
+      query.ask_when = ask_when_list
 
     query.put()
     

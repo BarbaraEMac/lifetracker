@@ -18,6 +18,7 @@ $(document).ready(function() {
   $('.query-edit-submit-button').click(query_edit_submit_click);
   $('a.analyze-button').click(analyze_click);
   $('.metric').each(edit_format_init);
+  $('.metric').each(edit_time_init);
 
   // don't let us focus the shadow input
   $('#lt-prompt-shadow').focus(function() { $('#lt-new-metric-prompt').focus() });
@@ -30,6 +31,17 @@ $(document).ready(function() {
     intro_complete();
   }
 });
+
+edit_time_init = function() {
+  metric_id = $(this).attr('id').substring(7);
+  ask_when_id = '#metric-' + metric_id + '-time';
+  ask_when = eval($(ask_when_id).val());
+
+  for (i in ask_when) {
+    time_id = '#' + ask_when[i] + '-' + metric_id;
+    $(time_id)[0].checked = true;
+  }
+}
 
 edit_format_init = function() {
   metric_id = $(this).attr('id').substring(7);
@@ -212,7 +224,7 @@ query_edit_click = function(event) {
   // expand this tab
 
   $(metric_id).animate({
-    height: '260px',
+    height: '340px',
   }, 200);
 
   $(metric_id).addClass('editing');
@@ -226,11 +238,18 @@ query_edit_submit_click = function(event) {
   text_id = '#edit-text-' + query_id;
   frequency_id = '#edit-frequency-' + query_id;
   format_id = '#edit-format-' + query_id;
+  ask_when_class = '.ask-when-' + query_id;
 
   new_name = $(name_id).val();
   new_text = $(text_id).val();
   new_frequency = $(frequency_id + ' :selected').attr('id').substring(5);
   new_format = $(format_id + ' :checked').val();
+
+  new_ask_when = '';
+
+  $(ask_when_class + ':checked').each(function() {
+    new_ask_when = new_ask_when + $(this).val() + ',';
+  });
 
   new_query_data = {
     'query_id': query_id,
@@ -238,6 +257,7 @@ query_edit_submit_click = function(event) {
     'text': new_text,
     'frequency': new_frequency,
     'format': new_format,
+    'ask_when': new_ask_when,
   };
 
   $.ajax({

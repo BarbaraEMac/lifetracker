@@ -4,6 +4,8 @@ from google.appengine.api import memcache
 
 from django.utils import simplejson as json
 
+from utils.time import *
+
 from datetime import datetime
 from datetime import timedelta
 
@@ -101,6 +103,8 @@ class Query(db.Model):
   user = db.ReferenceProperty(User)
   # the frequency at which to send the query
   frequency = db.IntegerProperty(required=True)
+  # when to try and send the query, subset of {morning, afternoon, evening}
+  ask_when = db.StringListProperty()
   # the last time we sent this query
   lastSentAt = db.DateTimeProperty(required=True, auto_now_add=True)
   name = db.StringProperty(required=True)
@@ -124,6 +128,18 @@ class Query(db.Model):
   def normalize_name(name):
     return name.lower().strip()
 
+  def is_time_to_send(self):
+    now = int(datetime.now().strftime('%s'))
+
+    if 'morning' in self.ask_when and is_morning(now):
+      return True
+    elif 'afternoon' in self.ask_when and is_afternoon(now):
+      return True
+    elif 'evening' in self.ask_when and is_evening(now):
+      return True
+
+    return False
+    
   def is_stale(self):
     if datetime.now() > self.lastSentAt + timedelta(minutes=self.frequency):
       return True

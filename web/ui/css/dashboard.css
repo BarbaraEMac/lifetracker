@@ -75,12 +75,14 @@ div.metric input.edit-name {
   text-align: center;
 }
 
-div.edit-format-container {
+div.edit-format-container,
+div.edit-time-container {
   margin-top: 5px;
   margin-bottom: 20px;
 }
 
-div.edit-format-container p {
+div.edit-format-container p,
+div.edit-time-container p {
   text-align: center;
   font-size: larger;
   margin-left: auto;

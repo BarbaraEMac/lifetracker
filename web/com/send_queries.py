@@ -58,8 +58,7 @@ class SendQueriesHandler(LTHandler):
     for user in users:
       queries = Query.get_by_user(user)
       for query in queries:
-        now = int(datetime.now().strftime('%s'))
-        if query.is_stale() and is_daytime(now):
+        if query.is_stale() and query.is_time_to_send():
           send_query(query)
           break # only send one query per user every interval
 

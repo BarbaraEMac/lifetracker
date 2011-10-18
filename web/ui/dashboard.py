@@ -1,5 +1,6 @@
 from google.appengine.ext import webapp
 from google.appengine.api import users
+from django.utils import simplejson as json
 
 from model import User, Query, DataPoint, TemplateMetric
 
@@ -42,6 +43,7 @@ class DashboardHandler(LoggedInPageHandler):
     metric_html = \
     """<div id='metric-%(query_id)s' class='metric'>
       <input type='hidden' id='metric-%(query_id)s-type' value='%(format)s'/>
+      <input type='hidden' id='metric-%(query_id)s-time' value='%(ask_when)s'/>
       <div class='metric-name-container'>
         <h3 id='metric-%(query_id)s-name' class='metric-name'>%(name)s</h3>
         <input type='text' value='%(name)s' id='edit-name-%(query_id)s' class='edit-field edit-name'/>
@@ -76,6 +78,14 @@ class DashboardHandler(LoggedInPageHandler):
           Time <input type='radio' name='format' class='format-time' value='time'/>
         </p>
         </form>
+      </div>
+      <div id='edit-time-container-%(query_id)s' class='edit-field edit-time-container'>
+        <p>Ask me During</p>
+        <p>
+          Morning <input type='checkbox' id='morning-%(query_id)s' class='ask-when-%(query_id)s' value='morning'/>
+          Afternoon <input type='checkbox' id='afternoon-%(query_id)s' value='afternoon' class='ask-when-%(query_id)s'/>
+          Evening <input type='checkbox' id='evening-%(query_id)s' value='evening' class='ask-when-%(query_id)s'/>
+        </p>
       </div>
       <div id='edit-text-container-%(query_id)s' class='edit-field edit-text-container'>
         <p>Query Text:</p>
@@ -114,6 +124,7 @@ class DashboardHandler(LoggedInPageHandler):
       'freq_minutes': query.frequency,
       'current_value': current_value,
       'overview': metric_overview,
+      'ask_when': json.dumps(query.ask_when),
     }
 
     return metric_html % metric_data
