@@ -71,7 +71,13 @@ class EmailResponseHandler(InboundMailHandler):
     query = Query.get_by_user_and_name(user, query_name)
 
     for content_type, body in mail_message.bodies('text/html'):
+      # basically deprecated, since we're having users submit forms
+      # straight from the emails now.
+      logging.info('Message Body: ' + body.decode())
       data = body.decode()[ : body.decode().find('<')]
+
+    if data == None:
+      data = ''
 
     # get the time from now()
     timestamp = datetime.now()

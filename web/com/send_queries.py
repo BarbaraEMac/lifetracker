@@ -21,6 +21,8 @@ def send_by_email(query):
   # construct the message
   body = query.text
 
+  body = open('ui/html/email_form.html').read() % params
+      
   # send the message
   message = mail.EmailMessage(
     sender = sender,

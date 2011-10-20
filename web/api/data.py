@@ -138,7 +138,7 @@ class NewDataPointHandler(LTHandler):
     dp.lt_put()
     ActionLog.log('NewDatapoint', query.user, query.name)
 
-    self.response.out.write('success')
+    self.response.out.write('Got it!')
 
 class DeleteDataPointHandler(LTHandler):
   def post(self):
