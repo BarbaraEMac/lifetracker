@@ -1,4 +1,4 @@
-import logging, math
+import math
 from datetime import datetime, timedelta
 
 from model import User, Query, DataPoint
@@ -144,8 +144,6 @@ def mapdata_average(mapData):
   sum = 0.0
   for key in mapData.keys():
     sum += mapData[key]
-
-  logging.info('Sum: ' + sum + ' Length: ' + len(mapData))
 
   average = sum/len(mapData)
 

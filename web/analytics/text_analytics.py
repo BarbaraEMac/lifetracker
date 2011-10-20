@@ -1,4 +1,4 @@
-import logging, math
+import math
 from datetime import datetime, timedelta
 
 from model import User, Query, DataPoint
@@ -33,7 +33,6 @@ def common_words(datapoints):
   for dp in datapoints:
     words = dp.text.split()
     for word in words:
-      logging.info('Word: ' + word)
       if word in word_counter:
         word_counter[word] = word_counter[word] + 1
       else:
@@ -64,7 +63,6 @@ def common_word_frequencies(datapoints):
   for dp in datapoints:
     words = dp.text.split()
     for word in words:
-      logging.info('Word: ' + word)
       if word in word_counter:
         word_counter[word] = word_counter[word] + 1
       else:

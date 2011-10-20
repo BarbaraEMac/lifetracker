@@ -1,4 +1,4 @@
-import logging, math
+import math
 
 from model import User, Query, DataPoint
 
@@ -82,15 +82,8 @@ def avg_int_on_sliced_int(aquery, bquery, value):
   if len(adata) == 0:
     return 0
 
-  for key in adata.keys():
-    logging.info(bquery.name + ': ' + str(bdata[key]) + ', ' + aquery.name + ': ' + str(adata[key]))
-
-
   # average the bdata values 
   avg = map_data_average(adata)
-
-  logging.info("average: " + str(avg))
-  logging.info("End\n")
 
   # return it
   return avg
@@ -142,8 +135,6 @@ def covariance(int_query_a, int_query_b):
   # tweak the data such that there is a 1:1 mapping between the sets
   adata, bdata = symmettrysize(adata, bdata)
 
-  # logging.info('\nLength1:' +  str(len(adata)))
-  # logging.info('\nLength2: ' + str(len(bdata)))
 
   # key it from 0...
 
@@ -158,18 +149,12 @@ def covariance(int_query_a, int_query_b):
 
   sum = 0.0
   for i in adata.keys():
-    # logging.info('adata[i] = ' + str(adata[i]) + ', bdata[i] = ' + str(bdata[i]))
     sum += (adata[i] - aAvg)*(bdata[i] - bAvg)
 
-  # logging.info('aAvg = ' + str(aAvg) + ', bAvg = ' + str(bAvg))
-
-  # logging.info('Sum = ' + str(sum))
   if N-1 <= 0:
     cov = 0
   else:
     cov = sum/(N-1)
- 
-  # logging.info('Cov = ' + str(cov))
  
   return cov
 

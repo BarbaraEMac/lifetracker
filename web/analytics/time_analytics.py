@@ -1,4 +1,4 @@
-import logging, math
+import math
 from datetime import datetime, timedelta
 
 from model import User, Query, DataPoint
