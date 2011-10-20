@@ -1,6 +1,9 @@
 from google.appengine.ext import webapp
 from google.appengine.api import users
+from google.appengine.api import memcache
+
 from django.utils import simplejson as json
+from datetime import datetime
 
 from model import User, Query, DataPoint, TemplateMetric
 
@@ -48,7 +51,7 @@ class DashboardHandler(LoggedInPageHandler):
     except IndexError:
       current_value = 'None'
 
-    metric_overview = overview(query)
+    metric_overview = self.get_overview(query)
 
     metric_data = {
       'query_id': query.key(), 
@@ -64,7 +67,46 @@ class DashboardHandler(LoggedInPageHandler):
     }
 
     return metric_html % metric_data
-  
+ 
+  def get_overview(self, query):
+    # key names
+    mck_metric_overview = str(query.key()) + '.overview'
+    mck_overview_last_update = str(query.key()) + '.overview-last-update'
+    mck_metric_last_update = str(query.key()) + '.last-update'
+
+    #key values
+    metric_overview = memcache.get(mck_metric_overview)
+    overview_last_update = memcache.get(mck_overview_last_update)
+    metric_last_update = memcache.get(mck_metric_last_update)
+
+    # cache miss condition
+    if not (metric_overview is not None and overview_last_update is not None and metric_last_update is not None and int(metric_last_update) < int(overview_last_update)):
+
+      #cache miss, so calculate the overview
+      metric_overview = overview(query)
+
+      # update the relevant keys
+      memcache.set(
+        key=mck_metric_overview,
+        value=metric_overview,
+        time=86400
+      )
+
+      memcache.set(
+        key=mck_overview_last_update,
+        value=datetime.now().strftime('%s'),
+        time=86400
+      )
+
+      if metric_last_update is None:
+        memcache.set(
+          key=mck_metric_last_update,
+          value=datetime.now().strftime('%s'),
+          time=86400
+        )
+
+    return metric_overview
+ 
   # not presently in use, but will be again soon
   def frequency_minutes_to_text(self, mins):
     freq_text = ''

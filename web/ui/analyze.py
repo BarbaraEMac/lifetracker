@@ -11,8 +11,6 @@ from model import User, Query, DataPoint
 from lthandler import LTHandler, LoggedInPageHandler
 from constants import whitelist
 
-import logging
-
 class TextMetricWordFrequencies(LTHandler):
   def get(self):
     user = self.get_user()
