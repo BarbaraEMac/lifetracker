@@ -286,7 +286,7 @@ analyze_click = function(event) {
   // expand this analytics tab
 
   $(metric_id).animate({
-    height: '500px',
+    height: '510px',
   }, 500);
 
   $(metric_id).addClass('analyzing');

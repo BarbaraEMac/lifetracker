@@ -21,14 +21,14 @@
   </div>
   <div class='metric-options'>
     <a id='analyze-%(query_id)s' class='analyze-button' href='#'>
-      Analyze
+      <img src='images/lightbulb_icon.jpg'/>
     </a>
     <a id='edit-%(query_id)s' class='query-edit-button' href='#'>
-      Edit
+      <img src='images/cog_icon.jpg'/>
     </a>
-    <a id='submit-%(query_id)s' class='query-edit-submit-button' href='#'>Submit</a>
-    <a id='delete-%(query_id)s' class='query-delete-button' href='#'>Delete</a>
-    <a id='confirm-delete-%(query_id)s' class='query-delete-confirm-button' href='#'>Really?</a>
+    <a id='submit-%(query_id)s' class='query-edit-submit-button' href='#'>
+      <img src='images/checkmark_icon.jpg'/>
+    </a>
   </div>
   <div id='edit-format-container-%(query_id)s' class='edit-field edit-format-container'>
     <p>Format</p>
@@ -52,6 +52,14 @@
     <p>Query Text:</p>
     <input id='edit-text-%(query_id)s' class='edit-field edit-text' type='text' value='%(text)s'/>
   </div>
+
+
+  <div id='delete-container-%(query_id)s' class='edit-field delete-container'>
+      <a id='delete-%(query_id)s' class='query-delete-button' href='#'>Delete</a>
+      <a id='confirm-delete-%(query_id)s' class='query-delete-confirm-button' href='#'>Really?</a>
+  </div>
+
+
   <div id='analytics-container-%(query_id)s' class='analytics-container'>
     <div id='numeric-analytics-container-%(query_id)s' class='numeric-analytics'>
       <img class='analytics-loading' src='images/loading.gif'/>

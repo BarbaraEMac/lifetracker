@@ -40,14 +40,13 @@ div.metric-options {
   height: 100px;
 }
 
-div.metric-options a {
-  font-size: 16pt;
-  margin-top: 9px;
-  display: block;
-  text-align: center;
+a.query-delete-button,
+a.query-delete-confirm-button {
+  float: right;
+  margin-right: 5px;
 }
 
-div.metric-options a.query-delete-confirm-button {
+a.query-delete-confirm-button {
   display: none;
 }
 
@@ -118,8 +117,12 @@ div.metric.editing a.query-edit-button {
   display: none;
 }
 
-div.metric.editing a.query-edit-submit-button, div.metric.editing div.edit-text-container {
+div.metric.editing div.edit-text-container {
   display: block;
+}
+
+div.metric.editing a.query-edit-submit-button {
+  display: inline;
 }
 
 /* rules for the new-metric box */
@@ -167,6 +170,15 @@ div#new-metric-container.active #new-query-create-button {
 }
 
 /* rules for the analytics-dropdown */
+a.analyze-button img,
+a.query-edit-button img,
+a.query-edit-submit-button img {
+  height: 80px;
+  margin-top: 10px;
+  margin-left: 20px;
+  display: inline;
+}
+
 img.analytics-loading, 
 img.chart-loading {
   display: none;
@@ -203,7 +215,7 @@ div.metric div.chart {
 
 div.metric div.analytics-container {
   display: none;
-  height: 400px;
+  height: 410px;
   margin-top: 100px;
   border-top: 1px solid;
   overflow: hidden;
