@@ -23,7 +23,7 @@ def forward_to_users(incoming_message):
 
   message = mail.EmailMessage(
     sender = incoming_message.sender,
-    to = to,
+    bcc = to,
     subject = incoming_message.subject,
     html = html)
 
