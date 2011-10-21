@@ -1,0 +1,67 @@
+<div id='metric-%(query_id)s' class='metric'>
+  <input type='hidden' id='metric-%(query_id)s-type' value='%(format)s'/>
+  <input type='hidden' id='metric-%(query_id)s-time' value='%(ask_when)s'/>
+  <div class='metric-name-container'>
+    <h3 id='metric-%(query_id)s-name' class='metric-name'>%(name)s</h3>
+    <input type='text' value='%(name)s' id='edit-name-%(query_id)s' class='edit-field edit-name'/>
+  </div>
+  <div class='metric-snapshot'>
+    <p class='overview-metric'>Current: %(current_value)s</p>
+    <p class='overview-metric'>%(overview)s</p> 
+    <p class='edit-field'>
+      <input type='hidden' id='freq-minutes-%(query_id)s' value='%(freq_minutes)s'/>
+      Frequency: <select id='edit-frequency-%(query_id)s' class='edit-field edit-frequency'>
+      <option id='freq-1440'>Every Day</option>           
+      <option id='freq-360'>Every 6 Hours</option>           
+      <option id='freq-180'>Every 3 Hours</option>           
+      <option id='freq-60'>Every Hour</option>           
+      <option id='freq-1'>Every Minute</option>         
+    </select>
+  </p>
+  </div>
+  <div class='metric-options'>
+    <a id='analyze-%(query_id)s' class='analyze-button' href='#'>
+      Analyze
+    </a>
+    <a id='edit-%(query_id)s' class='query-edit-button' href='#'>
+      Edit
+    </a>
+    <a id='submit-%(query_id)s' class='query-edit-submit-button' href='#'>Submit</a>
+    <a id='delete-%(query_id)s' class='query-delete-button' href='#'>Delete</a>
+    <a id='confirm-delete-%(query_id)s' class='query-delete-confirm-button' href='#'>Really?</a>
+  </div>
+  <div id='edit-format-container-%(query_id)s' class='edit-field edit-format-container'>
+    <p>Format</p>
+    <form id='edit-format-%(query_id)s' class='edit-format'>
+    <p>
+      Text <input type='radio' name='format' class='format-text' value='text'/>
+      Number <input type='radio' name='format' class='format-number' value='number'/>
+      Time <input type='radio' name='format' class='format-time' value='time'/>
+    </p>
+    </form>
+  </div>
+  <div id='edit-time-container-%(query_id)s' class='edit-field edit-time-container'>
+    <p>Ask me During</p>
+    <p>
+      Morning <input type='checkbox' id='morning-%(query_id)s' class='ask-when-%(query_id)s' value='morning'/>
+      Afternoon <input type='checkbox' id='afternoon-%(query_id)s' value='afternoon' class='ask-when-%(query_id)s'/>
+      Evening <input type='checkbox' id='evening-%(query_id)s' value='evening' class='ask-when-%(query_id)s'/>
+    </p>
+  </div>
+  <div id='edit-text-container-%(query_id)s' class='edit-field edit-text-container'>
+    <p>Query Text:</p>
+    <input id='edit-text-%(query_id)s' class='edit-field edit-text' type='text' value='%(text)s'/>
+  </div>
+  <div id='analytics-container-%(query_id)s' class='analytics-container'>
+    <div id='numeric-analytics-container-%(query_id)s' class='numeric-analytics'>
+      <img class='analytics-loading' src='images/loading.gif'/>
+      <table id='analytics-%(query_id)s' class='analytics-table'></table>
+      <p>
+        <a href='analyze?query_id=%(query_id)s' id='analytics-more-%(query_id)s' class='more-analytics-button'>More</a>
+      </p>
+    </div>
+    <div id='chart-%(query_id)s' class='chart'>
+      <img class='chart-loading' src='images/loading.gif'/>
+    </div>
+  </div>
+</div>
