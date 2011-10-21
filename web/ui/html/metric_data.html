@@ -1,0 +1,17 @@
+<div class="lt-query">
+  <h2>%(name)s</h2>
+  <table class='lt-data-table'>
+    <thead>
+      <td class='date-cell'>Date</td>
+      <td class='text-cell'>Response</td>
+      <td>Delete</td>
+    <thead>
+    %(rows)s
+    <tr class='input-row' id='input-row-%(query_id)s'>
+      <td class='date-cell'>Now</td>
+      <td class='text-cell'><input type='text' value='value'/></td>
+      <td><a class='new-entry-submit-button' id='new-entry-submit-button-%(query_id)s' href='#'>Submit</a></td>
+    </tr>
+  </table>
+  <p class='new-entry'><a class='new-entry-button' id='new-entry-button-%(query_id)s' href="#">New entry</a> <a class='import-data-button' href='import?query_id=%(query_id)s'>Import Data</a> <a class='export-data-button' href='export?query_id=%(query_id)s'>Export Data</a> <a href='analyze?query_id=%(query_id)s'>Analyze</a></p>
+</div>
