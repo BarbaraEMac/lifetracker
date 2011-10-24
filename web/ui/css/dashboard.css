@@ -170,6 +170,12 @@ div#new-metric-container.active #new-query-create-button {
 }
 
 /* rules for the analytics-dropdown */
+a.analyze-button,
+a.query-edit-button,
+a.query-edit-submit-button {
+  text-decoration: none;
+}
+
 a.analyze-button img,
 a.query-edit-button img,
 a.query-edit-submit-button img {
