@@ -10,6 +10,7 @@ whitelist = [
   'tom@tomprice.ca',
   'shan.lian91@gmail.com',
   'robertdelder@gmail.com',
+  'scott.tolksdorf@gmail.com',
  ]
 
 admins = [
