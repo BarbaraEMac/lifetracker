@@ -214,12 +214,7 @@ query_edit_click = function(event) {
   metric_id = '#metric-' + query_id;
 
   // collapse any other expanded edit-tabs
-
-  $('.metric.editing').animate({
-    height: '100px',
-  });
-
-  $('.metric.editing').removeClass('editing');
+  close_tabs();
 
   // expand this tab
 
@@ -270,6 +265,15 @@ query_edit_submit_click = function(event) {
   });
 }
 
+close_tabs = function () {
+  $('div.metric.analyzing, div.metric.editing').animate({
+    height: '100px',
+  }, 250);
+
+  $('div.metric.analyzing').removeClass('analyzing');
+  $('div.metric.editing').removeClass('editing');
+}
+
 analyze_click = function(event) {
   event.preventDefault();
   query_id = $(this).attr('id').substring(8);
@@ -277,11 +281,7 @@ analyze_click = function(event) {
   analytics = '#analytics-' + query_id;
 
   // collapse all other analytics tabs
-  $('div.metric.analyzing').animate({
-    height: '100px',
-  }, 250);
-
-  $('div.metric.analyzing').removeClass('analyzing');
+  close_tabs();
 
   // expand this analytics tab
 
