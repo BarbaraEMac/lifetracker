@@ -4,7 +4,7 @@ from google.appengine.ext import webapp
 from google.appengine.api import users
 from django.utils import simplejson as json
 
-from model import User, Query, DataPoint
+from model import User, Query, DataPoint, TemplateMetric
 from com.sms import send_sms
 
 import logging
@@ -50,9 +50,22 @@ class FirstTimeUserHandler(LTHandler):
       return
 
     # unpack the values from the query string
-    metrics_raw = self.request.get('metrics');
-    metrics = json.loads(metrics_raw);
-    
+    program = self.request.get('program')
+    sms = self.request.get('sms', None) 
+
+    if sms != None and len(sms) == 10:
+      # need to check that no one has this phone number yet
+      # also, validate the phone number somewhat
+      user.phone = sms
+      user.put()
+
+    metrics = None
+
+    if program == 'casual':
+      metrics = json.loads(open('scripts/casual_program.json').read())
+    else:
+      metrics = json.loads(open('scripts/moderate_program.json').read())
+
     for metric in metrics:
       if metric == None:
         continue
@@ -63,7 +76,7 @@ class FirstTimeUserHandler(LTHandler):
       text = metric['text']
       user_email = self.request.get('user_email')
       format = metric['format']
-      template_id = metric['template_id']
+      template = TemplateMetric.get_by_name(name)
 
       query = Query(
         name = name,
@@ -75,15 +88,12 @@ class FirstTimeUserHandler(LTHandler):
         frequency = frequency,
         user = user,
         format = format,
+        template = template,
       )
 
-      
-      if str(template_id) != '0':
-        query.template = db.get(template_id)
-
       query.put()
-
-    self.redirect('/dashboard?first_time=true');
+    
+    self.redirect('/dashboard?first_time=true')
 
 
 """ 

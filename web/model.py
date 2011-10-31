@@ -96,6 +96,14 @@ class TemplateMetric(db.Model):
             'format': self.format,
             'text': self.text,
             'template_id': str(self.key())}
+  
+  @staticmethod
+  def get_by_name(name):
+    try:
+      return TemplateMetric.all().filter('name =', name).fetch(1)[0]
+    except IndexError:
+      return None
+
 
 class Query(db.Model):
   format = db.StringProperty(required=True, 

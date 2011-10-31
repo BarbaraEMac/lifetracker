@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Mood",
+    "text": "What is your mood 1-5?",
+    "frequency": 1440,
+    "format": "number"
+  },
+  {
+    "name": "Sleep Hours",
+    "text": "How many hours did you sleep last night?",
+    "frequency": 1440,
+    "format": "number"
+  },
+  {
+    "name": "Waking Hour",
+    "text": "What time did you wake up this morning?",
+    "frequency": 1440,
+    "format": "time"
+  },
+  {
+    "name": "Bedtime routine",
+    "text": "What did you do in the hour before going to bed last night?",
+    "frequency": 1440,
+    "format": "text"
+  },
+  {
+    "name": "Diet",
+    "text": "How Healthy did you eat yesterday?",
+    "frequency": 1440,
+    "format": "number"
+  },
+  {
+    "name": "Working Hours",
+    "text": "How many ideal working hours did you get yesterday?",
+    "frequency": 1440,
+    "format": "number"
+  },
+  {
+    "name": "Breakfast",
+    "text": "What did you have for breakfast this morning?",
+    "frequency": 1440,
+    "format": "text"
+  },
+  {
+    "name": "Lunch",
+    "text": "What did you have for lunch this afternoon?",
+    "frequency": 1440,
+    "format": "text"
+  },
+  {
+    "name": "Dinner",
+    "text": "What did you have for dinner this evening?",
+    "frequency": 1440,
+    "format": "number"
+  },
+  {
+    "name": "Social",
+    "text": "How many hours were you actively social yesterday?",
+    "frequency": 1440,
+    "format": "number"
+  }
+]

@@ -178,5 +178,17 @@
     "text": "How energetic are you right now, 1-5?",
     "frequency": 1440,
     "format": "number"
+  },
+  {
+    "name": "Diet",
+    "text": "How healthy did you eat yesterday, 1-5?",
+    "frequency": 1440,
+    "format": "number"
+  },
+  {
+    "name": "Working Hours",
+    "text": "How many ideal working hours did you get yesterday?",
+    "frequency": 1440,
+    "format": "number"
   }
 ]

@@ -20,6 +20,8 @@ $(document).ready(function() {
   $('.metric').each(edit_format_init);
   $('.metric').each(edit_time_init);
 
+  $('#intro').click(intro_next_page_click);
+
   // don't let us focus the shadow input
   $('#lt-prompt-shadow').focus(function() { $('#lt-new-metric-prompt').focus() });
 
@@ -31,6 +33,41 @@ $(document).ready(function() {
     intro_complete();
   }
 });
+
+intro_next_page_click = function(event) {
+  event.preventDefault();
+
+  this_page = parseInt($('div.intro-page.active').attr('id').substr(10));
+
+  next_page = this_page + 1;
+
+  this_page_id = '#intro-page' + this_page;
+  next_page_id = '#intro-page' + next_page;
+
+  $(this_page_id).animate({
+    opacity: 0,
+  }, 500, function() {
+    $(this_page_id).css('display', 'none');
+    $(this_page_id).removeClass('active');
+
+    $(next_page_id).css('display', 'block');
+    $(next_page_id).addClass('active');
+
+    if (next_page == 2) {
+      intro_2();
+    } else if (next_page == 3) {
+      intro_3();
+    } else if (next_page == 4) {
+      intro_4();
+    } if (next_page == 5) {
+      intro_5();
+    } else if (next_page == 6) {
+      intro_6();
+    } else if (next_page > 6) {
+      $('#intro').css('display', 'none');
+    }
+  });
+}
 
 edit_time_init = function() {
   metric_id = $(this).attr('id').substring(7);
@@ -67,17 +104,63 @@ intro_complete = function() {
   });
 }
 
+glow_twice = function(obj, num) {
+  if (num == undefined) num = 0;
+  if (num == 2) return;
+
+  $(obj).animate({
+    backgroundColor: "#bbbbbf",
+  }, 500, function() {
+    $(obj).animate({
+      backgroundColor: "#f8f8ff",
+    }, 500, function() {
+      glow_twice(obj, num += 1);
+    });
+  });
+}
+
+intro_2 = function() {
+  $('.metric').each(function() {
+    glow_twice($(this), 0);
+  });
+}
+
+intro_3 = function() {
+  $('.query-edit-button', $('.metric')[0]).click();
+}
+
+intro_4 = function() {
+  $('.analyze-button', $('.metric')[0]).click();
+}
+
+intro_5 = function() {
+  $('.metric').animate({
+    height: '100px',
+  });
+
+  $('.metric').removeClass('analyzing');
+  $('.metric').removeClass('editing');
+
+  $('#new-query-create-button').click();
+  $('#lt-new-metric-prompt').val('Running');
+}
+
+intro_6 = function() {
+  $('#lt-new-metric-prompt').val('');
+  $('#new-metric-container').removeClass('active');
+
+  $('body').animate({
+    'scrollTop': '0px',
+  }); 
+
+  $('#intro').delay(2000).animate({
+    opacity: '0.0',
+  }, 1000).removeClass('active');
+}
+
 // a series of dialogs/tooltips that introduce the user to the UI
 intro = function() {
-  $('#first-time-dialog').dialog({
-    width: '500px',
-    buttons: [{
-      text: 'Let\'s do it!',
-      click: function() {
-        window.location = '/account?first_time=true';
-      }
-    }]
-  });
+  $('#intro').css('display', 'block');
 }
 
 addMetric = function(metric_name) {

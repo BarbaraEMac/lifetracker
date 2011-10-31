@@ -255,3 +255,43 @@ div.metric div.analytics-container p {
 div.metric.analytics-loaded div.analytics-container p {
   display: block;
 }
+
+/* CSS for the first-time intro that appears at the bottom of the page */
+div#intro {
+  width: 100%;
+  height: 200px;
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
+  z-index: 1000;
+  background-color: black; 
+  border: 3px solid white;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  text-align: center;
+  font-size: larger;
+  display: none;
+}
+
+div#intro h2 {
+  font-size: 40pt;
+  margin-top: 50px;
+  font-family: 'Ostrich-Bold';
+}
+
+#intro-next-page, #intro-next-page:hover {
+  text-align: center;
+  color: white;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+div.intro-page {
+  display:none;
+}
+
+div.intro-page.active {
+  display:block;
+}

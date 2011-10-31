@@ -1,188 +1,90 @@
-// apparently javascript doesn't have native deep-cloning for objects.
-// that's stupid, so this is unelegant.
-cloneMetric = function(oldMetric) {
-  var new_metric = {}; 
-  for (prop in oldMetric) {
-    new_metric[prop] = oldMetric[prop];
-  }
-  return new_metric;
-}
+program = 'casual';
+sms = '';
+email = '';
 
-metrics = new Array();
-
-metric_defaults = {
-  "name": "default",
-  "text": "What is the value of default right now?",
-  "frequency": 1440,
-  "format": "number",
-  "template_id": 0,
+// this function is called from within the login iframe when the login 
+// succeeds
+to_dashboard = function() {
+  window.location = 'dashboard?first_time=true';
 }
 
 // can't believe there ins't a jquery function for onload. sucks.
 window.onload = (function() {
-  $('#next-page-container').click(next_page_click);
-  $('#lt-prompt-shadow').offset($('#lt-prompt').offset());
-  $('#lt-prompt-shadow').css('display', 'block');
-  // don't let us focus the shadow input
-  $('#lt-prompt-shadow').focus(function() { $('#lt-prompt').focus() });
-  $('#lt-prompt').focus();
-  new_metric_prompt_init(); 
-  init_intro();
+  // I wonder if there's a better way to do this
+  $('.section').each(function() {
+    $(this).click(function(event) {
+      event.preventDefault();
+      program_click($(this));
+    });
+  });
+
+  $('#sms, #email').keypress(function(key) {
+    if (key.which == 13) {
+      sms_email_enter();
+    }
+  });
+
+  $('#takealook').click(takealook_click);
+  $('#contact-next').click(sms_email_enter);
 });
 
-newQuery = function(metric) {
-  return "\
-    <div id='metric-%(query_id)s' class='metric'>\
-      <input type='hidden' id='metric-%(query_id)s-type' value='%(format)s'/>\
-      <div class='metric-name-container'>\
-        <h3 id='metric-%(query_id)s-name' class='metric-name'>" 
-        + metric['name'] +  
-        "</h3>\
-        <input type='text' value='" + name + "' id='edit-name-%(query_id)s' class='edit-field edit-name'/>\
-      </div>\
-      <div class='metric-snapshot'>\
-        <p class='overview-metric'>Current: None yet!</p>\
-        <p class='overview-metric'>Analytics: None yet!</p> \
-      </div>\
-      <div class='metric-options'>\
-        <a id='analyze-%(query_id)s' class='analyze-button'>Analyze</a>\
-        <a id='edit-%(query_id)s' class='query-edit-button'>Edit</a>\
-        <a id='delete-%(query_id)s' class='query-delete-button'>Delete</a>\
-        <a id='confirm-delete-%(query_id)s' class='query-delete-confirm-button' href='#'>Really?</a>\
-      </div>\
-    </div>\
-"
-}
-
-showDashboard = function() {
-  $('#lt-header').css('display', 'none');
-  $('#lt-title-container').css('display', 'none');
-
-  $('#lt-splash').addClass('adding');
-  $('#lt-prompt-text').html("What else?");
-  $('#dashboard').css('display', 'block');
-  $('#example').css('display', 'none');
-  $('#lt-prompt-shadow').offset($('#lt-prompt').offset());
-}
-
-// The current autocomplete. If the user hits 'enter' while this is non-
-// empty, we take the completion to be what the user meant
-completion = ''
-
-new_metric_prompt_init = function() {
-  metric_names = [];
-  for (name in template_metrics) {
-    metric_names.push(name);
-  }
-
-  $('#lt-prompt').autocomplete({
-    source: metric_names,
-    open: function(event, ui) {
-      if ($('#lt-prompt').val().length >= 3) {
-        completion = $('li.ui-menu-item a').html();
-        $('#lt-prompt-shadow').val(completion);
-      }
-    },
-    close: function(event, ui) {
-      completion = '';
-      $('#lt-prompt-shadow').val('');
-    },
-  });
-
-  $('#lt-prompt').keypress(function(key) {
-    if (key.which == 13) {
-      var metric_name = '';
-      if (completion != '') {
-        metric_name = completion;  
-      } else {
-        metric_name = $('#lt-prompt').val();
-      }
-
-      addMetric(metric_name);
-
-      $('#lt-prompt').val('');
-      $('#lt-prompt-shadow').val('');
-      $('#lt-prompt').autocomplete("close");
-
-      if ($('.metric').size() >= 3) {
-        $('#lt-splash').addClass('hidden');
-
-        host = window.location.host;
-        callback = 'http://' + host + "/firstTimeUser?";
-        callback += 'metrics=' + JSON.stringify(metrics);
-        data = {"url": callback}
-
-        // ajax to get the login url
-        $.ajax({
-          url: 'loginURL',
-          data: data,
-          success: function(response) {
-            // on success, show the intro dialog then redirect to the login
-            // page
-            callback_url = response;
-
-            $('#dialog').dialog({
-              width: '500px',
-              buttons: [{
-                text: 'Let\'s do it!',
-                click: function() {
-                  window.location = callback_url;
-                }
-              }]
-            }); // dialog
-          }, // success
-        }); // ajax
-      }
-
-      showDashboard();
-    }
-  }); 
-}
-
-addMetric = function(metric_name) {
-  var metric = {};
-
-  if (template_metrics[metric_name.toLowerCase()] != undefined) {
-    metric = getTemplateValues(metric_name.toLowerCase());
-  } else {
-    metric = getDefaultValues(metric_name);
-  }
-
-  metrics[metrics.length] = cloneMetric(metric);
-  $('#query-list').prepend(newQuery(metric));
-}
-
-getDefaultValues = function(metric_name) {
-  var new_metric = metric_defaults;
-  new_metric["name"] = metric_name;
-  new_metric["text"] = "What is the value of " + metric_name + " right now?";
-  return new_metric;
-}
-
-getTemplateValues = function(template_name) {
-  return template_metrics[template_name];
-}
-
-next_page_click = function(event) {
-  event.preventDefault();
-
-  this_page = parseInt($('div.page.active').attr('id').substr(4));
-  next_page = this_page + 1;
-  if (next_page > 4) next_page -= 4
-
-  this_page_id = '#page' + this_page;
-  next_page_id = '#page' + next_page;
-
-  $(this_page_id).animate({
+takealook_click = function(obj) {
+  $('#hook').animate({
     opacity: 0,
   }, 500, function() {
-    $(this_page_id).css('display', 'none');
-    $(this_page_id).css('opacity', '1');
-    $(this_page_id).removeClass('active');
+    $('#hook').css('display', 'none');
+    $('#hook').removeClass('active');
 
-    $(next_page_id).css('display', 'block');
-    $(next_page_id).addClass('active');
+    $('#about-metrics').css('display', 'block');
+    $('#about-metrics').addClass('active');
   });
 }
 
+program_click = function(obj) {
+  program = $(obj).attr('id');
 
+  $('#about-metrics').animate({
+    opacity: 0,
+  }, 500, function() {
+    $('#about-metrics').css('display', 'none');
+    $('#about-metrics').removeClass('active');
+
+    $('#contact').css('display', 'block');
+    $('#contact').addClass('active');
+  });
+}
+
+sms_email_enter = function(event) {
+  sms = $('#sms').val();
+  email = $('#email').val();
+
+  host = window.location.host;
+  callback = 'http://' + host + "/firstTimeUser?";
+  callback += 'sms=' + sms;
+  callback += '&program=' + program;
+  data = {"url": callback}
+
+  // ajax to get the login url
+  $.ajax({
+    url: 'loginURL',
+    data: data,
+    success: function(response) {
+      // on success, show the intro dialog then redirect to the login
+      // page
+      callback_url = response;
+  
+      $('#contact').removeClass('active');
+      $('#contact').css('display', 'none');
+
+      $('#metrics-container').removeClass('active');
+      $('#metrics-container').css('display', 'none');
+
+      $('#login-container').addClass('active');
+
+      window.setTimeout(function() {
+        window.location = callback_url;
+      }, 4000);
+
+    }, // success
+  }); // ajax
+}

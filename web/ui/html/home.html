@@ -1,114 +1,72 @@
-
 <html>
 <head>
-  <link rel="stylesheet" type="text/css" href="css/reset.css"/>
-  <link rel="stylesheet" type="text/css" href="css/lt-common.css"/>
-  <link rel="stylesheet" type="text/css" href="css/home.css"/>
-  <link rel="stylesheet" type="text/css" href="css/popup.css"/>
-  <link rel="stylesheet" type="text/css" href="css/intro.css"/>
-  <link rel="stylesheet" type="text/css" href="css/new_metric_autocomplete.css"/>
 
-  <script src="js/libs/jquery.min.js" type="text/javascript"></script>
-  <script src='js/libs/jquery-ui.min.js' type='text/javascript'></script>
-  
-  <script type="text/javascript">
-    template_metrics = %(template_metrics)s;
-  </script>
+<link rel='stylesheet' type='text/css' href='css/reset.css'/>
+<link rel='stylesheet' type='text/css' href='css/lt-common.css'/>
+<link rel='stylesheet' type='text/css' href='css/popup.css'/>
+<link rel='stylesheet' type='text/css' href='css/home.css'/>
 
-  <script src="js/home.js" type="text/javascript"></script>
+<script type='text/javascript' src='js/libs/jquery.min.js'></script>
+<script type='text/javascript' src='js/libs/jquery-ui.min.js'></script>
+<script type='text/javascript' src='js/home.js'></script>
 
 </head>
 <body>
 
-<div id="lt-base">
-  <div id='page1' class='page active'>
-    <div id='dashboard'>
-      <div id="header">
-        <h1>Dashboard</h1>
-        <a href="data">Manage Data</a>  
-        <a href="dashboard">Dashboard</a>
-        <a href="account">Account</a>
-        <a href=""/>Logout</a>
-      </div>
-      <div id="query-list">
-        <!-- metrics go here -->
-      </div>
-    </div>
-
-    <div id='lt-header'>
-      <div id='lt-user-actions'>
-        <a id='login' href='%(login_url)s'>Login</a>
-      </div>
-    </div>
-    <div id='lt-splash'>
-      <h2 id='lt-prompt-text'>What would you like to track</h2>
-      <input id='lt-prompt' type='text'/>
-      <p id='example'>e.g. Mood, Sleep Hours, Breakfast</p>
-      <input id='lt-prompt-shadow' type='text'/>
-    </div>
-    <div id='lt-title-container'>
-      <h1 id='lt-title'>SUPERHUMAN</h1>
-    </div>
-
-    <div id='dialog' class='popup'>
-      Its time to get your account set up. You will be redirected to the login screen and then you'll be set to start tracking! 
+<div id='lt-base'>
+  <div id='lt-header'>
+    <div id='lt-user-actions'>
+      <a id='login' href='%(login_url)s'>Login</a>
     </div>
   </div>
 
-  <div id='page2' class='page'>
-    <div class='point'>
-      <div class='text'>
-        <div class='number-container'>
-          <h2>1</h2>
-        </div>
-        <div class='right-text'>
-          <p>First choose what metrics you'd like to track</p>
-        </div>
+  <div id='hook' class='page active'>
+    <h2>Alpha is a new kind of Self-Knowledge</h2>
+    <h2>It gathers data from all aspects of your life, and analyzes it for patterns you can use to live better, healthier, and happier.</h2>
+    <h2>It's easy. It's powerful.</h2>
+    <div id='takealook'>
+      <h2>Give it a look</h2>
+    </div>
+  </div>
+
+  <div id='about-metrics' class='page'>
+    <h2>Alpha tracks "metrics" about your life.</h2> 
+    <h2>Metrics are things like Mood, Sleep Hours, and Diet. The more metrics you have, the more meaningful knowledge can be found in your data</h2>
+    <h2>Start by choosing either a light or moderate set of metrics</h2>
+    <div id='program-container'>
+      <div class='section left' id='casual'>
+        <h3>Casual</h3>
       </div>
-      <div class='screenshot-container'>
-        <img id='home-screenshot' src='images/home_screenshot.png'/>
+      <div class='section left' id='moderate'>
+        <h3>Moderate</h3>
       </div>
     </div>
   </div>
 
-
-  <div id='page3' class='page'>
-    <div class='point'>
-      <div class='text'>
-        <div class='number-container'>
-          <h2>2</h2>
-        </div>
-        <div class='right-text'>
-          <p>We send you prompts on your phone or email, once a day or more, and you update your metrics by texting back.</p>
-        </div>
-      </div>
-      <div class='screenshot-container'>
-        <img id='iphone-screenshot' src='images/iphone_screenshot.png'/>
-      </div>
+  <div id='contact' class='page'>
+    <h2>You can update your metrics via SMS or E-mail, and we'll send you reminders so you don't forget!</h2>
+    <div id='screenshot-container'>
+      <img src='images/iphone_screenshot.png' id='iphone-screenshot'/>
+    </div>
+    <div id='contact-form'>
+      <p>Phone: <input type='text' id='sms'/></p>
+      <p>Email: <input type='text' id='email'/></p>
+    </div>
+    <div id='contact-next'>
+      <h2>Cool</h2>
     </div>
   </div>
 
-  <div id='page4' class='page'>
-    <div class='point'>
-      <div class='text'>
-        <div class='number-container'>
-          <h2>3</h2>
-        </div>
-        <div class='right-text'>
-          <p>Over time, you build up a dataset which can be analyzed by our systems, and you can find ways to optimize your life!</p>
-        </div>
-      </div>
-      <div class='screenshot-container'>
-        <img id='dashboard-screenshot' src='images/dashboard_screenshot.png'/>
-      </div>
-    </div>
+  <div id='login-container' class='page'>
+    <h2>Who are you?</h2>
+    <h2>In just a second, you'll be redirected to the Google Accounts login. See you in a moment!</h2>
+    <img id='redirecting-gif' src='images/loading.gif'>
   </div>
 
-  <div id='next-page-container'>
-    <a id='next-page-button' href='#'>
-      ?<img src='images/arrow.png'/>
-    </a>
+  <div id='login-dialog' class='popup'>
+    You will now be redirected to the login page. You're almost set!
   </div>
+
 </div>
 
 </body>

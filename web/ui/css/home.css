@@ -1,42 +1,3 @@
-#lt-splash {
-  margin-top: 200px;
-  width: 700px;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-}
-
-#lt-splash.hidden {
-  display: none;
-}
-
-#lt-prompt-text {
-  font-size: 50pt;
-}
-
-#lt-prompt, 
-#lt-prompt-shadow {
-  width: 700px;
-  height: 50px;
-  border-radius: 5px;
-  font-size: 24pt;
-  padding-left: 5px;
-  font-family: 'Ostrich-Black';
-  text-align: left;
-}
-
-#lt-title-container {
-  margin-top: 200px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-#lt-title {
-  text-align: center;
-  width: 100%; 
-  font-size: 40pt;
-}
-
 #lt-header {
   width: 100%;
   height: 50px;
@@ -48,99 +9,172 @@
   float: right;
 }
 
-#dashboard {
-  display: none;
-}
-
-#lt-splash.adding {
-  text-align: left;
-  margin-top: 0px;
-  margin-left: 0px;
-  margin-right: 0px;
-}
-
-#lt-splash.adding #lt-prompt, 
-#lt-splash.adding #lt-prompt-shadow {
-  width: 900px;
-  height: 100px;
-  text-align: left;
-  padding-left: 100px;
-}
-
-#example {
-  font-size: 20pt;
-  margin-top: 10px;
-}
-
-#lt-prompt-shadow {
-  text-align: left;
-  z-index: 1000;
-  position: absolute;
-  opacity: 0.2;
-  display: none;
-}
-
-
-/* styling for the faux-dashboard page look */
-.metric {
-  background-color: white;
-  border: 1px solid;
-  border-radius: 5px;
-  width: 900px;
-  height: 100px;
-  margin-bottom: 33px;
-}
-
-div.metric-name-container {
-  float: left;
-  display: inline;
-  width: 300px;
-  height: 100px;
-}
-
-h3.metric-name {
-  font-size: 30pt;
+h1, h2, h3 {
   text-align: center;
+}
+
+h2 {
+  font-family: 'Ostrich-Regular';
+  font-size: 36pt;
   margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+/* common styles to all pages */
+#hook, #about-metrics, #contact, #login-container {
+  height: 500px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  padding-left: 25px;
+  padding-right: 25px;
   margin-left: auto;
-}
-
-div.metric-snapshot {
-  float: left;
-  display: inline;
-  width: 300px;
-  height: 100px;
-}
-
-div.metric-snapshot p {
-  text-align: center;
-  margin-top: 20px;
-}
-
-div.metric-options {
-  float: right;
-  display: inline;
-  width: 294px;
-  height: 100px;
-}
-
-div.metric-options a {
-  font-size: 16pt;
-  margin-top: 9px;
-  display: block;
-  text-align: center;
-}
-
-div.metric-options a.query-delete-confirm-button, 
-div.metric a.query-edit-submit-button, 
-div.metric .edit-field {
-  display: none;
-}
-
-div#page1 {
-  display: block;
+  margin-right: auto;
+  margin-top: 50px;
+  background: white;
+  border: 1px solid black;
+  border-radius: 5px;
 }
 
 div.page {
   display: none;
+}
+
+div.page.active {
+  display: block;
+}
+
+/* the 'take a takealook' button on page 1 */
+#takealook {
+  width: 300px;
+  height: 100px;
+  background-color: #f8f8ff;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#takealook:hover {
+  background-color: #ffffff;
+  cursor: pointer;
+}
+  
+#takealook h2, .section h2, #contact-next h2 {
+  font-size: 40pt;
+  font-family: 'Ostrich-Black';
+  margin-top: 25px;
+  margin-bottom: 0px;
+}
+
+/* style for the two program buttons */
+#program-container {
+  width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+div.section {
+  border: 2px solid black;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  background-color: #f8f8ff;
+  margin-top: 50px;
+  margin-left: 20px;
+  margin-right: 20px;
+  width: 250px;
+  height: 100px;
+  display: inline;
+}
+
+div.section h3 {
+  font-family: 'Ostrich-Black';
+  margin-top: 27px;
+  font-size: 36pt;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+/* styles for the contact info page */
+#contact {
+  width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#contact p {
+  font-size: 36pt;
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+}
+
+#contact input {
+  font-size: 30pt;
+  border-radius: 5px;
+  font-family: 'Ostrich-Rounded';
+  padding: 10px;
+  width: 300px;
+  padding-left: 40px;
+}
+
+#contact h1 {
+  margin-bottom: 40px;
+  font-size: 30pt;
+}
+
+div#contact-form, div#screenshot-container {
+  display: inline;
+  float: left;
+  width: 448px;
+  height: 300px;
+}
+
+#iphone-screenshot {
+  width: 80%;
+  margin-left: 10%;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 3px;
+}
+
+#contact-next {
+  margin-top: 350px;
+}
+
+/* styles for the login frame page */
+#login-frame {
+  width: 100%;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* styles for the next-page buttons */
+#takealook, #contact-next {
+  width: 300px;
+  height: 100px;
+  background-color: #f8f8ff;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#takealook:hover, #contact-next:hover, #casual:hover, #moderate:hover  {
+  background-color: #ffffff;
+  cursor: pointer;
+}
+
+/* the spinner on before the google-login redirect */
+#redirecting-gif {
+  margin-top: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
 }

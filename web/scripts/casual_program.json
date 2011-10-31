@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Mood",
+    "text": "What is your mood 1-5?",
+    "frequency": 1440,
+    "format": "number"
+  },
+  {
+    "name": "Sleep Hours",
+    "text": "How many hours did you sleep last night?",
+    "frequency": 1440,
+    "format": "number"
+  },
+  {
+    "name": "Diet",
+    "text": "How Healthy did you eat yesterday?",
+    "frequency": 1440,
+    "format": "number"
+  },
+  {
+    "name": "Working hours",
+    "text": "How many ideal working hours did you get yesterday?",
+    "frequency": 1440,
+    "format": "number"
+  }
+]
