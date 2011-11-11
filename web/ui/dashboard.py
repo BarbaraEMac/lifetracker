@@ -12,6 +12,7 @@ from constants import whitelist
 
 from lthandler import LoggedInPageHandler
 
+import logging
 
 class DashboardHandler(LoggedInPageHandler):
   def get(self):
@@ -67,7 +68,8 @@ class DashboardHandler(LoggedInPageHandler):
     }
 
     return metric_html % metric_data
- 
+
+
   def get_overview(self, query):
     # key names
     mck_metric_overview = str(query.key()) + '.overview'
@@ -89,21 +91,19 @@ class DashboardHandler(LoggedInPageHandler):
       memcache.set(
         key=mck_metric_overview,
         value=metric_overview,
-        time=86400
       )
 
       memcache.set(
         key=mck_overview_last_update,
         value=datetime.now().strftime('%s'),
-        time=86400
       )
 
       if metric_last_update is None:
         memcache.set(
           key=mck_metric_last_update,
           value=datetime.now().strftime('%s'),
-          time=86400
         )
+
 
     return metric_overview
  

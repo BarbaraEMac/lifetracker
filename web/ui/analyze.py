@@ -63,13 +63,11 @@ class AnalyzeDataJSONHandler(LTHandler):
       memcache.set( 
         key=mck_analytics_json, 
         value=analytics_json, 
-        time=86400
       )
    
       memcache.set(
         key=mck_analytics_json_last_update, 
         value=datetime.now().strftime('%s'), 
-        time=86400
       )
 
       # must have fallen out of memcache
@@ -77,7 +75,6 @@ class AnalyzeDataJSONHandler(LTHandler):
         memcache.set(
           key=mck_metric_last_update,
           value=datetime.now().strftime('%s'),
-          time=86400
         )
 
     return analytics_json
@@ -127,13 +124,11 @@ class AnalyzeDataHandler(LoggedInPageHandler):
       memcache.set(
         key=mck_analytics, 
         value=analytics_html, 
-        time=86400
       )
 
       memcache.set(
         key=mck_analytics_last_update, 
         value=datetime.now().strftime('%s'), 
-        time=86400
       )
 
       # must have fallen out of memcache
@@ -141,7 +136,6 @@ class AnalyzeDataHandler(LoggedInPageHandler):
         memcache.set(
           key=mck_metric_last_update,
           value=datetime.now().strftime('%s'),
-          time=86400
         )
 
     return analytics_html 

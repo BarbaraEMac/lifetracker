@@ -40,17 +40,17 @@ class ManageDataHandler(LoggedInPageHandler):
 
   def query_to_data(self, query):
     # keys
-    mck_metric_last_updated = str(query.key()) + '.last-updated'
-    mck_data_last_updated = str(query.key()) + '.data-last-updated'
+    mck_metric_last_update = str(query.key()) + '.last-update'
+    mck_data_last_update = str(query.key()) + '.data-last-update'
     mck_data = str(query.key()) + '.data'
 
     # values
-    metric_last_updated = memcache.get(mck_metric_last_updated)
-    data_last_updated = memcache.get(mck_data_last_updated)
+    metric_last_update = memcache.get(mck_metric_last_update)
+    data_last_update = memcache.get(mck_data_last_update)
     data = memcache.get(mck_data)
  
     # cache miss condition
-    if not (data is not None and metric_last_updated is not None and data_last_updated is not None and int(metric_last_updated) < int(data_last_updated)):
+    if not (data is not None and metric_last_update is not None and data_last_update is not None and int(metric_last_update) < int(data_last_update)):
 
       # cache miss thingy
       data = self.query_data_from_db(query)
@@ -59,20 +59,17 @@ class ManageDataHandler(LoggedInPageHandler):
       memcache.set(
         key=mck_data,
         value=data,
-        time=86400
       )
 
       memcache.set(
-        key=mck_data_last_updated,
+        key=mck_data_last_update,
         value=datetime.now().strftime('%s'),
-        time=86400
       )
 
-      if metric_last_updated is None:
+      if metric_last_update is None:
         memcache.set(
-          key=mck_metric_last_updated,
+          key=mck_metric_last_update,
           value=datetime.now().strftime('%s'),
-          time=86400
         )
 
     return data 
@@ -100,5 +97,5 @@ class ManageDataHandler(LoggedInPageHandler):
     row_template = """<tr id='delete-row-%(dp_id)s'><td>%(date)s</td><td>%(text)s</td><td><a id='delete-%(dp_id)s' class='dp-delete-button' href='#'>Delete</a></td></tr>"""
 
     # format a datapoint into a table row
-    return row_template % {'date': dp.timestamp, 'text': dp.text, 'dp_id': dp.key()}
+    return row_template % {'date': dp.timestamp, 'text': dp.text, 'dp_id': dp.lt_key()}
 

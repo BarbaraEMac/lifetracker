@@ -164,6 +164,10 @@ class DataPoint(db.Model):
   query = db.ReferenceProperty(Query)
   timestamp = db.DateTimeProperty(required=True)
 
+  # these two fields allow us to avoid db reads when the keys are cached
+  unsaved_key = None
+  query_key = None
+
   def lt_put(self):
     # update the metrics's modified timestamp in memcache
     mck_metric_last_update = str(self.query.key()) + '.last-update'
@@ -172,7 +176,6 @@ class DataPoint(db.Model):
     memcache.set(
       key=mck_metric_last_update, 
       value=now,
-      time=86400
     )
 
     # then put the datapoint
@@ -186,22 +189,153 @@ class DataPoint(db.Model):
     memcache.set(
       key=mck_metric_last_update, 
       value=now,
-      time=86400
     )
 
     # then delete the datapoint
     self.delete()
 
+  def lt_key(self):
+    if self.unsaved_key != None:
+      return self.unsaved_key
+    elif self.is_saved():
+      return self.key()
+    else:
+      return None
+
+  def lt_query_key(self):
+    if self.query_key != None:
+      return self.query_key
+    elif self.query != None:
+      return str(self.query.key())
+    else:
+      return None
+
+  def to_dict(self):
+    return {
+      'text': self.text, 
+      'query': self.lt_query_key(),
+      'timestamp': self.timestamp_as_int(),
+      'key': str(self.lt_key()),
+      }
+
+  @staticmethod
+  def from_dict(dp_dict):
+    dp = DataPoint(
+      text = dp_dict['text'],
+      timestamp = datetime.utcfromtimestamp(dp_dict['timestamp']),
+    )
+    
+    dp.query_key = dp_dict['query'] 
+    dp.unsaved_key = dp_dict['key']
+
+    return dp
+
+  @staticmethod
+  def ArrayFromJson(json_dps):
+    datapoints = []
+    arr = json.loads(json_dps)
+   
+    for json_dp in arr:
+      datapoints.append(DataPoint.from_dict(json_dp))
+
+    return datapoints
+
+  @staticmethod
+  def JsonFromArray(datapoints):
+    arr = []
+    for dp in datapoints:
+      arr.append(dp.to_dict())
+
+    return json.dumps(arr)
+    
+ 
   @staticmethod
   def get_by_query(query, quantity=1000):
-    return DataPoint.all().filter('query = ', query).order('timestamp').fetch(1000)
+    # keys
+    mck_metric_datapoints = str(query.key()) + '.datapoints'
+    mck_metric_last_update = str(query.key()) + '.last-update'
+    mck_metric_datapoints_last_update = str(query.key()) + '.datapoints-last-update'
+
+    # key values
+    try:
+      datapoints = DataPoint.ArrayFromJson(memcache.get(mck_metric_datapoints))
+    except TypeError:
+      datapoints = None
+    except ValueError:
+      datapoints = None
+
+    metric_last_update = memcache.get(mck_metric_last_update)
+    datapoints_last_update = memcache.get(mck_metric_datapoints_last_update)
+
+    # cache miss condition
+    if not (datapoints is not None and metric_last_update is not None and datapoints_last_update is not None and int(metric_last_update) < int(datapoints_last_update)):
+
+      # cache miss, get datapoints from the db
+      datapoints = DataPoint.all().filter('query = ', query).order('timestamp').fetch(1000)
+
+      # update the relevant keys
+      memcache.set(
+        key=mck_metric_datapoints,
+        value = DataPoint.JsonFromArray(datapoints),
+      )
+      
+      memcache.set(
+        key=mck_metric_datapoints_last_update,
+        value=datetime.now().strftime('%s'),
+      )
+
+      if metric_last_update is None:
+        memcache.set(
+          key=mck_metric_last_update,
+          value=datetime.now().strftime('%s'),
+      ) 
+
+
+    return datapoints
 
   @staticmethod
   def get_by_query_most_recent(query):
-    return DataPoint.all().filter('query = ', query).order('-timestamp').fetch(1)
-    
-  def get_as_dict(self):
-    return {'text': self.text, 'query': str(self.query.key()), 'timestamp': self.timestamp_as_int()}
+    # keys
+    mck_most_recent_dp = str(query.key()) + '.most-recent-dp'
+    mck_most_recent_dp_update = str(query.key()) + '.most-recent-dp-update'
+    mck_metric_last_update = str(query.key()) + '.last-update'
+
+    # values
+    try:
+      most_recent_dp = memcache.get(mck_most_recent_dp)
+    except TypeError:
+      most_recent_dp = None
+    except ValueError:
+      most_recent_dp = None
+
+    most_recent_dp_update = memcache.get(mck_most_recent_dp_update)
+    metric_last_update = memcache.get(mck_metric_last_update)
+
+    # cache miss condition
+    if not (most_recent_dp is not None and most_recent_dp_update is not None and metric_last_update is not None and int(metric_last_update) < int(most_recent_dp_update)):
+
+      # cache miss work
+      most_recent_dp = DataPoint.all().filter('query = ', query).order('-timestamp').fetch(1)
+
+      # update the relevant keys
+      memcache.set(
+        key=mck_most_recent_dp,
+        value=most_recent_dp,
+      )
+
+      memcache.set(
+        key=mck_most_recent_dp_update,
+        value=datetime.now().strftime('%s'),
+      )
+
+      if metric_last_update is None:
+        memcache.set(
+          key=mck_metric_last_update,
+          value=datetime.now().strftime('%s'),
+        )
+  
+    return most_recent_dp
+
 
   def timestamp_as_int(self):
     return int(self.timestamp.strftime("%s"))

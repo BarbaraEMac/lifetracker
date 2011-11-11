@@ -189,7 +189,7 @@ class GetDataPointsHandler(LTHandler):
 
     for query in queries:
       for datapoint in DataPoint.get_by_query(query):
-        datapoints.append(datapoint.get_as_dict())
+        datapoints.append(datapoint.to_dict())
 
     self.response.out.write(json.dumps(datapoints))
 
@@ -208,7 +208,7 @@ class GetDataPointsForQueryHandler(LTHandler):
     datapoints = []
 
     for datapoint in DataPoint.get_by_query(query):
-      datapoints.append(datapoint.get_as_dict())
+      datapoints.append(datapoint.to_dict())
 
     self.response.out.write(json.dumps(datapoints))
     
