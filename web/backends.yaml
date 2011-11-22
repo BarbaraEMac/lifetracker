@@ -1,0 +1,5 @@
+backends:
+ - name: memcache-refresh
+   start: backend/mc_refresh_backend_start.py
+   class: B1
+   options: dynamic

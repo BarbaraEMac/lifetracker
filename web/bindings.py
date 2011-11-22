@@ -30,6 +30,8 @@ from com.incoming_mail import EmailResponseHandler
 from com.send_queries import SendQueriesHandler
 from scripts.init_templates import InitTemplatesHandler
 
+from backend.memcache_refresh import MemcacheRefreshHandler
+
 from intern.engagement import EngagementDashboardHandler
 
 from model import User, Query, DataPoint
@@ -62,6 +64,8 @@ appRoute = webapp.WSGIApplication( [
   ('/scripts/init_templates', InitTemplatesHandler),
   ('/loginURL', LoginURLGetterHandler),
   ('/intern/engagement', EngagementDashboardHandler),
+
+  ('/backend/memcache-refresh', MemcacheRefreshHandler),
   EmailResponseHandler.mapping(),
 ], debug=True)
 

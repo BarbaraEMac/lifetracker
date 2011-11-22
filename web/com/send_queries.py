@@ -68,4 +68,3 @@ class SendQueriesHandler(LTHandler):
         if query.is_stale() and query.is_time_to_send():
           send_query(query)
           break # only send one query per user every interval
-
