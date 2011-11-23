@@ -3,3 +3,8 @@ backends:
    start: backend/mc_refresh_backend_start.py
    class: B1
    options: dynamic
+
+ - name: query-agent
+   start: backend/mc_refresh_backend_start.py
+   class: B1
+   options: dynamic

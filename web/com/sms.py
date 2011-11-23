@@ -28,8 +28,13 @@ def tropo_send_sms(toNumber, text):
         'numberToDial': toNumber,
         'msg': text
     })
-
-    response = urlfetch.fetch(url=TROPO_API_URL, payload=data, deadline=20, method=urlfetch.POST)
+    
+    response = urlfetch.fetch(
+      url=TROPO_API_URL, 
+      payload=data, 
+      method=urlfetch.POST,
+      deadline=60, # tropo can be frakkin' slow.
+    )
 
     logging.info(response.final_url)
     logging.info(response.content)

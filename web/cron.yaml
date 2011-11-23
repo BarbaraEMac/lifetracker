@@ -1,7 +1,8 @@
 cron:
-- description: send a new batch of queries
+- description: Sends queries for stale metrics
   url: /sendQueries
   schedule: every 10 minutes
+  target: query-agent
 
 - description: Tell the backend to refresh our core memcache keys
   url: /backend/memcache-refresh

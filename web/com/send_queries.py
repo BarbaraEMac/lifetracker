@@ -60,6 +60,7 @@ def send_query(query):
 # it will be a problem if this takes a long time
 class SendQueriesHandler(LTHandler):
   def get(self):
+    start = datetime.now().strftime('%s')
     users = User.all().fetch(1000)
 
     for user in users:
@@ -68,3 +69,8 @@ class SendQueriesHandler(LTHandler):
         if query.is_stale() and query.is_time_to_send():
           send_query(query)
           break # only send one query per user every interval
+
+    end = datetime.now().strftime('%s')
+
+    logging.info('SendQueries started at ' + start)
+    logging.info('SendQueries finished at ' + end)
