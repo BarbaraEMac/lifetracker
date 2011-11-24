@@ -33,6 +33,7 @@ h2 {
   background: white;
   border: 1px solid black;
   border-radius: 5px;
+  -moz-border-radius: 5px;
 }
 
 div.page {
@@ -50,6 +51,7 @@ div.page.active {
   background-color: #f8f8ff;
   border: 1px solid black;
   border-radius: 5px;
+  -moz-border-radius: 5px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -76,6 +78,7 @@ div.page.active {
 div.section {
   border: 2px solid black;
   border-radius: 5px;
+  -moz-border-radius: 5px;
   margin-bottom: 10px;
   background-color: #f8f8ff;
   margin-top: 50px;
@@ -117,6 +120,7 @@ div.section h3 {
 #contact input {
   font-size: 30pt;
   border-radius: 5px;
+  -moz-border-radius: 5px;
   font-family: 'Ostrich-Rounded';
   padding: 10px;
   width: 300px;
@@ -140,6 +144,7 @@ div#contact-form, div#screenshot-container {
   margin-left: 10%;
   border: 1px solid black;
   border-radius: 5px;
+  -moz-border-radius: 5px;
   padding: 3px;
 }
 
@@ -162,6 +167,7 @@ div#contact-form, div#screenshot-container {
   background-color: #f8f8ff;
   border: 1px solid black;
   border-radius: 5px;
+  -moz-border-radius: 5px;
   margin-left: auto;
   margin-right: auto;
 }

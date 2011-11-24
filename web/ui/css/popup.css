@@ -3,6 +3,7 @@
   background-color: ghostwhite;
   border: 1px solid;
   border-radius: 5px;
+  -moz-border-radius: 5px;
   font-size: 24pt;
   padding: 50px;
 }

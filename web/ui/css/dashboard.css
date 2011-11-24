@@ -2,6 +2,7 @@
   background-color: #f8f8ff;
   border: 1px solid;
   border-radius: 5px;
+  -moz-border-radius: 5px;
   width: 900px;
   height: 100px;
   margin-bottom: 33px;
@@ -131,6 +132,7 @@ div#new-metric-container {
   width: 900px;
   display: block;
   border-radius: 5px;
+  -moz-border-radius: 5px;
 }
 
 div#new-metric-container.active {
@@ -149,6 +151,7 @@ div#new-metric-container.active {
   text-align: left;
   padding-left: 100px;
   border-radius: 5px;
+  -moz-border-radius: 5px;
   font-size: 24pt;
   font-family: 'Ostrich-Black';
   display: none;
@@ -267,6 +270,7 @@ div#intro {
   background-color: black; 
   border: 3px solid white;
   border-radius: 5px;
+  -moz-border-radius: 5px;
   cursor: pointer;
   color: white;
   text-align: center;
