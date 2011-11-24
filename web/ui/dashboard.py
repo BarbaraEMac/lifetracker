@@ -7,6 +7,7 @@ from datetime import datetime
 
 from model import User, Query, DataPoint, TemplateMetric
 
+from utils.track_walltime import track_walltime
 from analytics.analytics import overview
 from constants import whitelist
 
@@ -15,6 +16,7 @@ from lthandler import LoggedInPageHandler
 import logging
 
 class DashboardHandler(LoggedInPageHandler):
+  @track_walltime
   def get(self):
     user = self.get_user()
     if not user:

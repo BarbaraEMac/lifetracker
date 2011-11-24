@@ -10,6 +10,7 @@ from analytics.text_analytics import common_word_frequencies
 from model import User, Query, DataPoint
 from lthandler import LTHandler, LoggedInPageHandler
 from constants import whitelist
+from utils.track_walltime import track_walltime
 
 class TextMetricWordFrequencies(LTHandler):
   def get(self):
@@ -28,6 +29,7 @@ class TextMetricWordFrequencies(LTHandler):
     
 
 class AnalyzeDataJSONHandler(LTHandler):
+  @track_walltime
   def get(self):
     user = self.get_user()
     if not user:
@@ -82,6 +84,7 @@ class AnalyzeDataJSONHandler(LTHandler):
 
 
 class AnalyzeDataHandler(LoggedInPageHandler):
+  @track_walltime
   def get(self):
     user = self.get_user()
     if not user:

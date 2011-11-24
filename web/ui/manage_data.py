@@ -5,10 +5,12 @@ from google.appengine.api import memcache
 from model import User, Query, DataPoint
 from lthandler import LoggedInPageHandler
 from constants import whitelist
+from utils.track_walltime import track_walltime
 
 from datetime import datetime
 
 class ManageDataHandler(LoggedInPageHandler):
+  @track_walltime
   def get(self):
     user = self.get_user()
     if not user:

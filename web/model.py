@@ -37,25 +37,30 @@ class ActionLog(db.Model):
   timestamp = db.DateTimeProperty(required = True)
   user = db.ReferenceProperty(User)
   data = db.StringProperty()
+  page = db.StringProperty()
 
   @staticmethod
-  def log(action, user = None, data = None):
+  def log(action, user = None, page = None, data = None):
     event = ActionLog(action = action, timestamp = datetime.now())
 
     if data != None:
       event.data = data
     if user != None:
       event.user = user
+    if page != None:
+      event.page = page
 
     event.put()
 
   @staticmethod
-  def get(action = None, user = None, timewindow = None):
+  def get(action = None, user = None, page = None, timewindow = None):
     results = ActionLog.all()
     if action != None:
       results.filter('action =', action)
     if user != None:
       results.filter('user =', user)
+    if page != None:
+      results.filter('page =', page)
     if timewindow != None:
       results.filter('timestamp >', timewindow)
 
