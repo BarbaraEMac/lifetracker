@@ -1,6 +1,7 @@
 program = 'casual';
 sms = '';
 email = '';
+invite_code = '';
 
 // this function is called from within the login iframe when the login 
 // succeeds
@@ -26,7 +27,17 @@ window.onload = (function() {
 
   $('#takealook').click(takealook_click);
   $('#contact-next').click(sms_email_enter);
+
+  check_for_invite()
 });
+
+check_for_invite = function() {
+  if (window.location.toString().indexOf('invite_code=') != -1) {
+    start = window.location.toString().indexOf('invite_code=') + 12;
+  
+    invite_code = window.location.toString().substr(start);
+  }
+}
 
 takealook_click = function(obj) {
   $('#hook').animate({
@@ -62,6 +73,9 @@ sms_email_enter = function(event) {
   callback = 'http://' + host + "/firstTimeUser?";
   callback += 'sms=' + sms;
   callback += '&program=' + program;
+  if (invite_code != '') {
+    callback += '&invite_code=' + invite_code;
+  }
   data = {"url": callback}
 
   // ajax to get the login url

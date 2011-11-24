@@ -45,13 +45,14 @@ class UpdateAccountHandler(LTHandler):
 
 class FirstTimeUserHandler(LTHandler):
   def get(self): # this should really be post, all these db-writes
-    user = self.get_user()
-    if not user:
-      return
-
     # unpack the values from the query string
     program = self.request.get('program')
     sms = self.request.get('sms', None) 
+    invite_code_name = self.request.get('invite_code', None)
+
+    user = self.get_user(invite_code_name)
+    if not user:
+      return
 
     if sms != None and len(sms) == 10:
       # need to check that no one has this phone number yet

@@ -18,6 +18,7 @@ class User(db.Model):
   phone = db.StringProperty()
   query_medium = db.StringProperty(
     choices = ('sms', 'email'), default='email')
+  is_whitelisted = db.BooleanProperty(default=False)
 
   @staticmethod
   def get_by_google_user(google_user):
@@ -65,6 +66,25 @@ class ActionLog(db.Model):
       results.filter('timestamp >', timewindow)
 
     return results
+
+class InviteCode(db.Model):
+  name = db.StringProperty(required=True)
+  tokens = db.IntegerProperty(required=True)
+
+  def use_code(self):
+    if self.tokens <= 0:
+      return False
+
+    self.tokens = self.tokens - 1
+    self.put()
+    return True
+
+  @staticmethod
+  def get_by_name(name):
+    try:
+      return InviteCode.all().filter('name =', name).fetch(1)[0]
+    except IndexError:
+      return None
 
 class Globals(db.Model):
   k = db.StringProperty()

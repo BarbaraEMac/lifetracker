@@ -22,6 +22,7 @@ from ui.analyze import AnalyzeDataJSONHandler
 from ui.analyze import TextMetricWordFrequencies
 from ui.account import AccountHandler
 from ui.home import HomeHandler
+from ui.no_invite import NoInviteHandler
 from ui.import_data import ImportDataHandler
 from ui.export_data import ExportDataHandler
 from com.sms import ReceiveSMSHandler
@@ -65,6 +66,7 @@ appRoute = webapp.WSGIApplication( [
   ('/scripts/init_templates', InitTemplatesHandler),
   ('/loginURL', LoginURLGetterHandler),
   ('/intern/engagement', EngagementDashboardHandler),
+  ('/no-invite', NoInviteHandler),
 
   ('/backend/memcache-refresh', MemcacheRefreshHandler),
   ('/backend/analytics-refresh', AnalyticsRefreshHandler),

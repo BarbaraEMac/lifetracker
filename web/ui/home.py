@@ -12,8 +12,13 @@ class HomeHandler(LTHandler):
   @track_walltime
   def get(self):
     google_user = users.get_current_user()
-    if google_user != None and google_user.email() in whitelist:
-      self.redirect('/dashboard');
+    if google_user != None:
+      user = User.get_by_google_user(google_user)
+      if user != None and user.is_whitelisted:
+        self.redirect('/dashboard');
+      else:
+        self.redirect(users.create_logout_url('/no-invite'))
+      
 
     f = open('ui/html/home.html')
     html = f.read()
