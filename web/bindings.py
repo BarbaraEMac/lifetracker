@@ -1,5 +1,5 @@
 from google.appengine.ext import webapp
-from google.appengine.ext.webapp.util import run_wsgi_app
+from google.appengine.ext.webapp.util import run_wsgi_app 
 from google.appengine.api import users
 
 from api.data import NewDataPointHandler
@@ -31,6 +31,7 @@ from com.send_queries import SendQueriesHandler
 from scripts.init_templates import InitTemplatesHandler
 
 from backend.memcache_refresh import MemcacheRefreshHandler
+from backend.analytics_refresh import AnalyticsRefreshHandler
 
 from intern.engagement import EngagementDashboardHandler
 
@@ -66,6 +67,7 @@ appRoute = webapp.WSGIApplication( [
   ('/intern/engagement', EngagementDashboardHandler),
 
   ('/backend/memcache-refresh', MemcacheRefreshHandler),
+  ('/backend/analytics-refresh', AnalyticsRefreshHandler),
   EmailResponseHandler.mapping(),
 ], debug=True)
 

@@ -1,10 +1,15 @@
 backends:
+ - name: query-agent
+   start: backend/query_agent_start.py
+   class: B1
+   options: dynamic
+
  - name: memcache-refresh
    start: backend/mc_refresh_backend_start.py
    class: B1
    options: dynamic
 
- - name: query-agent
-   start: backend/query_agent_start.py
+ - name: analytics-refresh
+   start: backend/analytics_backend_start.py
    class: B1
    options: dynamic

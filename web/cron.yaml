@@ -8,3 +8,8 @@ cron:
   url: /backend/memcache-refresh
   schedule: every 3 hours
   target: memcache-refresh
+
+- description: Refresh the analytics memcache keys
+  url: /backend/analytics-refresh
+  schedule: every 3 hours
+  target: analytics-refresh

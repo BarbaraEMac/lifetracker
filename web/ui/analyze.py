@@ -107,30 +107,39 @@ class AnalyzeDataHandler(LoggedInPageHandler):
 
   def get_analytics(self, query):
     # key names
-    mck_analytics = str(query.key()) + '.analytics-html'
-    mck_analytics_last_update = str(query.key()) + '.analytics-last-update'
+    mck_analytics_json = str(query.key()) + '.analytics-json'
+    mck_analytics_json_last_update = str(query.key()) + '.analytics-json-last-update'
     mck_metric_last_update = str(query.key()) + '.last-update'
 
     # values
     metric_last_update = memcache.get(mck_metric_last_update)
-    analytics_last_update = memcache.get(mck_analytics_last_update)
-    analytics_html = memcache.get(mck_analytics)
+    analytics_json_last_update = memcache.get(mck_analytics_json_last_update)
+    analytics_json = memcache.get(mck_analytics_json)
+
+    analytics = None
+
+    try:
+      analytics = json.loads(analytics_json)
+    except TypeError:
+      analytics = None
+    except valueError:
+      analytics = None
 
     # cache miss condition 
-    if not (analytics_html is not None and metric_last_update is not None and analytics_last_update is not None and int(metric_last_update) < int(analytics_last_update)):
+    if not (analytics is not None and metric_last_update is not None and analytics_json_last_update is not None and int(metric_last_update) < int(analytics_json_last_update)):
      
       # cache miss, so calculate the analytics
       analytics = analyze_query_data(query)
-      analytics_html = self.generate_analysis_view(analytics)
+      analytics_json = json.dumps(analytics)
 
       # update the relevant keys
       memcache.set(
-        key=mck_analytics, 
-        value=analytics_html, 
+        key=mck_analytics_json, 
+        value=analytics_json, 
       )
 
       memcache.set(
-        key=mck_analytics_last_update, 
+        key=mck_analytics_json_last_update, 
         value=datetime.now().strftime('%s'), 
       )
 
@@ -141,7 +150,9 @@ class AnalyzeDataHandler(LoggedInPageHandler):
           value=datetime.now().strftime('%s'),
         )
 
-    return analytics_html 
+    analytics_html = self.generate_analysis_view(analytics)
+
+    return analytics_html
 
   #def stat_to_row(self, analytic):
   def stat_to_row(self, name, value):
