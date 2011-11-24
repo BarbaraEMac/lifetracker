@@ -57,6 +57,7 @@ class FirstTimeUserHandler(LTHandler):
       # need to check that no one has this phone number yet
       # also, validate the phone number somewhat
       user.phone = sms
+      user.query_medium = 'sms' # favour sms over email
       user.put()
 
     metrics = None
