@@ -14,7 +14,7 @@ class LTHandler(webapp.RequestHandler):
     google_user = users.get_current_user()
     if google_user == None:
       self.redirect(users.create_login_url(self.request.uri))
-    elif not google_user.email() in whitelist:
+    elif not google_user.email().lower()  in whitelist:
       self.redirect(users.create_logout_url(self.request.uri))
     else:
       user = User.get_by_google_user(google_user)
