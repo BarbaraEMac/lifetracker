@@ -5,6 +5,6 @@ backends:
    options: dynamic
 
  - name: query-agent
-   start: backend/mc_refresh_backend_start.py
+   start: backend/query_agent_start.py
    class: B1
    options: dynamic
