@@ -2,7 +2,7 @@ import math
 
 from model import User, Query, DataPoint
 
-from utils.time import nearest_day
+from utils.lt_time import nearest_day
 from datetime import datetime
 
 from common import query_average, average

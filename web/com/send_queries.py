@@ -8,7 +8,7 @@ from model import User, Query, DataPoint, ActionLog
 from lthandler import LTHandler
 
 from sms import send_sms
-from utils.time import is_daytime
+from utils.lt_time import is_daytime
 
 import logging
 

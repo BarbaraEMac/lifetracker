@@ -4,7 +4,7 @@ from google.appengine.api import users
 from datetime import datetime, timedelta
 
 from model import User, Query, DataPoint, ActionLog
-from utils.time import nearest_day
+from utils.lt_time import nearest_day
 from lthandler import LTHandler
 from constants import whitelist
 

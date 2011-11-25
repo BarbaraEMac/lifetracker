@@ -4,7 +4,7 @@ from google.appengine.api import memcache
 
 from django.utils import simplejson as json
 
-from utils.time import *
+from utils.lt_time import *
 
 from datetime import datetime
 from datetime import timedelta
