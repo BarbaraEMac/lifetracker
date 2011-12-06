@@ -24,6 +24,8 @@ class NewQueryHandler(LTHandler):
     user_email = self.request.get('user_email') 
     format = self.request.get('format').lower()
     template_id = self.request.get('template_id')
+    # for now, default to always 
+    ask_when = ['morning', 'afternoon', 'evening']
 
     user = User.get_by_email(user_email)
 
@@ -37,6 +39,7 @@ class NewQueryHandler(LTHandler):
       frequency = frequency,
       user = user,
       format = format,
+      ask_when = ask_when,
     )
   
     if str(template_id) != "0":
@@ -45,6 +48,8 @@ class NewQueryHandler(LTHandler):
     query.put()
 
     ActionLog.log('NewMetric', user)
+
+    self.response.out.write(query.key());
 
 class EditQueryHandler(LTHandler):
   def post(self):

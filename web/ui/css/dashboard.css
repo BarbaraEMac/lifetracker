@@ -135,7 +135,7 @@ div#new-metric-container {
   -moz-border-radius: 5px;
 }
 
-div#new-metric-container.active {
+div#new-metric-container.active, div#new-metric-container.loading {
   background: white;
   border: 1px solid;
 }
@@ -168,8 +168,25 @@ div#new-metric-container.active #lt-prompt-shadow  {
   display: block;
 }
 
-div#new-metric-container.active #new-query-create-button {
+div#new-metric-container.loading #lt-new-metric-prompt,
+div#new-metric-container.loading #lt-prompt-shadow  {
   display: none;
+}
+
+div#new-metric-container.active #new-query-create-button, 
+div#new-metric-container.loading #new-query-create-button {
+  display: none;
+}
+
+img#new-metric-loading {
+  display: none;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 15px;
+}
+
+div#new-metric-container.loading img#new-metric-loading {
+  display: block;
 }
 
 /* rules for the analytics-dropdown */
@@ -303,3 +320,5 @@ div.intro-page {
 div.intro-page.active {
   display:block;
 }
+
+

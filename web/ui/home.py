@@ -3,7 +3,7 @@ from google.appengine.api import users
 
 from django.utils import simplejson as json
 
-from model import User, TemplateMetric
+from model import User, TemplateMetric, InviteCode
 from lthandler import LTHandler
 from constants import whitelist
 from utils.track_walltime import track_walltime

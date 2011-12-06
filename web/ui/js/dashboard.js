@@ -1,3 +1,82 @@
+// this is temporary, until I think of the right way to do this
+
+var new_metric_template = "\
+<div id='metric-%(query_id)s' class='metric'>\
+  <input type='hidden' id='metric-%(query_id)s-type' value='%(format)s'/>\
+  <input type='hidden' id='metric-%(query_id)s-time' value='%(ask_when)s'/>\
+  <div class='metric-name-container'>\
+    <h3 id='metric-%(query_id)s-name' class='metric-name'>%(name)s</h3>\
+    <input type='text' value='%(name)s' id='edit-name-%(query_id)s' class='edit-field edit-name'/>\
+  </div>\
+  <div class='metric-snapshot'>\
+    <p class='overview-metric'>Current: None Yet!</p>\
+    <p class='overview-metric'>None Yet!</p> \
+    <p class='edit-field'>\
+      <input type='hidden' id='freq-minutes-%(query_id)s' value='%(freq_minutes)s'/>\
+      Frequency: <select id='edit-frequency-%(query_id)s' class='edit-field edit-frequency'>\
+      <option id='freq-1440' checked='true'>Every Day</option>           \
+      <option id='freq-360'>Every 6 Hours</option>           \
+      <option id='freq-180'>Every 3 Hours</option>           \
+      <option id='freq-60'>Every Hour</option>           \
+      <option id='freq-1'>Every Minute</option>         \
+    </select>\
+  </p>\
+  </div>\
+  <div class='metric-options'>\
+    <a id='analyze-%(query_id)s' class='analyze-button' href='#'>\
+      <img src='images/lightbulb_icon.png'/>\
+    </a>\
+    <a id='edit-%(query_id)s' class='query-edit-button' href='#'>\
+      <img src='images/cog_icon.png'/>\
+    </a>\
+    <a id='submit-%(query_id)s' class='query-edit-submit-button' href='#'>\
+      <img src='images/checkmark_icon.png'/>\
+    </a>\
+  </div>\
+  <div id='edit-format-container-%(query_id)s' class='edit-field edit-format-container'>\
+    <p>Format</p>\
+    <form id='edit-format-%(query_id)s' class='edit-format'>\
+    <p>\
+      Text <input type='radio' name='format' class='format-text' value='text'/>\
+      Number <input type='radio' name='format' class='format-number' value='number' checked='true'/>\
+      Time <input type='radio' name='format' class='format-time' value='time'/>\
+    </p>\
+    </form>\
+  </div>\
+  <div id='edit-time-container-%(query_id)s' class='edit-field edit-time-container'>\
+    <p>Ask me During</p>\
+    <p>\
+      Morning <input type='checkbox' id='morning-%(query_id)s' class='ask-when-%(query_id)s' value='morning' checked='true'/>\
+      Afternoon <input type='checkbox' id='afternoon-%(query_id)s' value='afternoon' class='ask-when-%(query_id)s' checked='true'/>\
+      Evening <input type='checkbox' id='evening-%(query_id)s' value='evening' class='ask-when-%(query_id)s' checked='true'/>\
+    </p>\
+  </div>\
+  <div id='edit-text-container-%(query_id)s' class='edit-field edit-text-container'>\
+    <p>Query Text:</p>\
+    <input id='edit-text-%(query_id)s' class='edit-field edit-text' type='text' value='What is the value of %(name)s right now?'/>\
+  </div>\
+\
+\
+  <div id='delete-container-%(query_id)s' class='edit-field delete-container'>\
+      <a id='delete-%(query_id)s' class='query-delete-button' href='#'>Delete</a>\
+      <a id='confirm-delete-%(query_id)s' class='query-delete-confirm-button' href='#'>Really?</a>\
+  </div>\
+\
+\
+  <div id='analytics-container-%(query_id)s' class='analytics-container'>\
+    <div id='numeric-analytics-container-%(query_id)s' class='numeric-analytics'>\
+      <img class='analytics-loading' src='images/loading.gif'/>\
+      <table id='analytics-%(query_id)s' class='analytics-table'></table>\
+      <p>\
+        <a href='analyze?query_id=%(query_id)s' id='analytics-more-%(query_id)s' class='more-analytics-button'>More</a>\
+      </p>\
+    </div>\
+    <div id='chart-%(query_id)s' class='chart'>\
+      <img class='chart-loading' src='images/loading.gif'/>\
+    </div>\
+  </div>\
+</div>";
+
 metric_defaults = {
   "name": "default",
   "text": "What is the value of default right now?",
@@ -174,6 +253,13 @@ addMetric = function(metric_name) {
 
   user_email = $('#user_email').val();
 
+  // set the spinner and hide the inputs
+  $('#new-metric-container').addClass('loading');
+  $('#new-metric-container').removeClass('active');
+  
+  // We do this to hide the autocomplete
+  $('body').focus();
+
   // post to /addQuery
   data = {
     'frequency': metric['frequency'],
@@ -188,11 +274,36 @@ addMetric = function(metric_name) {
     url: 'data/newQuery',
     type: 'post',
     data: data,
-    success: function() {
-        window.location = '/dashboard';
+    success: function(response) {
+      addMetricCallback(response, metric['name']);
+      $('#new-metric-container').removeClass('loading');
     }
   });
 }
+
+addMetricCallback = function(metric_id, name) {
+  // Get the new HTML
+  metric_html = new_metric_template.replace(/\%\(query_id\)s/g, metric_id);
+  metric_html = metric_html.replace(/\%\(name\)s/g, name);
+
+  // Place it in the DOM
+  $('#user_email').before(metric_html);
+
+  // Bind the new buttons
+  metric = '#metric-' + metric_id;
+
+  $(metric + ' .query-delete-button').click(query_delete_click);
+  $(metric + ' .query-delete-confirm-button').click(query_delete_confirm_click);
+  $(metric + ' .query-edit-button').click(query_edit_click);
+  $(metric + ' .query-edit-submit-button').click(query_edit_submit_click);
+  $(metric + ' a.analyze-button').click(analyze_click);
+
+  // Update the new-metric prompt
+  $('#new-metric-container').removeClass('active');
+  $('#lt-new-metric-prompt').val('');
+  $('#lt-prompt-shadow').val('');
+}
+
 
 getDefaultValues = function(name) {
   metric = metric_defaults;
