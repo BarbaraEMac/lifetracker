@@ -292,6 +292,10 @@ div#intro h2 {
   margin-right: auto;
 }
 
+div#intro h3 {
+  font-size: 40pt;
+}
+
 div.intro-page {
   display:none;
 }
