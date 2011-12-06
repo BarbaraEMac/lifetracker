@@ -113,6 +113,20 @@ div.metric a.query-edit-submit-button {
   display: none;
 }
 
+div.metric img.submit-spinner {
+  display: none;
+}
+
+div.metric.editing.submitting a.query-edit-submit-button {
+  display: none;
+}
+
+div.metric.editing.submitting img.submit-spinner {
+  display: inline;
+  margin-left: 30px;
+  margin-bottom: 10px;
+}
+
 div.metric.editing h3.metric-name, div.metric.editing p.overview-metric, 
 div.metric.editing a.query-edit-button {
   display: none;

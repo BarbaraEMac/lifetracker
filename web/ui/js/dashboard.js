@@ -454,6 +454,9 @@ query_edit_submit_click = function(event) {
     new_ask_when = new_ask_when + $(this).val() + ',';
   });
 
+  // set the spinner
+  $('#metric-' + query_id).addClass('submitting');
+
   new_query_data = {
     'query_id': query_id,
     'name': new_name,
@@ -468,7 +471,12 @@ query_edit_submit_click = function(event) {
     type: 'POST',
     data: new_query_data,
     success: function() {
-      window.location = '/dashboard';
+      $('#metric-' + query_id).animate({
+        height: '100px',
+      }, 250, function () {
+        $('#metric-' + query_id).removeClass('submitting');
+        $('#metric-' + query_id).removeClass('editing');
+      });
     },
   });
 }
