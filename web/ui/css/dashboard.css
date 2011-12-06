@@ -126,6 +126,36 @@ div.metric.editing a.query-edit-submit-button {
   display: inline;
 }
 
+div.metric.deleting { 
+  height: 100px;
+  background-color: white;
+}
+
+div.metric.deleting div.metric-name-container,
+div.metric.deleting div.metric-snapshot,
+div.metric.deleting div.metric-options {
+  display: none;
+}
+
+img#delete-spinner {
+  display: none;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 15px;
+}
+
+div.metric.deleting div.delete-container {
+  display: block;
+}
+
+div.metric.deleting a.query-delete-confirm-button {
+  display: none;
+}
+
+div.metric.deleting img#delete-spinner {
+  display: block;
+}
+
 /* rules for the new-metric box */
 div#new-metric-container {
   height: 100px;

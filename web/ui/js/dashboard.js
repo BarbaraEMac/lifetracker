@@ -60,6 +60,7 @@ var new_metric_template = "\
   <div id='delete-container-%(query_id)s' class='edit-field delete-container'>\
       <a id='delete-%(query_id)s' class='query-delete-button' href='#'>Delete</a>\
       <a id='confirm-delete-%(query_id)s' class='query-delete-confirm-button' href='#'>Really?</a>\
+      <img id='delete-spinner' src='images/loading.gif'/>\
   </div>\
 \
 \
@@ -337,18 +338,31 @@ query_delete_confirm_click = function(event) {
     'query_id': query_id,
   };
 
+  metric_id = '#metric-' + query_id;
+
+  // set a spinner
+  $(metric_id).removeClass('editing');
+  $(metric_id).addClass('deleting');
+  $(metric_id + ' a.query-delete-confirm-button').css('display', 'none');
+
+  $(metric_id).animate({
+    height: '100px',
+  }, 200);
+
   // do a post and on success reload the page
   $.ajax({
     url: 'data/deleteQuery',
     type: 'post',
     data: data,
-    failure: function() {
-      alert('failure!');
-    },
     success: function() {
-      window.location = '/dashboard';
+      delete_confirm_callback(query_id);
     },
   }); 
+}
+
+delete_confirm_callback = function(metric) {
+  metric_id = '#metric-'  + metric;
+  $(metric_id).remove();
 }
 
 query_delete_click = function(event) {
