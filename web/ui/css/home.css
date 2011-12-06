@@ -1,5 +1,5 @@
-#lt-header {
-  width: 100%;
+div#lt-header {
+  width: 941px;
   height: 50px;
 }
 
@@ -9,7 +9,11 @@
   float: right;
 }
 
-h1, h2, h3 {
+#lt-user-actions a {
+  float: right;
+}
+
+div.page h1, div.page h2, div.page h3 {
   text-align: center;
 }
 
@@ -21,7 +25,7 @@ h2 {
 }
 
 /* common styles to all pages */
-#hook, #about-metrics, #contact, #login-container {
+#hook, #about-metrics, #contact, #login-container, #tos {
   height: 500px;
   padding-top: 25px;
   padding-bottom: 25px;

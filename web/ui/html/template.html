@@ -15,10 +15,15 @@
 <div id="lt-base">
   <div id="header">
     <h1>Dashboard</h1>
-    <a href="data">Manage Data</a>  
-    <a href="dashboard">Dashboard</a>
-    <a href="account">Account</a>
-    <a href="%(logout_url)s"/>Logout</a>
+    <span class='left'>
+      <a href="data">Manage Data</a>  
+      <a href="dashboard">Dashboard</a>
+      <a href="account">Account</a>
+      <a href="%(logout_url)s"/>Logout</a>
+    </span>
+    <span class='right'>
+      <a href="tos"/>Terms of Service</a>
+    </span>
   </div>
 
   %(page_content)s

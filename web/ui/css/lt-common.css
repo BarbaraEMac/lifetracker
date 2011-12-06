@@ -43,6 +43,7 @@ html {
 #header {
   margin-top: 20px;
   margin-bottom: 50px;
+  width: 900px;
 }
 
 h1 {
@@ -65,4 +66,14 @@ table td {
   padding: 10px;
   text-align: center;
   border: 1px solid black;
+}
+
+span.left {
+  display: inline;
+  float: left;
+}
+
+span.right {
+  display: inline;
+  float: right;
 }
