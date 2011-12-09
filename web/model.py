@@ -137,7 +137,8 @@ class Query(db.Model):
   # the frequency at which to send the query
   frequency = db.IntegerProperty(required=True)
   # when to try and send the query, subset of {morning, afternoon, evening}
-  ask_when = db.StringListProperty()
+  ask_when = db.StringListProperty(
+    default = ['morning', 'afternoon', 'evening'])
   # the last time we sent this query
   lastSentAt = db.DateTimeProperty(required=True, auto_now_add=True)
   name = db.StringProperty(required=True)
